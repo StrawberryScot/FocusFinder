@@ -9,7 +9,7 @@ public class Review {
 
     [Key]
     public int Id { get; set; }
-    [ForeignKey("Space")]
+    [ForeignKey("Location")]
     public int SpaceId { get; set; }
 
     [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5")]    
@@ -17,7 +17,7 @@ public class Review {
 
     public DateTime? DateUpdated { get; set; } = DateTime.UtcNow;
 
-    public virtual Space Space { get; set; }
+    public virtual Location Location { get; set; }
     }
 }
 
