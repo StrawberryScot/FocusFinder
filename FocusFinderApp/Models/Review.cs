@@ -10,7 +10,7 @@ public class Review {
     [Key]
     public int Id { get; set; }
     [ForeignKey("Location")]
-    public int SpaceId { get; set; }
+    public int LocationId { get; set; }
 
     [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5")]    
     public int Rating { get; set; }
