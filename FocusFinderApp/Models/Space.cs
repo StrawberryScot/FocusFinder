@@ -12,6 +12,8 @@ public class Space {
 
     public string? Name { get; set; }
 
+    public string? Description { get; set; }
+
     public string? HouseNumber { get; set; }
 
     public string? Street { get; set; }
