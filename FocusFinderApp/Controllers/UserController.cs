@@ -33,9 +33,9 @@ public class UsersController : Controller
         // 🔹 Validate required fields
         var requiredFields = new Dictionary<string, string>
         {
-            { "Password", user.Password },
-            { "Username", user.Username },
-            { "Email", user.Email }
+            { "Password", user.Password ?? string.Empty },
+            { "Username", user.Username ?? string.Empty },
+            { "Email", user.Email ?? string.Empty }
         };
 
         foreach (var field in requiredFields)
@@ -61,7 +61,10 @@ public class UsersController : Controller
             return View(user);
         }
 
-        user.Password = _passwordHasher.HashPassword(user, user.Password);
+        if (user.Password != null)
+        {
+            user.Password = _passwordHasher.HashPassword(user, user.Password);
+        }
 
         user.JoinDate = DateTime.UtcNow;
 
@@ -78,5 +81,24 @@ public class UsersController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    [Route("/Profile/{username}")]
+    [HttpGet]
+    public IActionResult Profile(string username)
+    {
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            return BadRequest("Username is required");
+        }
+
+        var user = _dbContext.Users?.FirstOrDefault(u => u.Username.ToLower() == username.ToLower());
+
+        if (user == null)
+        {
+            return NotFound("User not found");
+        }
+
+        return View(user);
     }
 }
