@@ -1,5 +1,6 @@
 using FocusFinderApp.Models;
 using Microsoft.EntityFrameworkCore;
+using FocusFinderApp.ActionFilters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,7 @@ var connectionString = $"Host={dbHost};Port={dbPort};Username={dbUser};Password=
 builder.Services.AddDbContext<FocusFinderDbContext>(options =>
     options.UseNpgsql(connectionString));
 
+builder.Services.AddScoped<AuthenticationFilter>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

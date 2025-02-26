@@ -38,7 +38,7 @@ public class User {
     [DataType(DataType.Password)]
     [Required(ErrorMessage = "Please confirm your password")]
     [Compare("Password", ErrorMessage = "Passwords do not match")]
-    public string ConfirmPassword { get; set; }
+    public string? ConfirmPassword { get; set; }
 
     [RegularExpression(@"(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg))", ErrorMessage = "Please enter a valid image URL (png, jpg, jpeg, gif, svg).")]
     public string? ProfilePicture { get; set; }

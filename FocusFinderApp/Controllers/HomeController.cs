@@ -1,9 +1,12 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using FocusFinderApp.Models;
+using FocusFinderApp.ActionFilters;
 
 namespace FocusFinderApp.Controllers;
 
+
+[ServiceFilter(typeof(AuthenticationFilter))]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -15,6 +18,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        ViewBag.IsLoggedIn = HttpContext.Items["IsLoggedIn"] as bool?;
+        ViewBag.Username = HttpContext.Items["Username"] as string;
         return View();
     }
 
