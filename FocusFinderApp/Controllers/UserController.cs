@@ -40,11 +40,21 @@ public class UsersController : Controller
         user.JoinDate = DateTime.UtcNow;
 
 
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            _dbContext.Users?.Add(user);
-            _dbContext.SaveChanges();
-            return RedirectToAction("Home", "Index");
+            return View(user);
         }
+        
+        
+        _dbContext.Users?.Add(user);
+        _dbContext.SaveChanges();
+        return RedirectToAction("Home", "Index");
+        
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
