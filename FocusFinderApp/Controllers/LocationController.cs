@@ -13,15 +13,34 @@ public class LocationController : Controller
     {
         _logger = logger;
         _dbContext = dbContext;
-
+        Console.WriteLine("LocationController instantiated!");
     }
 
     [Route("/Locations")]
     [HttpGet]
     public IActionResult Index()
     {
-        return View("~/Views/Home/Index.cshtml");
+        var locations = _dbContext.Locations.ToList(); // Fetch locations
+
+        if (locations == null || !locations.Any())
+        {
+            _logger.LogWarning("No locations found in the database.");
+        }
+        else
+        {
+            _logger.LogInformation($"Retrieved {locations.Count} locations from the database.");
+        }
+
+        return View("~/Views/Home/Index.cshtml", locations);
     }
+
+    // [Route("/Locations")]
+    // [HttpGet]
+    // public IActionResult Index()
+    // {
+    //     var locations = _dbContext.Locations.ToList() ?? new List<Location>(); // Get all locations from the database (last bit ensures its never null)
+    //     return View("~/Views/Home/Index.cshtml", locations); // Adding locations at the end sends the locations list to the view
+    // }
 
     [Route("/Locations/{id}")]
     [HttpGet]
