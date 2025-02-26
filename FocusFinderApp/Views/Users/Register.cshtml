@@ -1,0 +1,35 @@
+@model FocusFinderApp.Models.User
+<form class="login-form" asp-action="Create" asp-controller="User" method="post">
+    <fieldset>
+        <legend>Register Now</legend>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <input asp-for="Username" class="form-control" placeholder="Username"/>
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="Email" class="form-control" placeholder="Email"/>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="Password" class="form-control" placeholder="Password"/>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password"/>
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="form-group" style="display: flex; flex-direction: column; gap: 10px;">
+            <input type="submit" value="Create Account" class="btn btn-primary" />
+            <div>
+                <span>Already have an account? </span>
+                <p>Login</p>
+            </div>
+        </div>
+    </fieldset>
+</form>
+        
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
