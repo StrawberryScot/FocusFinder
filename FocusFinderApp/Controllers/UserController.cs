@@ -28,6 +28,19 @@ public class UsersController : Controller
     [HttpPost]
     public IActionResult Register(User user)
     {
+
+        if (string.IsNullOrWhiteSpace(user.Password))
+        {
+            ModelState.AddModelError("Password", "Password is required");
+        }
+        if (string.IsNullOrWhiteSpace(user.Username))
+        {
+            ModelState.AddModelError("Username", "Username is required");
+        }
+        if (string.IsNullOrWhiteSpace(user.Email))
+        {
+            ModelState.AddModelError("Email", "Email is required");
+        }
         if (_dbContext.Users != null && _dbContext.Users.Any(u => u.Username == user.Username))
         {
             ModelState.AddModelError("Username", "Username is already taken");
@@ -37,18 +50,29 @@ public class UsersController : Controller
             ModelState.AddModelError("Email", "Email is already taken");
         }
 
-        user.JoinDate = DateTime.UtcNow;
-
 
         if (!ModelState.IsValid)
         {
             return View(user);
         }
+
+        var passwordHasher = new PasswordHasher<User>();
+        if (user.Password != null)
+        {
+            user.Password = passwordHasher.HashPassword(user, user.Password);
+        }
+
+        user.JoinDate = DateTime.UtcNow;
+
+        if (string.IsNullOrEmpty(user.ProfilePicture))
+        {
+            user.ProfilePicture = "/images/default-picture/default.png";
+        }
         
         
         _dbContext.Users?.Add(user);
         _dbContext.SaveChanges();
-        return RedirectToAction("Home", "Index");
+        return RedirectToAction("Index", "Home");
         
     }
 
