@@ -7,10 +7,13 @@ namespace FocusFinderApp.Controllers;
 public class LocationController : Controller
 {
     private readonly ILogger<LocationController> _logger;
+    private readonly FocusFinderDbContext _dbContext;
 
-    public LocationController(ILogger<LocationController> logger)
+    public LocationController(ILogger<LocationController> logger, FocusFinderDbContext dbContext)
     {
         _logger = logger;
+        _dbContext = dbContext;
+
     }
 
     [Route("/Locations")]
@@ -24,9 +27,33 @@ public class LocationController : Controller
     [HttpGet]
     public IActionResult Location(int id)
     {
-        return View("~/Views/Home/Location.cshtml");
+        if (id <= 0)
+        {
+            return RedirectToAction("Index");
+        }
+        var location = _dbContext.Locations.FirstOrDefault(l => l.Id == id);
+        if (location == null)
+        {
+            Console.WriteLine("Location not found");
+            return RedirectToAction("Index");
+        }
+        return View("~/Views/Home/Location.cshtml", location);
     }
 
+    public IActionResult LocationByCity(string city)
+    {
+        if (city == null)
+        {
+            return RedirectToAction("Index");
+        }
+        var location = _dbContext.Locations.FirstOrDefault(l => l.City == city);
+        if (location == null)
+        {
+            Console.WriteLine("Location not found");
+            return RedirectToAction("Index");
+        }
+        return View("~/Views/Home/Location.cshtml", location);
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
