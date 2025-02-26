@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string TEST_HOST = "dpg-cuveglij1k6c73ebtoa0-a";
+string TEST_HOST = "dpg-cuveglij1k6c73ebtoa0-a.frankfurt-postgres.render.com";
 string TEST_PORT = "5432";
 string TEST_NAME = "focus_finder_test_db";
 string TEST_USER = "focus_finder_test_db_user";
@@ -20,7 +20,7 @@ Console.WriteLine($"On port: {dbPort}");
 Console.WriteLine($"As user: {dbUser}");
 
 // 🔹 Build connection string
-var connectionString = $"Host={dbHost};Port={dbPort};Username={dbUser};Password={dbPass};Database={dbName}";
+var connectionString = $"Host={dbHost};Port={dbPort};Username={dbUser};Password={dbPass};Database={dbName}SslMode=Require;";
 
 // 🔹 Register DbContext with DI
 builder.Services.AddDbContext<FocusFinderDbContext>(options =>
