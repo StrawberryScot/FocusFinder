@@ -9,6 +9,10 @@
 <div class="i-body-top body-top">
     <div class="text-center">
         <h1 class="display-4">FocusFinder</h1>
+        <form asp-controller="Location" asp-action="Search" method="get" class="search-form">
+            <input type="text" name="query" placeholder="Location" class="search-input" required>
+            <button type="submit" class="search-button">Search</button>
+        </form>
     </div>
 </div>
 
