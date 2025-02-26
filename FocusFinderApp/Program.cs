@@ -20,7 +20,7 @@ Console.WriteLine($"On port: {dbPort}");
 Console.WriteLine($"As user: {dbUser}");
 
 // 🔹 Build connection string
-var connectionString = $"Host={dbHost};Port={dbPort};Username={dbUser};Password={dbPass};Database={dbName}SslMode=Require;";
+var connectionString = $"Host={dbHost};Port={dbPort};Username={dbUser};Password={dbPass};Database={dbName};";
 
 // 🔹 Register DbContext with DI
 builder.Services.AddDbContext<FocusFinderDbContext>(options =>
