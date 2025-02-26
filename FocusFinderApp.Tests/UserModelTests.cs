@@ -28,5 +28,51 @@ namespace FocusFinderApp.Tests
             Assert.That(results, Has.Exactly(1).Matches<ValidationResult>(r => r.MemberNames.Contains("Password")));
 
         }
+
+
+        [Test]
+        public void User_Valid_Fields_Should_Return_No_Error()
+        {
+            var user = new User()
+            {
+                Username = "admin",
+                Email = "admin@test.com",
+                Password = "Admin123*",
+                ConfirmPassword = "Admin123*"
+            };
+
+            var results = ValidateModel(user);
+            Assert.That(results, Is.Empty);
+        }
+
+        [Test]
+        public void User_Invalid_Email_Should_Return_Error()
+        {
+            var user = new User()
+            {
+                Username = "admin",
+                Email = "admintest.com",
+                Password = "Admin123*",
+                ConfirmPassword = "Admin123*"
+            };
+
+            var results = ValidateModel(user);
+            Assert.That(results, Has.Exactly(1).Matches<ValidationResult>(r => r.MemberNames.Contains("Email")));
+        }
+
+        [Test]
+        public void User_Invalid_Password_Should_Return_Error()
+        {
+            var user = new User()
+            {
+                Username = "admin",
+                Email = "admin@test.com",
+                Password = "Admin123",
+                ConfirmPassword = "Admin123",
+            };
+
+            var results = ValidateModel(user);
+            Assert.That(results, Has.Exactly(1).Matches<ValidationResult>(r => r.MemberNames.Contains("Password")));
+        }
     }
 }
