@@ -33,7 +33,7 @@ public class SessionController : Controller
             return RedirectToAction("Login");
         }
 
-        var user = _dbContext.Users.FirstOrDefault(u => u.Email == email);
+        var user = _dbContext.Users?.FirstOrDefault(u => u.Email == email);
         if (user == null)
         {
             TempData["ErrorMessage"] = "Email not found";
@@ -46,7 +46,10 @@ public class SessionController : Controller
         if (result == PasswordVerificationResult.Success)
         {
             HttpContext.Session.SetInt32("UserId", user.Id);
-            HttpContext.Session.SetString("Username", user.Username);
+            if (user.Username != null)
+            {
+                HttpContext.Session.SetString("Username", user.Username);
+            }
             return RedirectToAction("Index", "Home");
         }
         else
