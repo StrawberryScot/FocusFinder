@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FocusFinderApp.Models
 {
@@ -12,10 +13,10 @@ public class User {
     [Key]
     public int Id { get; set; }
 
-    [StringLength(50), ErrorMessage = "First name must be less than 50 characters")]
+    [StringLength(50, ErrorMessage = "First name must be less than 50 characters")]
     public string? FirstName { get; set; }
 
-    [StringLength(50), ErrorMessage = "Last name must be less than 50 characters")]
+    [StringLength(50, ErrorMessage = "Last name must be less than 50 characters")]
     public string? LastName { get; set; }
 
     [Required(ErrorMessage = "Username is required")]
