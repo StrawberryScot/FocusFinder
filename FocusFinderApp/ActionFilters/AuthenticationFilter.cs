@@ -7,7 +7,7 @@ namespace FocusFinderApp.ActionFilters
     {
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            var userId = context.HttpContext.Session.GetInt32("user_id");
+            var userId = context.HttpContext.Session.GetInt32("UserId");
 
             if (userId != null)
             {
