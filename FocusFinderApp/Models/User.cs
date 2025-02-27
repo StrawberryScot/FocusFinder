@@ -43,7 +43,14 @@ public class User {
     [RegularExpression(@"(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg))", ErrorMessage = "Please enter a valid image URL (png, jpg, jpeg, gif, svg).")]
     public string? ProfilePicture { get; set; }
 
-    public DateTime JoinDate { get; set; } = DateTime.UtcNow;
+    private DateTime _joinDate;
+    public DateTime JoinDate
+    {
+        get => _joinDate;
+        set => _joinDate = DateTime.SpecifyKind(value, DateTimeKind.Utc);
+    }
+
+    public string? DefaultCity { get; set; }
 
     [NotMapped]
     public string? FullName => 

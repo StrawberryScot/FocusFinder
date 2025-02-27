@@ -1,7 +1,34 @@
 @model FocusFinderApp.Models.User
 
+<head>
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+</head>
 
-<h1>@Model.Username's Profile</h1>
-<img src="@Model.ProfilePicture" alt="Profile Picture" style="width:150px; height:150px; border-radius:50%;">
-<p>Email: @Model.Email</p>
-<p>Joined on: @Model.JoinDate.ToShortDateString()</p>
+<div class="profile-container">
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    <div class="profile-card">
+        <div class="profile-header">
+            <img src="@Model.ProfilePicture" alt="Profile Picture" class="profile-picture">
+            <h1 class="username">@Model.Username</h1>
+            <p class="full-name">@(string.IsNullOrWhiteSpace(Model.FirstName) && string.IsNullOrWhiteSpace(Model.LastName) ? "No name set" : $"{Model.FirstName} {Model.LastName}")</p>
+        </div>
+
+        <div class="profile-details">
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Default City:</strong> @(string.IsNullOrWhiteSpace(Model.DefaultCity) ? "Not set" : Model.DefaultCity)</p>
+            <p><strong>Joined on:</strong> @Model.JoinDate.ToString("MMMM dd, yyyy")</p>
+        </div>
+
+        <div class="profile-actions">
+            <a href="/Profile/Edit" class="btn btn-primary">Edit Profile</a>
+        </div>
+    </div>
+</div>
