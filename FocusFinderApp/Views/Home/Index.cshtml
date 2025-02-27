@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<FocusFinderApp.Models.Location>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -25,7 +27,7 @@
 <div class="i-body-top body-top">
     <div class="text-center">
         <h1 class="display-4">FocusFinder</h1>
-        <form asp-controller="Location" asp-action="Search" method="get" class="search-form">
+        <form asp-controller="Location" asp-action="LocationByCity" method="get" class="search-form">
             <input type="text" name="query" placeholder="Location" class="search-input" required>
             <button type="submit" class="search-button">Search</button>
         </form>
@@ -33,23 +35,43 @@
 </div>
 
 <div class="i-container">
-    <!-- Display three images in grid format -->
-    <div class="i-study-pic-container glow-back">
-        <img src="~/images/Study image 1.jpg" alt="Study Image 1">
-    </div>
-    <div class="i-study-pic-container glow-back">
-        <img src="~/images/Study image 2.jpg" alt="Study Image 2">
-    </div>
-    <div class="i-study-pic-container glow-back">
-        <img src="~/images/Study image 3.webp" alt="Study Image 3">
-    </div>
-        <div class="i-study-pic-container glow-back">
-        <img src="~/images/Study image 4.jpg" alt="Study Image 4">
-    </div>
-        <div class="i-study-pic-container glow-back">
-        <img src="~/images/Study image 5.jpg" alt="Study Image 5">
-    </div>
-        <div class="i-study-pic-container glow-back">
-        <img src="~/images/Study image 6.jpg" alt="Study Image 6">
-    </div>
+    @if (Model?.Any() == true)
+    {
+        @foreach (var location in Model)
+        {
+            <div class="i-location-container glow-back">
+                <div class="i-study-pic-container">
+                    <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                </div>
+                <div class="i-location-info">
+                    <h2>@location.LocationName</h2>
+                    <p>@location.City</p>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No locations found</p>
+    }
 </div>
+
+@* <div class="i-container">
+    @if (Model?.Any() == true)
+    {
+        @foreach (var location in Model)
+        {
+            <div class="i-location-container glow-back">
+                <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                <div class="i-location-info">
+                    <h2>@location.LocationName</h2>
+                    <p>@location.City</p>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No locations found</p>
+    }
+</div> *@
