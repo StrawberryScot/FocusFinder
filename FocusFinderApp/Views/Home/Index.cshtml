@@ -46,11 +46,14 @@
                 <div class="i-location-info">
                     <h2>@location.LocationName</h2>
                     <p>@location.City</p>
+                    <p>
+                        Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
+                    </p>
                 </div>
             </div>
         }
     }
-    else
+    else 
     {
         <p>No locations found</p>
     }

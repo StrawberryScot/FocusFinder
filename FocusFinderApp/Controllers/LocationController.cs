@@ -21,7 +21,9 @@ public class LocationController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        var locations = _dbContext.Locations.ToList(); // Fetch locations
+        var locations = _dbContext.Locations
+            .Include(l => l.Reviews) // Include Reviews to fetch them with Locations
+            .ToList(); 
 
         if (locations == null || !locations.Any())
         {
@@ -51,7 +53,6 @@ public class LocationController : Controller
         {
             return RedirectToAction("Index");
         }
-        // var location = _dbContext.Locations.FirstOrDefault(l => l.Id == id);
         var location = _dbContext.Locations
             .Include(l => l.Reviews)
             .FirstOrDefault(l => l.Id == id);
@@ -68,7 +69,7 @@ public class LocationController : Controller
         if (location.Reviews != null && location.Reviews.Any())
         {
             ViewBag.AverageRating = location.Reviews.Average(r => r.overallRating);
-            ViewBag.AverageRating = Math.Round(ViewBag.AverageRating, 2);
+            ViewBag.AverageRating = Math.Round(ViewBag.AverageRating, 1);
         }
         else
         {
