@@ -20,7 +20,7 @@ public class HomeController : Controller
     {
         ViewBag.IsLoggedIn = HttpContext.Items["IsLoggedIn"] as bool?;
         ViewBag.Username = HttpContext.Items["Username"] as string;
-        return View();
+        return RedirectToAction("Index", "Location");
     }
 
     public IActionResult Privacy()
