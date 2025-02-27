@@ -40,7 +40,9 @@
         @foreach (var location in Model)
         {
             <div class="i-location-container glow-back">
-                <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                <div class="i-study-pic-container">
+                    <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                </div>
                 <div class="i-location-info">
                     <h2>@location.LocationName</h2>
                     <p>@location.City</p>
@@ -53,3 +55,23 @@
         <p>No locations found</p>
     }
 </div>
+
+@* <div class="i-container">
+    @if (Model?.Any() == true)
+    {
+        @foreach (var location in Model)
+        {
+            <div class="i-location-container glow-back">
+                <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                <div class="i-location-info">
+                    <h2>@location.LocationName</h2>
+                    <p>@location.City</p>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No locations found</p>
+    }
+</div> *@
