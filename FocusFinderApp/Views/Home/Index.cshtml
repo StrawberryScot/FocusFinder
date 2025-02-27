@@ -39,18 +39,20 @@
     {
         @foreach (var location in Model)
         {
-            <div class="i-location-container glow-back">
-                <div class="i-study-pic-container">
-                    <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+            <a href="/Locations/@location.Id" class="i-location-link"> 
+                <div class="i-location-container glow-back">
+                    <div class="i-study-pic-container">
+                        <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                    </div>
+                    <div class="i-location-info">
+                        <h2>@location.LocationName</h2>
+                        <p>@location.City</p>
+                        <p>
+                            Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
+                        </p>
+                    </div>
                 </div>
-                <div class="i-location-info">
-                    <h2>@location.LocationName</h2>
-                    <p>@location.City</p>
-                    <p>
-                        Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
-                    </p>
-                </div>
-            </div>
+            </a>
         }
     }
     else 
