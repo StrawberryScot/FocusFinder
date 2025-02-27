@@ -1,0 +1,7 @@
+@model FocusFinderApp.Models.User
+
+
+<h1>@Model.Username's Profile</h1>
+<img src="@Model.ProfilePicture" alt="Profile Picture" style="width:150px; height:150px; border-radius:50%;">
+<p>Email: @Model.Email</p>
+<p>Joined on: @Model.JoinDate.ToShortDateString()</p>
