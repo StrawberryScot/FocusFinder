@@ -18,8 +18,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        ViewBag.IsLoggedIn = HttpContext.Items["IsLoggedIn"] as bool?;
-        ViewBag.Username = HttpContext.Items["Username"] as string;
+        ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
+        ViewBag.Username = HttpContext.Session.GetString("Username");
         return RedirectToAction("Index", "Location");
     }
 
