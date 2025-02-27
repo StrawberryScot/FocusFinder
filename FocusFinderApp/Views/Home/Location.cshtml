@@ -24,11 +24,22 @@
         <p>@Model.Description</p>
     </div>
 
-    <!-- Image -->
-    <div class="i-study-pic-container glow-back">
+    <!-- Image OLD -->
+    @* <div class="i-study-pic-container glow-back">
         @{Console.WriteLine("image: " + @ViewBag.imageName);}
         <img src="@Model.ImageURL" alt="Image of @Model.LocationName location.">
         <!-- ^^ currently defaults to alt text if no image -->
+    </div> *@
+    <!-- Image NEW -->
+    <div class="i-study-pic-container glow-back">
+        @{
+            Console.WriteLine("image: " + @ViewBag.imageName);
+            var ifImage = "/images/noimagefound.jpg";
+            if (@Model.ImageURL != null){
+                ifImage = @Model.ImageURL;
+            }
+        }
+        <img src="@Url.Content(ifImage)" alt="Image of @Model.LocationName location.">
     </div>
 
 
