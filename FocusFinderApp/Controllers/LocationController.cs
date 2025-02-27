@@ -62,15 +62,18 @@ public class LocationController : Controller
             return RedirectToAction("Index");
         }
         
-        ViewBag.Location = location;
+        // ViewBag.Location = location; << no longer needed as using @model in cshtml
+
         // Calculate average rating
         if (location.Reviews != null && location.Reviews.Any())
         {
-            ViewBag.AverageRating = location.Reviews.Average(r => r.Rating);
+            ViewBag.AverageRating = location.Reviews.Average(r => r.overallRating);
+            ViewBag.AverageRating = Math.Round(ViewBag.AverageRating, 2);
         }
         else
         {
             ViewBag.AverageRating = "No ratings yet";
+        }
 
         return View("~/Views/Home/Location.cshtml", location);
     }
@@ -94,5 +97,24 @@ public class LocationController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    [HttpPost]
+    public IActionResult AddReview(int LocationId, int Rating)
+    {
+        var location = _dbContext.Locations.FirstOrDefault(l => l.Id == LocationId);
+        if (location == null)
+        {
+            return NotFound();
+        }
+        var newReview = new Review
+        {
+            locationId = LocationId,
+            overallRating = Rating,
+            dateLastUpdated = DateTime.UtcNow
+        };
+        _dbContext.Reviews.Add(newReview);
+        _dbContext.SaveChanges();
+        return RedirectToAction("Location", new { id = LocationId });
     }
 }

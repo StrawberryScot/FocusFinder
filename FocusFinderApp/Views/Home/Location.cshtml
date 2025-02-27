@@ -1,3 +1,5 @@
+@using System.Linq
+@model FocusFinderApp.Models.Location
 @{
     ViewData["Title"] = "Location";
 }
@@ -18,30 +20,61 @@
     <!-- Bio -->
     <div> 
         <p>Location Description:</p>
-        <p>@ViewBag.Location.Description</p>
+        @* <p>@ViewBag.Location.Description</p> TESTING *@
+        <p>@Model.Description</p>
     </div>
 
     <!-- Image -->
     <div class="i-study-pic-container glow-back">
         @{Console.WriteLine("image: " + @ViewBag.imageName);}
-        <img src="@ViewBag.location.ImageURL" alt="Image of @ViewBag.location.LocationName location.">
+        <img src="@Model.ImageURL" alt="Image of @Model.LocationName location.">
         <!-- ^^ currently defaults to alt text if no image -->
     </div>
 
+
     <!-- Reviews Section -->
     <div>
-        <p>Reviews - Overall 5⭐</p>
-        <p>Reviews breakdown ... ... ...</p>
-        <p>(awaiting Reviews table)</p>
+        @* @if (ViewBag.Location.Reviews != null && ViewBag.Location.Reviews.Any()) *@
+        @{
+            var reviews = Model.Reviews as IEnumerable<FocusFinderApp.Models.Review>;
+        }
+
+        <h2>Reviews - Overall @ViewBag.AverageRating ⭐</h2>
+        @if (reviews?.Any() == true)
+        {
+            <ul>
+                @foreach (var review in reviews)
+                {
+                    <li>Rating: @review.overallRating ⭐ | Posted on: @review.dateLastUpdated?.ToString("MMM dd, yyyy")</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No reviews yet. Be the first to review!</p>
+        }
+        <!-- Add Review Form -->
+        <form asp-controller="Location" asp-action="AddReview" method="post">
+            <input type="hidden" name="LocationId" value="@Model.Id" />
+            <label for="rating">Your Rating (1-5):</label>
+            <select name="Rating" id="rating" required>
+                <option value="1">1 ⭐</option>
+                <option value="2">2 ⭐</option>
+                <option value="3">3 ⭐</option>
+                <option value="4">4 ⭐</option>
+                <option value="5">5 ⭐</option>
+            </select>
+            <button type="submit">Submit Review</button>
+        </form>
     </div>
 
     <!-- Address/Map << Advanced -->
     <div>
         <p>Where even is it?</p>
-        <p>@ViewBag.Location.BuildingIdentifier @ViewBag.Location.StreetAddress</p>
-        <p>@ViewBag.Location.City</p>
-        <p>@ViewBag.Location.County</p>
-        <p>@ViewBag.Location.Postcode</p>
+        <p>@Model.BuildingIdentifier @Model.StreetAddress</p>
+        <p>@Model.City</p>
+        <p>@Model.County</p>
+        <p>@Model.Postcode</p>
     </div>
 
     <!-- URL for Location's own webapage -->
