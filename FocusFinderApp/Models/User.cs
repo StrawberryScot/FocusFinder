@@ -45,6 +45,8 @@ public class User {
 
     public DateTime JoinDate { get; set; } = DateTime.UtcNow;
 
+    public string? DefaultCity { get; set; }
+
     [NotMapped]
     public string? FullName => 
     string.IsNullOrWhiteSpace(FirstName) && string.IsNullOrWhiteSpace(LastName)
