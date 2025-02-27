@@ -121,13 +121,22 @@ public class UsersController : Controller
             return NotFound("User not found");
         }
 
-        return View(userToEdit);
+        var userEditModel = new UserEditModelView
+        {
+            FirstName = userToEdit.FirstName,
+            LastName = userToEdit.LastName,
+            DefaultCity = userToEdit.DefaultCity,
+            ProfilePicture = userToEdit.ProfilePicture
+        };
+
+        return View(userEditModel);
     }
+    
 
 
     [Route("/Profile/Edit")]
     [HttpPost]
-    public IActionResult Edit(UserEditModel model)
+    public IActionResult Edit(UserEditModelView model)
     {
         var loggedInUser = HttpContext.Session.GetString("Username");
         if (string.IsNullOrWhiteSpace(loggedInUser))

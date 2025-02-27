@@ -44,11 +44,60 @@
     margin: 5px 0;
 }
 
-.profile-actions {
-    margin-top: 15px;
+/* Styling for the Edit Profile Form */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
 }
 
-.profile-actions .btn {
-    padding: 8px 16px;
+.profile-form .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.profile-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.profile-form .form-control {
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.profile-form .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.profile-form .btn {
+    padding: 10px 15px;
     font-size: 1em;
+    border-radius: 5px;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
 }
