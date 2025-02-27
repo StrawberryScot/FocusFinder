@@ -85,13 +85,16 @@ public class LocationController : Controller
         {
             return RedirectToAction("Index");
         }
-        var location = _dbContext.Locations.FirstOrDefault(l => l.City == city);
+        var location = _dbContext.Locations
+            .Where( l => l.City.ToLower() == city.ToLower())
+            .ToList();
+        
         if (location == null)
         {
             Console.WriteLine("Location not found");
             return RedirectToAction("Index");
         }
-        return View("~/Views/Home/Location.cshtml", location);
+        return View("~/Views/Home/Index.cshtml", location);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
