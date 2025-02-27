@@ -18,30 +18,37 @@
     <!-- Bio -->
     <div> 
         <p>Location Description:</p>
-        <p>Here images description of the space.</p>
+        <p>@ViewBag.Location.Description</p>
     </div>
 
-    <!-- Image/s -->
+    <!-- Image -->
     <div class="i-study-pic-container glow-back">
-        <img src="~/images/Study image 1.jpg" alt="Study Image 1">
+        @{Console.WriteLine("image: " + @ViewBag.imageName);}
+        <img src="@ViewBag.location.ImageURL" alt="Image of @ViewBag.location.LocationName location.">
+        <!-- ^^ currently defaults to alt text if no image -->
     </div>
 
     <!-- Reviews Section -->
     <div>
         <p>Reviews - Overall 5⭐</p>
         <p>Reviews breakdown ... ... ...</p>
+        <p>(awaiting Reviews table)</p>
     </div>
 
-    <!-- Address/Map << Advanced? -->
+    <!-- Address/Map << Advanced -->
     <div>
         <p>Where even is it?</p>
-        <p>You are here</p>
+        <p>@ViewBag.Location.BuildingIdentifier @ViewBag.Location.StreetAddress</p>
+        <p>@ViewBag.Location.City</p>
+        <p>@ViewBag.Location.County</p>
+        <p>@ViewBag.Location.Postcode</p>
     </div>
 
     <!-- URL for Location's own webapage -->
     <div>
         <p>Find out more information here:</p>
-        <p>✨URL✨</p>
+        <p>✨URL tbc✨</p>
+        <p>(awaiting column in Locations table)</p>
     </div>
 
 </div>

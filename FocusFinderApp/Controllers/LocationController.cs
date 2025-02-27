@@ -56,6 +56,9 @@ public class LocationController : Controller
             Console.WriteLine("Location not found");
             return RedirectToAction("Index");
         }
+        
+        ViewBag.Location = location;
+
         return View("~/Views/Home/Location.cshtml", location);
     }
 
