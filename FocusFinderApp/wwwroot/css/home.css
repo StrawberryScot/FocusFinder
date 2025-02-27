@@ -29,6 +29,7 @@
     background-color: #0056b3;
 }
 
+/* Container styling */
 .i-container {
     border-radius: 25px;
     display: grid;
@@ -36,11 +37,20 @@
     padding-top: 30vh;
     max-width: 90%;
     margin: 0 auto;
-    text-decoration: none;
     grid-template-columns: repeat(auto-fit, minmax(40vh, 1fr)); /* Responsive grid */
-    gap: 2vh; /* Additional spacing */
 }
 
+.i-location-link {
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Keeps the text color the same as the parent */
+    display: block; /* Makes the whole container clickable */
+}
+
+.i-location-container {
+    cursor: pointer; /* Makes it clear the container is clickable */
+}
+
+/* Image container styling */
 .i-study-pic-container {
     background-color: white;
     padding: 2vh;
@@ -62,6 +72,7 @@
     object-position: center;  /* Center the image if cropped */
 }
 
+/* Hover effects */
 .glow-back {
     transition-duration: 0.4s;
 }
@@ -71,3 +82,4 @@
     box-shadow: 0 4px 6px 10px rgba(0, 0, 0, 0.1); /* Add shadow for glow effect */
     z-index: 100; /* Ensure image stays on top */
 }
+
