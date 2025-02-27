@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using FocusFinderApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FocusFinderApp.Controllers;
 
@@ -50,7 +51,11 @@ public class LocationController : Controller
         {
             return RedirectToAction("Index");
         }
-        var location = _dbContext.Locations.FirstOrDefault(l => l.Id == id);
+        // var location = _dbContext.Locations.FirstOrDefault(l => l.Id == id);
+        var location = _dbContext.Locations
+            .Include(l => l.Reviews)
+            .FirstOrDefault(l => l.Id == id);
+
         if (location == null)
         {
             Console.WriteLine("Location not found");
@@ -58,6 +63,14 @@ public class LocationController : Controller
         }
         
         ViewBag.Location = location;
+        // Calculate average rating
+        if (location.Reviews != null && location.Reviews.Any())
+        {
+            ViewBag.AverageRating = location.Reviews.Average(r => r.Rating);
+        }
+        else
+        {
+            ViewBag.AverageRating = "No ratings yet";
 
         return View("~/Views/Home/Location.cshtml", location);
     }
