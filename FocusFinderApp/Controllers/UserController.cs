@@ -196,6 +196,7 @@ public class UsersController : Controller
         }
         
 
+        userToEdit.JoinDate = DateTime.SpecifyKind(userToEdit.JoinDate, DateTimeKind.Utc);
         _dbContext.Users?.Update(userToEdit);
         _dbContext.SaveChanges();
 
