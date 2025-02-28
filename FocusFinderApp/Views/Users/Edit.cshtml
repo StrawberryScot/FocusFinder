@@ -1,3 +1,5 @@
+@model FocusFinderApp.Models.UserEditModelView
+
 <form action="/Profile/Edit" method="post" enctype="multipart/form-data">
     <div>
         <label>First Name:</label>
@@ -11,10 +13,22 @@
         <label>Default City:</label>
         <input type="text" name="DefaultCity" value="@Model.DefaultCity">
     </div>
+
+    <!-- Show existing profile picture -->
+    @if (!string.IsNullOrWhiteSpace(Model.ProfilePicture))
+    {
+        <div>
+            <label>Current Profile Picture:</label><br>
+            <img src="@Model.ProfilePicture" alt="Profile Picture" style="width:120px; height:120px; border-radius:50%;">
+        </div>
+    }
+
+    <!-- Upload new profile picture -->
     <div>
-        <label>Profile Picture:</label>
+        <label>Upload New Profile Picture:</label>
         <input type="file" name="ProfilePictureFile">
     </div>
-    <a href="/Profile/ChangePassword">Change Password</a>
-    <button type="submit">Save Changes</button>
+
+    <a href="/Profile/ChangePassword" class="btn btn-warning">Change Password</a>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
