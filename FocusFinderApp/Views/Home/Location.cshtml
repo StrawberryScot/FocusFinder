@@ -19,12 +19,10 @@
 
     <!-- Mark as Visited -->
     <div>
-        <h4>Have you been here?</h4>
         <form asp-controller="Location" asp-action="AddVisit" method="post">
             <input type="hidden" name="LocationId" value="@Model.Id" />
-            <button type="submit">I've visited!</button>
+            <button type="submit" class="btn btn-primary">I've been here!</button>
         </form>
-        
     </div>
 
     <!-- Bio -->
