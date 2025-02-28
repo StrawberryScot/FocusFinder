@@ -50,6 +50,21 @@
                         <p>
                             Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
                         </p>
+
+                        <!-- Bookmark Button Always Visible -->
+                        <div class="i-bookmark-container">
+                            @if (ViewBag.IsLoggedIn == true)
+                            {
+                                <form method="post" asp-controller="Bookmark" asp-action="Add">
+                                    <input type="hidden" name="locationId" value="@location.Id">
+                                    <button type="submit" class="btn btn-primary">Bookmark</button>
+                                </form>
+                            }
+                            else 
+                            {
+                                <a href="/Login" class="btn btn-primary">Login to Bookmark</a>
+                            }
+                        </div>
                     </div>
                 </div>
             </a>
