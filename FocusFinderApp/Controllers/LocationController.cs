@@ -131,6 +131,7 @@ public class LocationController : Controller
     public IActionResult AddVisit(int LocationId)
     {
         var location = _dbContext.Locations.FirstOrDefault(l => l.Id == LocationId);
+        int? currentUserId = HttpContext.Session.GetInt32("UserId");
         if (location == null)
         {
             return NotFound();
@@ -138,7 +139,8 @@ public class LocationController : Controller
         var newVisit = new Visit
         {
             locationId = LocationId,
-            dateVisited = DateTime.UtcNow
+            dateVisited = DateTime.UtcNow,
+            userId = currentUserId
         };
         _dbContext.Visits.Add(newVisit);
         _dbContext.SaveChanges();
