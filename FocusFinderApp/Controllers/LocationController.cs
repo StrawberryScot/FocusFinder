@@ -136,14 +136,39 @@ public class LocationController : Controller
         {
             return NotFound();
         }
-        var newVisit = new Visit
+
+        // Check if the user has already pressed Visited
+        var existingVisit = _dbContext.Visits.FirstOrDefault(l => l.locationId == LocationId && l.userId == currentUserId);
+
+        if (existingVisit != null)
+        {
+            Console.WriteLine("Visit already exists.");
+            ViewBag.PostLikeUnlike = "Already visited";     // << TBC!!
+        }
+        else
+        {
+            // Add the Visit
+            var newVisit = new Visit
         {
             locationId = LocationId,
             dateVisited = DateTime.UtcNow,
             userId = currentUserId
         };
-        _dbContext.Visits.Add(newVisit);
-        _dbContext.SaveChanges();
+
+            _dbContext.Visits.Add(newVisit);
+            _dbContext.SaveChanges();
+
+            ViewBag.PostLikeUnlike = "Already visited";     // << TBC!!
+        }
+
+        // var newVisit = new Visit
+        // {
+        //     locationId = LocationId,
+        //     dateVisited = DateTime.UtcNow,
+        //     userId = currentUserId
+        // };
+        // _dbContext.Visits.Add(newVisit);
+        // _dbContext.SaveChanges();
         return RedirectToAction("Location", new { id = LocationId });
     }
 }
