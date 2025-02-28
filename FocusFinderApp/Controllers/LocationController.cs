@@ -66,8 +66,6 @@ public class LocationController : Controller
             Console.WriteLine("Location not found");
             return RedirectToAction("Index");
         }
-        
-        // ViewBag.Location = location; << no longer needed as using @model in cshtml
 
         // Calculate average rating
         if (location.Reviews != null && location.Reviews.Any())
@@ -78,6 +76,23 @@ public class LocationController : Controller
         else
         {
             ViewBag.AverageRating = "No ratings yet";
+        }
+
+        // Check if the user has already pressed Visited
+        var locationIdForVisit = _dbContext.Locations.FirstOrDefault(l => l.Id == id);
+        int? currentUserId = HttpContext.Session.GetInt32("UserId");
+        ViewBag.IsLoggedIn = currentUserId;
+        
+        if (locationIdForVisit == null)
+        {
+            return NotFound();
+        }
+
+        var existingVisit = _dbContext.Visits.FirstOrDefault(l => l.locationId == id && l.userId == currentUserId);
+        if (existingVisit != null)
+        {
+            Console.WriteLine("Visit already exists.");
+            ViewBag.AlreadyVisited = "Already visited";     // << TBC!!
         }
 
         return View("~/Views/Home/Location.cshtml", location);
@@ -143,7 +158,7 @@ public class LocationController : Controller
         if (existingVisit != null)
         {
             Console.WriteLine("Visit already exists.");
-            ViewBag.PostLikeUnlike = "Already visited";     // << TBC!!
+            ViewBag.AlreadyVisited = "Already visited";     // << TBC!!
         }
         else
         {
@@ -158,17 +173,11 @@ public class LocationController : Controller
             _dbContext.Visits.Add(newVisit);
             _dbContext.SaveChanges();
 
-            ViewBag.PostLikeUnlike = "Already visited";     // << TBC!!
+            ViewBag.AlreadyVisited = "Already visited";     // << TBC!!
+            // ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
+            // Console.WriteLine("isLoggedIn: " + ViewBag.IsLoggedIn);
         }
 
-        // var newVisit = new Visit
-        // {
-        //     locationId = LocationId,
-        //     dateVisited = DateTime.UtcNow,
-        //     userId = currentUserId
-        // };
-        // _dbContext.Visits.Add(newVisit);
-        // _dbContext.SaveChanges();
         return RedirectToAction("Location", new { id = LocationId });
     }
 }

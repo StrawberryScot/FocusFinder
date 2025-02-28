@@ -17,25 +17,39 @@
 <!-- Main Location Container -->
 <div>
 
-    <!-- Mark as Visited -->
+    <!-- Mark as Visited button -->
     <div>
-        <form asp-controller="Location" asp-action="AddVisit" method="post">
-            <input type="hidden" name="LocationId" value="@Model.Id" />
-            <button type="submit" class="btn btn-primary">I've been here!</button>
-        </form>
+        
+        @{
+            if (ViewBag.IsLoggedIn == null)
+            {
+                <!-- Visit buttion - asks user to login -->
+                <a href="/Login" class="btn btn-primary">Login to mark as visited</a>
+            } else if (ViewBag.AlreadyVisited == "Already visited")
+            {
+                <!-- Visit buttion - if logged in + pressed visit already -->
+                <button>Already visited</button>
+            } else
+            {
+                <!-- Visit buttion - if logged in + has NOT pressed visit yet -->
+                <form asp-controller="Location" asp-action="AddVisit" method="post">
+                    <input type="hidden" name="LocationId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-primary">Mark as visited!</button>
+                </form>
+            }
+        }
+
     </div>
 
     <!-- Bio -->
     <div> 
         <h5>About @Model.LocationName</h5>
-        @* <p>@ViewBag.Location.Description</p> TESTING *@
         <p>@Model.Description</p>
     </div>
 
     <!-- Image -->
     <div class="i-study-pic-container glow-back">
         @{
-            Console.WriteLine("image: " + @ViewBag.imageName);
             var ifImage = "/images/noimagefound.jpg";
             if (@Model.ImageURL != null){
                 ifImage = @Model.ImageURL;
@@ -47,7 +61,6 @@
 
     <!-- Reviews Section -->
     <div>
-        @* @if (ViewBag.Location.Reviews != null && ViewBag.Location.Reviews.Any()) *@
         @{
             var reviews = Model.Reviews as IEnumerable<FocusFinderApp.Models.Review>;
         }
