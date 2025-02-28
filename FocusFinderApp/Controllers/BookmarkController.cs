@@ -61,7 +61,7 @@ namespace FocusFinderApp.Controllers
 
             if (user == null) return NotFound("User not found.");
 
-            return View(user.Bookmarks);
+            return View("~/Views/Users/Bookmark.cshtml", user.Bookmarks);
         }
         [HttpPost]
         [Authorize] // Ensure only logged-in users can remove bookmarks
