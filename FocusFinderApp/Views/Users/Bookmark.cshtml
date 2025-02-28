@@ -50,14 +50,10 @@
                             <p>
                                 Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
                             </p>
-
-                            @if (ViewBag.IsLoggedIn == true)
-                            {
                                 <form method="post" asp-controller="Bookmark" asp-action="Remove">
                                     <input type="hidden" name="bookmarkId" value="@bookmark.id">
-                                    <button type="submit" class="btn btn-danger">Remove Bookmark</button>
+                                    <button type="submit" class="btn btn-danger" onclick="console.log('Form submitted');">Remove Bookmark</button>
                                 </form>
-                            }
                         </div>
                     </div>
                 </a>

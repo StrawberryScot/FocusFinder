@@ -64,18 +64,18 @@ namespace FocusFinderApp.Controllers
             return View("~/Views/Users/Bookmark.cshtml", user.Bookmarks);
         }
         [HttpPost]
-        [Authorize] // Ensure only logged-in users can remove bookmarks
+        // [Authorize] // Ensure only logged-in users can remove bookmarks
         public IActionResult Remove(int bookmarkId)
         {
-        var bookmark = _dbContext.Bookmarks.Find(bookmarkId);
+            var bookmark = _dbContext.Bookmarks.Find(bookmarkId);
     
-        if (bookmark != null)
-        {
-            _dbContext.Bookmarks.Remove(bookmark);
-            _dbContext.SaveChanges();
-        }
+            if (bookmark != null)
+            {
+                _dbContext.Bookmarks.Remove(bookmark);
+                _dbContext.SaveChanges();
+            }
 
-        return RedirectToAction("UserBookmarks");
+            return RedirectToAction("UserBookmarks");
         }
     }
 }
