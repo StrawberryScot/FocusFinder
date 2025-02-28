@@ -125,4 +125,23 @@ public class LocationController : Controller
         _dbContext.SaveChanges();
         return RedirectToAction("Location", new { id = LocationId });
     }
+
+
+    [HttpPost]
+    public IActionResult AddVisit(int LocationId)
+    {
+        var location = _dbContext.Locations.FirstOrDefault(l => l.Id == LocationId);
+        if (location == null)
+        {
+            return NotFound();
+        }
+        var newVisit = new Visit
+        {
+            locationId = LocationId,
+            dateVisited = DateTime.UtcNow
+        };
+        _dbContext.Visits.Add(newVisit);
+        _dbContext.SaveChanges();
+        return RedirectToAction("Location", new { id = LocationId });
+    }
 }
