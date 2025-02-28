@@ -58,6 +58,8 @@ public class User {
     ? null
     : $"{FirstName} {LastName}".Trim();
 
+    public virtual List<Bookmark>? Bookmarks { get; set; } = new List<Bookmark>();
+
     }
 }
 
