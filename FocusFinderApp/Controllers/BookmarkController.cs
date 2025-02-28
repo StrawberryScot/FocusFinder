@@ -30,7 +30,7 @@ namespace FocusFinderApp.Controllers
             if (user == null) return NotFound("User not found.");
 
             // Check if the bookmark already exists
-            if (_dbContext.Bookmarks.Any(b => b.userId == user.id && b.locationId == locationId))
+            if (_dbContext.Bookmarks.Any(b => b.userId == user.Id && b.locationId == locationId))
             {
                 TempData["InfoMessage"] = "You have already bookmarked this location.";
                 return RedirectToAction("Index", "Home");
@@ -38,7 +38,7 @@ namespace FocusFinderApp.Controllers
 
             var bookmark = new Bookmark
             {
-                userId = user.id,
+                userId = user.Id,
                 locationId = locationId
             };
 

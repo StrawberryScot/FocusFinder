@@ -1,0 +1,70 @@
+@* @model List<FocusFinderApp.Models.Location>
+
+@{
+    ViewData["Title"] = "Bookmark Page";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
+
+<div class="header-buttons">
+    @if (ViewBag.IsLoggedIn == true)
+    {
+        <div class="user-info">
+            <p>Welcome, @ViewBag.Username!</p>
+            <a href="/Profile/@ViewBag.Username" class="btn btn-primary">Profile</a>
+            <a href="/Logout" class="btn btn-danger">Logout</a>
+        </div>
+    }
+    else
+    {
+        <a href="/Login" class="btn btn-primary">Login</a>
+        <a href="/Register" class="btn btn-success">Register</a>
+    }
+</div>
+
+<div class="i-body-top body-top">
+    <div class="text-center">
+        <h1 class="display-4">Bookmarks</h1>
+        <form asp-controller="Location" asp-action="LocationByCity" method="get" class="search-form">
+            <input type="text" name="city" placeholder="Location" class="search-input" required>
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </div>
+</div>
+
+<div class="i-container">
+    @if (Model?.Any() == true)
+    {
+        @foreach (var location in Model)
+        {
+            <a href="/Locations/@location.Id" class="i-location-link"> 
+                <div class="i-location-container glow-back">
+                    <div class="i-study-pic-container">
+                        <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                    </div>
+                    <div class="i-location-info">
+                        <h2>@location.LocationName</h2>
+                        <p>@location.City</p>
+                        <p>
+                            Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
+                        </p>
+
+                        @if (ViewBag.IsLoggedIn == true)
+                        {
+                            <form method="post" asp-controller="Bookmarks" asp-action="Add">
+                                <input type="hidden" name="locationId" value="@location.Id">
+                                <button type="submit" class="btn btn-primary">Bookmark</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </a>
+        }
+    }
+    else 
+    {
+        <p>No locations found</p>
+    }
+</div> *@
