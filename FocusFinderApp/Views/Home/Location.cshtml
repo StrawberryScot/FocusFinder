@@ -28,9 +28,14 @@
             } else if (ViewBag.AlreadyVisited == "Already visited")
             {
                 <!-- Visit buttion - if logged in + pressed visit already -->
-                <button>Already visited</button>
+                <h5>Already visited :)</h5>
+                <form asp-controller="Location" asp-action="RemoveVisit" method="post">
+                    <input type="hidden" name="LocationId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger">Remove visit</button>
+                </form>
             } else
             {
+                <h5>Have you visited @Model.LocationName?</h5>
                 <!-- Visit buttion - if logged in + has NOT pressed visit yet -->
                 <form asp-controller="Location" asp-action="AddVisit" method="post">
                     <input type="hidden" name="LocationId" value="@Model.Id" />

@@ -158,7 +158,7 @@ public class LocationController : Controller
         if (existingVisit != null)
         {
             Console.WriteLine("Visit already exists.");
-            ViewBag.AlreadyVisited = "Already visited";     // << TBC!!
+            ViewBag.AlreadyVisited = "Already visited";
         }
         else
         {
@@ -173,9 +173,37 @@ public class LocationController : Controller
             _dbContext.Visits.Add(newVisit);
             _dbContext.SaveChanges();
 
-            ViewBag.AlreadyVisited = "Already visited";     // << TBC!!
-            // ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
-            // Console.WriteLine("isLoggedIn: " + ViewBag.IsLoggedIn);
+            ViewBag.AlreadyVisited = "Already visited";
+        }
+
+        return RedirectToAction("Location", new { id = LocationId });
+    }
+
+    [HttpPost]
+    public IActionResult RemoveVisit(int LocationId)
+    {
+        var location = _dbContext.Locations.FirstOrDefault(l => l.Id == LocationId);
+        int? currentUserId = HttpContext.Session.GetInt32("UserId");
+        if (location == null)
+        {
+            return NotFound();
+        }
+
+        // Check if the user has already pressed Visited
+        var existingVisit = _dbContext.Visits.FirstOrDefault(l => l.locationId == LocationId && l.userId == currentUserId);
+
+        if (existingVisit == null)
+        {
+            Console.WriteLine("Not visted yet, so can't remove visit.");
+            ViewBag.AlreadyVisited = "Not visited yet";  // << may change later
+        }
+        else
+        {
+            // Remove the Visit
+            _dbContext.Visits.Remove(existingVisit);
+            _dbContext.SaveChanges();
+
+            ViewBag.AlreadyVisited = "Not visited yet";  // << may change later
         }
 
         return RedirectToAction("Location", new { id = LocationId });
