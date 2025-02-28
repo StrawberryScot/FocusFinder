@@ -10,7 +10,7 @@
 
 <div class="i-body-top body-top">
     <div class="text-center">
-        <h1 class="display-4">Location Name</h1>
+        <h1 class="display-4">@Model.LocationName</h1>
     </div>
 </div>
 
@@ -24,13 +24,7 @@
         <p>@Model.Description</p>
     </div>
 
-    <!-- Image OLD -->
-    @* <div class="i-study-pic-container glow-back">
-        @{Console.WriteLine("image: " + @ViewBag.imageName);}
-        <img src="@Model.ImageURL" alt="Image of @Model.LocationName location.">
-        <!-- ^^ currently defaults to alt text if no image -->
-    </div> *@
-    <!-- Image NEW -->
+    <!-- Image -->
     <div class="i-study-pic-container glow-back">
         @{
             Console.WriteLine("image: " + @ViewBag.imageName);
@@ -88,7 +82,7 @@
         <p>@Model.Postcode</p>
     </div>
 
-    <!-- URL for Location's own webapage -->
+    <!-- URL for Location's own webapage <<- Ideal/Advanced-->
     <div>
         <p>Find out more information here:</p>
         <p>✨URL tbc✨</p>
