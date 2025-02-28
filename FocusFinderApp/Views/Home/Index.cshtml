@@ -52,18 +52,10 @@
                         </p>
 
                         <!-- Bookmark Button Always Visible -->
-                        <form method="post" asp-controller="Bookmarks" asp-action="Add" onsubmit="return checkLogin(event)">
+                        <form method="post" asp-controller="Bookmark" asp-action="Add">
                             <input type="hidden" name="locationId" value="@location.Id">
                             <button type="submit" class="btn btn-primary">Bookmark</button>
                         </form>
-
-                        @* @if (ViewBag.IsLoggedIn == true)
-                        {
-                            <form method="post" asp-controller="Bookmarks" asp-action="Add">
-                                <input type="hidden" name="locationId" value="@location.Id">
-                                <button type="submit" class="btn btn-primary">Bookmark</button>
-                            </form>
-                        } *@
                     </div>
                 </div>
             </a>

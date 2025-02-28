@@ -48,43 +48,34 @@ namespace FocusFinderApp.Controllers
             TempData["SuccessMessage"] = "Location bookmarked successfully!";
             return RedirectToAction("Index", "Home");
         }
+        // ✅ Show user's bookmarks on their profile
+        [Route("Bookmarks")]
+        public IActionResult UserBookmarks()
+        {
+            var username = HttpContext.Session.GetString("Username");
+            if (string.IsNullOrEmpty(username)) return RedirectToAction("Login", "Session");
+
+            var user = _dbContext.Users.Include(u => u.Bookmarks)
+                                        .ThenInclude(b => b.Location)
+                                        .FirstOrDefault(u => u.Username == username);
+
+            if (user == null) return NotFound("User not found.");
+
+            return View(user.Bookmarks);
+        }
+        [HttpPost]
+        [Authorize] // Ensure only logged-in users can remove bookmarks
+        public IActionResult Remove(int bookmarkId)
+        {
+        var bookmark = _dbContext.Bookmarks.Find(bookmarkId);
+    
+        if (bookmark != null)
+        {
+            _dbContext.Bookmarks.Remove(bookmark);
+            _dbContext.SaveChanges();
+        }
+
+        return RedirectToAction("UserBookmarks");
+        }
     }
 }
-
-//         // ✅ Remove a bookmark
-//         [HttpPost]
-//         public IActionResult Remove(int bookmarkId)
-//         {
-//             var username = HttpContext.Session.GetString("Username");
-//             if (string.IsNullOrEmpty(username)) return Unauthorized("You must be logged in to remove bookmarks.");
-
-//             var user = _dbContext.Users.FirstOrDefault(u => u.Username == username);
-//             if (user == null) return NotFound("User not found.");
-
-//             var bookmark = _dbContext.Bookmarks.FirstOrDefault(b => b.id == bookmarkId && b.userId == user.id);
-//             if (bookmark == null) return NotFound("Bookmark not found.");
-
-//             _dbContext.Bookmarks.Remove(bookmark);
-//             _dbContext.SaveChanges();
-
-//             TempData["SuccessMessage"] = "Bookmark removed.";
-//             return RedirectToAction("Profile", "Users", new { username });
-//         }
-
-//         // ✅ Show user's bookmarks on their profile
-//         [Route("/Profile/Bookmarks")]
-//         public IActionResult UserBookmarks()
-//         {
-//             var username = HttpContext.Session.GetString("Username");
-//             if (string.IsNullOrEmpty(username)) return RedirectToAction("Login", "Session");
-
-//             var user = _dbContext.Users.Include(u => u.Bookmarks)
-//                                         .ThenInclude(b => b.Location)
-//                                         .FirstOrDefault(u => u.Username == username);
-
-//             if (user == null) return NotFound("User not found.");
-
-//             return View(user.Bookmarks);
-//         }
-//     }
-// }

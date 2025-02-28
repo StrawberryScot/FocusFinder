@@ -1,7 +1,7 @@
-@* @model List<FocusFinderApp.Models.Location>
+@model List<FocusFinderApp.Models.Bookmark>
 
 @{
-    ViewData["Title"] = "Bookmark Page";
+    ViewData["Title"] = "Bookmarks";
 }
 
 <head>
@@ -26,45 +26,46 @@
 
 <div class="i-body-top body-top">
     <div class="text-center">
-        <h1 class="display-4">Bookmarks</h1>
-        <form asp-controller="Location" asp-action="LocationByCity" method="get" class="search-form">
-            <input type="text" name="city" placeholder="Location" class="search-input" required>
-            <button type="submit" class="search-button">Search</button>
-        </form>
+        <h1 class="display-4">Your Bookmarked Locations</h1>
     </div>
 </div>
 
 <div class="i-container">
     @if (Model?.Any() == true)
     {
-        @foreach (var location in Model)
+        @foreach (var bookmark in Model)
         {
-            <a href="/Locations/@location.Id" class="i-location-link"> 
-                <div class="i-location-container glow-back">
-                    <div class="i-study-pic-container">
-                        <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
-                    </div>
-                    <div class="i-location-info">
-                        <h2>@location.LocationName</h2>
-                        <p>@location.City</p>
-                        <p>
-                            Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
-                        </p>
+            var location = bookmark.Location; // Reference the related Location entity
 
-                        @if (ViewBag.IsLoggedIn == true)
-                        {
-                            <form method="post" asp-controller="Bookmarks" asp-action="Add">
-                                <input type="hidden" name="locationId" value="@location.Id">
-                                <button type="submit" class="btn btn-primary">Bookmark</button>
-                            </form>
-                        }
+            if (location != null) // Ensure location exists
+            {
+                <a href="/Locations/@location.Id" class="i-location-link"> 
+                    <div class="i-location-container glow-back">
+                        <div class="i-study-pic-container">
+                            <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                        </div>
+                        <div class="i-location-info">
+                            <h2>@location.LocationName</h2>
+                            <p>@location.City</p>
+                            <p>
+                                Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
+                            </p>
+
+                            @if (ViewBag.IsLoggedIn == true)
+                            {
+                                <form method="post" asp-controller="Bookmark" asp-action="Remove">
+                                    <input type="hidden" name="bookmarkId" value="@bookmark.id">
+                                    <button type="submit" class="btn btn-danger">Remove Bookmark</button>
+                                </form>
+                            }
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            }
         }
     }
     else 
     {
-        <p>No locations found</p>
+        <p>No bookmarked locations yet.</p>
     }
-</div> *@
+</div>
