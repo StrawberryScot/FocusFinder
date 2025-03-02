@@ -44,8 +44,7 @@ namespace FocusFinderApp.Controllers
 
             _dbContext.Bookmarks.Add(bookmark);
             _dbContext.SaveChanges();
-
-            TempData["SuccessMessage"] = "Location bookmarked successfully!";
+            
             return RedirectToAction("Index", "Home");
         }
         // ✅ Show user's bookmarks on their profile
@@ -64,7 +63,7 @@ namespace FocusFinderApp.Controllers
             return View("~/Views/Users/Bookmark.cshtml", user.Bookmarks);
         }
         [HttpPost]
-        public IActionResult Remove(int locationId)
+        public IActionResult Remove(int locationId, string redirectUrl)
         {
             var username = HttpContext.Session.GetString("Username");
 
@@ -84,24 +83,14 @@ namespace FocusFinderApp.Controllers
                 _dbContext.Bookmarks.Remove(bookmark);
                 _dbContext.SaveChanges();
             }
+            // Redirect based on the passed redirectUrl
+            if (!string.IsNullOrEmpty(redirectUrl))
+            {
+                return Redirect(redirectUrl);
+            }
 
-            TempData["SuccessMessage"] = "Bookmark removed successfully!";
+            // Default redirect if no redirectUrl is passed
             return RedirectToAction("Index", "Home");
         }       
-        
-        // [HttpPost]
-        // // [Authorize] // Ensure only logged-in users can remove bookmarks
-        // public IActionResult Remove(int bookmarkId)
-        // {
-        //     var bookmark = _dbContext.Bookmarks.Find(bookmarkId);
-    
-        //     if (bookmark != null)
-        //     {
-        //         _dbContext.Bookmarks.Remove(bookmark);
-        //         _dbContext.SaveChanges();
-        //     }
-
-        //     return RedirectToAction("UserBookmarks");
-        // }
     }
 }

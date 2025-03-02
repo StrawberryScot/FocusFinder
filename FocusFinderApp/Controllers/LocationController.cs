@@ -37,37 +37,6 @@ public class LocationController : Controller
         return View("~/Views/Home/Index.cshtml", locations);
     }
 
-    // [HttpGet]
-    // public IActionResult Index()
-    // {
-
-    //     ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
-    //     ViewBag.Username = HttpContext.Session.GetString("Username");
-        
-    //     var locations = _dbContext.Locations
-    //         .Include(l => l.Reviews) // Include Reviews to fetch them with Locations
-    //         .ToList(); 
-
-    //     if (locations == null || !locations.Any())
-    //     {
-    //         _logger.LogWarning("No locations found in the database.");
-    //     }
-    //     else
-    //     {
-    //         _logger.LogInformation($"Retrieved {locations.Count} locations from the database.");
-    //     }
-
-    //     return View("~/Views/Home/Index.cshtml", locations);
-    // }
-
-    // [Route("/Locations")]
-    // [HttpGet]
-    // public IActionResult Index()
-    // {
-    //     var locations = _dbContext.Locations.ToList() ?? new List<Location>(); // Get all locations from the database (last bit ensures its never null)
-    //     return View("~/Views/Home/Index.cshtml", locations); // Adding locations at the end sends the locations list to the view
-    // }
-
     [Route("/Locations/{id}")]
     [HttpGet]
     public IActionResult Location(int id)
