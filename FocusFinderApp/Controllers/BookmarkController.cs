@@ -64,18 +64,44 @@ namespace FocusFinderApp.Controllers
             return View("~/Views/Users/Bookmark.cshtml", user.Bookmarks);
         }
         [HttpPost]
-        // [Authorize] // Ensure only logged-in users can remove bookmarks
-        public IActionResult Remove(int bookmarkId)
+        public IActionResult Remove(int locationId)
         {
-            var bookmark = _dbContext.Bookmarks.Find(bookmarkId);
-    
+            var username = HttpContext.Session.GetString("Username");
+
+            if (string.IsNullOrEmpty(username))
+            {
+                return Unauthorized("You must be logged in to manage bookmarks.");
+            }
+
+            var user = _dbContext.Users.FirstOrDefault(u => u.Username == username);
+            if (user == null) return NotFound("User not found.");
+
+            var bookmark = _dbContext.Bookmarks
+                .FirstOrDefault(b => b.userId == user.Id && b.locationId == locationId);
+
             if (bookmark != null)
             {
                 _dbContext.Bookmarks.Remove(bookmark);
                 _dbContext.SaveChanges();
             }
 
-            return RedirectToAction("UserBookmarks");
-        }
+            TempData["SuccessMessage"] = "Bookmark removed successfully!";
+            return RedirectToAction("Index", "Home");
+        }       
+        
+        // [HttpPost]
+        // // [Authorize] // Ensure only logged-in users can remove bookmarks
+        // public IActionResult Remove(int bookmarkId)
+        // {
+        //     var bookmark = _dbContext.Bookmarks.Find(bookmarkId);
+    
+        //     if (bookmark != null)
+        //     {
+        //         _dbContext.Bookmarks.Remove(bookmark);
+        //         _dbContext.SaveChanges();
+        //     }
+
+        //     return RedirectToAction("UserBookmarks");
+        // }
     }
 }
