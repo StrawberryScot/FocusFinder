@@ -55,14 +55,11 @@
 
 /* Image container styling */
 .i-study-pic-container {
+    display: grid;
     background-color: white;
-    padding: 2vh;
     border-radius: 1.5rem;
     margin: 0 auto;
-    height: 40vh;  /* Set a fixed height */
-    width: 40vh;   /* Set a fixed width */
-    justify-content: center;
-    align-items: center;
+
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;  /* Prevent images from overflowing container */
 }
@@ -72,7 +69,7 @@
     max-height: 100%; /* Ensure image scales to fit container */
     object-fit: cover;  /* Crop image if necessary to fill container */
     object-position: center;  /* Center the image if cropped */
-    border-radius: 1.3rem;
+    border-radius: 1.3rem 1.3rem;
 }
 
 /* Hover effects */
@@ -95,10 +92,14 @@
 
 /* Ensure all location containers maintain a consistent height */
 .i-location-info {
-    min-height: 0rem; /* Adjust this value based on the content */
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Ensures space between text and buttons */
+    margin: 0 2rem;
+    align-items: left;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    word-break: break-word;
     flex-grow: 1; /* Ensures the location info section grows to fill space */
 }
 
@@ -107,8 +108,6 @@
     width: 3rem;
     z-index: 85;
     position: absolute;
-    x: -8rem;
-    y: -8rem;
     background-image: url("../images/icons/bookmark.jpg");
     background-size: 3rem;
     border-radius: 0.5rem;

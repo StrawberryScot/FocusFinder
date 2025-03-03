@@ -40,27 +40,24 @@
         @foreach (var location in Model)
         {
             <a href="/Locations/@location.Id" class="i-location-link"> 
-                <div class="i-location-container glow-back">
-                    <div class="i-study-pic-container">
+                    <div class="i-location-container glow-back i-study-pic-container">
                         <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
-                        <div class="i-bookmark-container">
-                            @if (ViewBag.IsLoggedIn == true)
-                            {
-                                <form method="post" asp-controller="Bookmark" asp-action="Add">
-                                    <input type="hidden" name="locationId" value="@location.Id">
-                                    <button type="submit" class="bookmark-button"></button>
-                                </form>
-                            }
-                        </div>
                         <div class="i-location-info">
-                            <h2>@location.LocationName</h2>
-                            <p>@location.City</p>
+                            <h2>@location.City</h2>
                             <p>
                                 Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
                             </p>
+                            <div class="i-bookmark-container">
+                                @if (ViewBag.IsLoggedIn == true)
+                                {
+                                    <form method="post" asp-controller="Bookmark" asp-action="Add">
+                                        <input type="hidden" name="locationId" value="@location.Id">
+                                        <button type="submit" class="bookmark-button"></button>
+                                    </form>
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
             </a>
         }
     }
