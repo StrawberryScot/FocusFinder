@@ -116,12 +116,12 @@ public class LocationController : Controller
             return RedirectToAction("Index");
         }
         var location = _dbContext.Locations
-            .Where(l => l.LocationName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                        l.BuildingIdentifier.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                        l.StreetAddress.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                        l.City.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                        l.County.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                        l.Postcode.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+            .Where(l => l.LocationName.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.BuildingIdentifier.ToLower().Contains(searchQuery.ToLower()) ||   
+                        l.StreetAddress.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.City.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.County.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.Postcode.ToLower().Contains(searchQuery.ToLower()))
             .ToList();
         
         return View("~/Views/Home/Index.cshtml", location);
