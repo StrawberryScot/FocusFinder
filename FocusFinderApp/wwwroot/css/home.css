@@ -80,7 +80,7 @@
 
 .glow-back:hover {
     transform: scale(1.03); /* Enlarge the image on hover */
-    box-shadow: 0 4px 6px 10px rgba(0, 0, 0, 0.1); /* Add shadow for glow effect */
+    box-shadow: 0 4px 6px 7px rgba(0, 0, 0, 0.1); /* Add shadow for glow effect */
     z-index: 70; /* Ensure image stays on top */
 }
 
@@ -88,19 +88,38 @@
 .i-bookmark-container {
     font-size: 10;
     position: relative;
+
 }
 
 /* Ensure all location containers maintain a consistent height */
 .i-location-info {
     position: relative;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-areas:
+    "header bookmark"
+    "rating rating";
     margin: 0 2rem;
     align-items: left;
     justify-content: space-between;
     flex-wrap: wrap;
     word-break: break-word;
     flex-grow: 1; /* Ensures the location info section grows to fill space */
+}
+
+.i-location-info > div.m-header {
+    grid-area: header;
+    text-align: left;
+}
+
+.i-location-info > div.m-rating {
+    grid-area: rating;
+    text-align: left;
+}
+
+.i-location-info > div.i-bookmark-container {
+    grid-area: header;
+    text-align: right;
+    margin-right: 0px;
 }
 
 .bookmark-button {
@@ -112,4 +131,12 @@
     background-size: 3rem;
     border-radius: 0.5rem;
     border: white;
+    transition-duration: 0.2s;
+}
+
+.book-but:hover {
+    transform: translateY(1rem);
+    transition-duration: 0.2s;
+    z-index: 96;
+    cursor: pointer;
 }
