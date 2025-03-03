@@ -2,10 +2,50 @@ html {
   font-size: 14px;
 }
 
+.body-inner {
+  width: 100%;
+  background-color: #ececec;
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
+
+  .sidebar {
+    display: flex;
+    color: white;
+    background-color: #AF1B3F;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 15rem;
+    box-shadow: 0 7rem 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+  .body-inner {
+    margin-left: 15rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+header {
+  width: 100vw;
+  background-color: white;
+  height: 6rem;
+  position: fixed;
+  box-shadow: 0.4rem 0rem 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
+  z-index: 99;
+}
+
+.container {
+  margin-top: 7rem;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -18,14 +58,26 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  margin: 0px 0px 0px 0px;
+  display: flex;
+  font-family: Arial, sans-serif;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.foot {
+  width: auto;
+  padding: 2rem;
+  text-align: center;
+  vertical-align: middle;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+h2 {
+  margin: 1rem 0;
+}
+
+p {
+  margin-top: 0px;
+}
+
+.ab {
+  position: absolute;
 }

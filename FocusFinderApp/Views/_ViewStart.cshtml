@@ -1,3 +1,6 @@
 ﻿@{
     Layout = "_Layout";
+    
+    ViewBag.IsLoggedIn = Context.Session.GetInt32("UserId") != null;
+    ViewBag.Username = Context.Session.GetString("Username");
 }

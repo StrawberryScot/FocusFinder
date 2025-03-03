@@ -31,5 +31,37 @@
             <a href="/Profile/Edit" class="btn btn-primary">Edit Profile</a>
             <a href="/Bookmarks" class="btn btn-info">View Bookmarked Locations</a>
         </div>
+        
+        <hr>
+
+        <!-- List of Visited Locations -->
+        <h2>Visited Locations</h2>
+        @if (Model.Visits != null && Model.Visits.Any())
+        {
+            <ul class="visited-locations">
+                @foreach (var visit in Model.Visits)
+                {
+                    @if (visit.Location != null) // Prevents null errors
+                    {
+                        <li>
+                            <a href="/Locations/@visit.Location.Id" class="location-link">
+                                <div class="location-item">
+                                    <img src="@visit.Location.ImageURL" alt="@visit.Location.LocationName" class="location-image">
+                                    <div class="location-info">
+                                        <h3>@visit.Location.LocationName</h3>
+                                        <p>@visit.Location.City</p>
+                                        <p><strong>Visited on:</strong> @visit.dateVisited?.ToString("MMMM dd, yyyy")</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No locations visited yet.</p>
+        }
     </div>
 </div>
