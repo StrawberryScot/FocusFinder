@@ -24,22 +24,35 @@ public class ReviewController : Controller
     {
         ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
         int? currentUserId = HttpContext.Session.GetInt32("UserId");
+        ViewBag.Username = HttpContext.Session.GetString("Username");
 
-        // var reviews = _dbContext.Reviews.Include(l => l.Reviews).ToList();
-        var reviews = _dbContext.Reviews
-            .Where( l => l.userId == currentUserId)
-            .ToList();
+        // if (!ViewBag.IsLoggedIn)
+        // {
+            // var reviews = _dbContext.Reviews.Include(l => l.Reviews).ToList();
+            var reviews = _dbContext.Reviews
+                .Where( l => l.userId == currentUserId)
+                .ToList();
+            // if (reviews != null)
+            // {
+            //     return View("~/Views/Reviews/AllReviews.cshtml", reviews);
+            // }
+            // else{
+            //     return View("~/Views/Reviews/AllReviews.cshtml"); 
+            // }
 
-        if (ViewBag.IsLoggedIn)
-        {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            // ViewBag.BookmarkedLocations = _dbContext.Bookmarks
-            //     .Where(b => b.userId == userId)
-            //     .Select(b => b.locationId)
-            //     .ToList();
-        }
+            if (reviews == null)
+            {
+                Console.WriteLine("Location not found");
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("~/Views/Reviews/AllReviews.cshtml", reviews);
+            }
+            
+        // }
 
-        return View("~/Views/Reviews/IndivReview.cshtml", reviews);
+        // return View("~/Views/Reviews/AllReviews.cshtml");
     }
 
  

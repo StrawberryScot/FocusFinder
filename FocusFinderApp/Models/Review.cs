@@ -18,6 +18,7 @@ public class Review {
     public int? overallRating { get; set; }
 
     public DateTime? dateLastUpdated { get; set; } = DateTime.UtcNow;
+    [ForeignKey("User")]
     public int? userId { get; set; } // TBC on '?'
 
 // TAGS
@@ -48,5 +49,6 @@ public class Review {
 
 
     public virtual Location? Location { get; set; }
+    public virtual User? User { get; set; }
     }
 }

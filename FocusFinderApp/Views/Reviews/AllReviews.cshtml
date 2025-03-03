@@ -1,0 +1,33 @@
+@using System.Linq
+@model List<FocusFinderApp.Models.Review>
+@{
+    ViewData["Title"] = "Reviews";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
+
+<div class="i-body-top body-top">
+    <div class="text-center">
+        <h1 class="display-4">All Reviews</h1>
+    </div>
+</div>
+
+<!-- Mark as Visited button -->
+    <div>
+        
+        @{
+            if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
+            {
+                @* <h5>Please login to view your reviews</h5> *@
+                <h5>Please login to view your reviews</h5>
+                <a href="/Login" class="btn btn-primary">Go to Login</a>
+            } else
+            {
+                @* <h5>@Model.userId, your reviews are below...</h5> *@
+                <h5>You're signed in @ViewBag.Username! See your reviews below...</h5>
+            }
+        }
+
+    </div>
