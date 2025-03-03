@@ -6,6 +6,41 @@ html {
   html {
     font-size: 16px;
   }
+
+  .sidebar {
+    display: flex;
+    color: white;
+    background-color: #AF1B3F;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 15rem;
+    box-shadow: 0 7rem 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
+  }
+  .body-inner {
+    margin-left: 15rem;
+    width: 100%;
+    background-color: #ececec;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+header {
+  width: 100%;
+  background-color: white;
+  height: 6rem;
+  position: fixed;
+  box-shadow: 0.4rem 0rem 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  margin-top: 7rem;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -18,7 +53,9 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  margin: 0px 0px 60px 0px;
+  display: flex;
+  font-family: Arial, sans-serif;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
