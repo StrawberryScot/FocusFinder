@@ -1,0 +1,64 @@
+@using System.Linq
+@model List<FocusFinderApp.Models.Review>
+    
+@{
+    ViewData["Title"] = "Reviews";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
+
+<div class="i-body-top body-top">
+    <div class="text-center">
+        <h1 class="display-4">All Reviews</h1>
+    </div>
+</div>
+
+
+<div>
+    
+    @{
+        if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
+        {
+            <h5>Please login to view your reviews</h5>
+            <a href="/Login" class="btn btn-primary">Go to Login</a>
+        }
+        else{
+            <h5>You're signed in @ViewBag.Username! See your reviews below...</h5>
+
+            if (Model?.Any() == true)
+            { 
+                foreach (var review in Model)
+                {   
+                    <a href="/Reviews/@review.id" >Link</a>
+                    
+                    <h5>Your Review of Location Id @review.locationId</h5>
+                    
+                    <p>Review Id: @review.id</p>
+
+                    if (@review.overallRating != null){
+                        <p>Overall Rating: @review.overallRating⭐</p>
+                    }
+                    if (@review.dateLastUpdated != null){
+                        <p>Date Updated: @review.dateLastUpdated</p>
+                    }
+                    if (@review.freeWifi != null){
+                        <p>Free Wi-Fi: @review.freeWifi</p>
+                    }
+                    if (@review.noiseLevel != null){
+                        <p>Noise (1-5): @review.noiseLevel</p>
+                    }
+                    if (@review.comments != null){
+                        <p>Comments: @review.comments</p>
+                    } 
+                }
+
+            }
+
+
+        }
+    
+    }
+
+</div>
