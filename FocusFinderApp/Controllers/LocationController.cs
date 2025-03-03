@@ -18,36 +18,24 @@ public class LocationController : Controller
     }
 
     [Route("/Locations")]
-    [HttpGet]
     public IActionResult Index()
     {
-
         ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
         ViewBag.Username = HttpContext.Session.GetString("Username");
-        
-        var locations = _dbContext.Locations
-            .Include(l => l.Reviews) // Include Reviews to fetch them with Locations
-            .ToList(); 
 
-        if (locations == null || !locations.Any())
+        var locations = _dbContext.Locations.Include(l => l.Reviews).ToList();
+
+        if (ViewBag.IsLoggedIn)
         {
-            _logger.LogWarning("No locations found in the database.");
-        }
-        else
-        {
-            _logger.LogInformation($"Retrieved {locations.Count} locations from the database.");
+            var userId = HttpContext.Session.GetInt32("UserId");
+            ViewBag.BookmarkedLocations = _dbContext.Bookmarks
+                .Where(b => b.userId == userId)
+                .Select(b => b.locationId)
+                .ToList();
         }
 
         return View("~/Views/Home/Index.cshtml", locations);
     }
-
-    // [Route("/Locations")]
-    // [HttpGet]
-    // public IActionResult Index()
-    // {
-    //     var locations = _dbContext.Locations.ToList() ?? new List<Location>(); // Get all locations from the database (last bit ensures its never null)
-    //     return View("~/Views/Home/Index.cshtml", locations); // Adding locations at the end sends the locations list to the view
-    // }
 
     [Route("/Locations/{id}")]
     [HttpGet]
@@ -77,44 +65,68 @@ public class LocationController : Controller
         {
             ViewBag.AverageRating = "No ratings yet";
         }
-
-        // Check if the user has already pressed Visited
-        var locationIdForVisit = _dbContext.Locations.FirstOrDefault(l => l.Id == id);
+        // Check if the user is logged in
         int? currentUserId = HttpContext.Session.GetInt32("UserId");
-        ViewBag.IsLoggedIn = currentUserId;
-        
-        if (locationIdForVisit == null)
-        {
-            return NotFound();
-        }
+        ViewBag.IsLoggedIn = currentUserId != null;
 
-        var existingVisit = _dbContext.Visits.FirstOrDefault(l => l.locationId == id && l.userId == currentUserId);
-        if (existingVisit != null)
+        if (currentUserId != null)
         {
-            Console.WriteLine("Visit already exists.");
-            ViewBag.AlreadyVisited = "Already visited";     // << TBC!!
+            // Check if the user has visited the location
+            var existingVisit = _dbContext.Visits.FirstOrDefault(v => v.locationId == id && v.userId == currentUserId);
+            ViewBag.AlreadyVisited = existingVisit != null ? "Already visited" : null;
+
+            // Fetch the user's bookmarked locations
+            var bookmarkedLocations = _dbContext.Bookmarks
+                .Where(b => b.userId == currentUserId)
+                .Select(b => b.locationId)
+                .ToList();
+
+            ViewBag.BookmarkedLocations = bookmarkedLocations;
+        }
+        else
+        {
+            ViewBag.BookmarkedLocations = new List<int>(); // If user is not logged in, set an empty list
         }
 
         return View("~/Views/Home/Location.cshtml", location);
     }
 
-    public IActionResult LocationByCity(string city)
+    // public IActionResult LocationByCity(string city)
+    // {
+    //     if (city == null)
+    //     {
+    //         return RedirectToAction("Index");
+    //     }
+    //     var location = _dbContext.Locations
+    //         .Where( l => l.City.ToLower() == city.ToLower())
+    //         .ToList();
+        
+    //     if (location == null)
+    //     {
+    //         Console.WriteLine("Location not found");
+    //         return RedirectToAction("Index");
+    //     }
+    //     return View("~/Views/Home/Index.cshtml", location);
+    // }
+
+    public IActionResult Search(string searchQuery)
     {
-        if (city == null)
+        if (searchQuery == null)
         {
             return RedirectToAction("Index");
         }
         var location = _dbContext.Locations
-            .Where( l => l.City.ToLower() == city.ToLower())
+            .Where(l => l.LocationName.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.BuildingIdentifier.ToLower().Contains(searchQuery.ToLower()) ||   
+                        l.StreetAddress.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.City.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.County.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.Postcode.ToLower().Contains(searchQuery.ToLower()))
             .ToList();
         
-        if (location == null)
-        {
-            Console.WriteLine("Location not found");
-            return RedirectToAction("Index");
-        }
         return View("~/Views/Home/Index.cshtml", location);
     }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

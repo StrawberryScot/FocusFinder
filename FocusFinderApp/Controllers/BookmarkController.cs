@@ -17,7 +17,7 @@ namespace FocusFinderApp.Controllers
 
         // ✅ Add a bookmark
         [HttpPost]
-        public IActionResult Add(int locationId)
+        public IActionResult Add(int locationId, string redirectUrl)
         {
             var username = HttpContext.Session.GetString("Username");
 
@@ -26,28 +26,21 @@ namespace FocusFinderApp.Controllers
                 return Unauthorized("You must be logged in to bookmark locations.");
             }
 
-            var user = _dbContext.Users.FirstOrDefault(u => u.Username == username);
+            var user = _dbContext.Users.Include(u => u.Bookmarks)
+                    .FirstOrDefault(u => u.Username == username);
             if (user == null) return NotFound("User not found.");
 
-            // Check if the bookmark already exists
-            if (_dbContext.Bookmarks.Any(b => b.userId == user.Id && b.locationId == locationId))
+            if (!_dbContext.Bookmarks.Any(b => b.userId == user.Id && b.locationId == locationId))
             {
-                TempData["InfoMessage"] = "You have already bookmarked this location.";
-                return RedirectToAction("Index", "Home");
+                _dbContext.Bookmarks.Add(new Bookmark { userId = user.Id, locationId = locationId });
+                _dbContext.SaveChanges();
             }
 
-            var bookmark = new Bookmark
-            {
-                userId = user.Id,
-                locationId = locationId
-            };
-
-            _dbContext.Bookmarks.Add(bookmark);
-            _dbContext.SaveChanges();
-
-            TempData["SuccessMessage"] = "Location bookmarked successfully!";
-            return RedirectToAction("Index", "Home");
+            // Redirect back to the page where the user came from (using the passed redirectUrl)
+            return Redirect(redirectUrl ?? "/Home/Index"); // Default to /Home/Index if redirectUrl is null
         }
+
+
         // ✅ Show user's bookmarks on their profile
         [Route("Bookmarks")]
         public IActionResult UserBookmarks()
@@ -64,18 +57,37 @@ namespace FocusFinderApp.Controllers
             return View("~/Views/Users/Bookmark.cshtml", user.Bookmarks);
         }
         [HttpPost]
-        // [Authorize] // Ensure only logged-in users can remove bookmarks
-        public IActionResult Remove(int bookmarkId)
+        public IActionResult Remove(int locationId, string redirectUrl)
         {
-            var bookmark = _dbContext.Bookmarks.Find(bookmarkId);
-    
+            var username = HttpContext.Session.GetString("Username");
+
+            if (string.IsNullOrEmpty(username))
+            {
+                return Unauthorized("You must be logged in to manage bookmarks.");
+            }
+
+            var user = _dbContext.Users.FirstOrDefault(u => u.Username == username);
+            if (user == null) return NotFound("User not found.");
+
+            var bookmark = _dbContext.Bookmarks
+                .FirstOrDefault(b => b.userId == user.Id && b.locationId == locationId);
+
             if (bookmark != null)
             {
                 _dbContext.Bookmarks.Remove(bookmark);
                 _dbContext.SaveChanges();
             }
+            // Get redirectUrl from the form submission
+            redirectUrl = Request.Form["redirectUrl"].ToString();
 
-            return RedirectToAction("UserBookmarks");
-        }
+            // Redirect based on the passed redirectUrl
+            if (!string.IsNullOrEmpty(redirectUrl))
+            {
+                return Redirect(redirectUrl);
+            }
+
+            // Default redirect if no redirectUrl is passed
+            return RedirectToAction("Index", "Home");
+        }       
     }
 }

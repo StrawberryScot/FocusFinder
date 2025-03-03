@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
 </head>
 
-<div class="header-buttons">
+@* <div class="header-buttons">
     @if (ViewBag.IsLoggedIn == true)
     {
         <div class="user-info">
@@ -22,20 +22,21 @@
         <a href="/Login" class="btn btn-primary">Login</a>
         <a href="/Register" class="btn btn-success">Register</a>
     }
-</div>
+</div> *@
 
 <div class="i-body-top body-top">
     <div class="text-center">
         <h1 class="display-4">FocusFinder</h1>
-        <form asp-controller="Location" asp-action="LocationByCity" method="get" class="search-form">
-            <input type="text" name="city" placeholder="Location" class="search-input" required>
+        <form asp-controller="Location" asp-action="Search" method="get" class="search-form">
+            <input type="text" name="searchQuery" placeholder="Search by name or address" class="search-input" required>
             <button type="submit" class="search-button">Search</button>
         </form>
     </div>
 </div>
 
-<div class="i-container">
-    @if (Model?.Any() == true)
+@if (Model?.Any() == true)
+{
+    @foreach (var location in Model)
     {
         @foreach (var location in Model)
         {
@@ -47,19 +48,47 @@
                             <div class="i-bookmark-container">
                                 @if (ViewBag.IsLoggedIn == true)
                                 {
-                                    <form method="post" asp-controller="Bookmark" asp-action="Add">
+                                  var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(location.Id);
+
+                                  @if (isBookmarked)
+                                  {
+                                      <form method="post" asp-controller="Bookmark" asp-action="Remove">
                                         <input type="hidden" name="locationId" value="@location.Id">
+                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
                                         <button type="submit" class="bookmark-button ab"></button>
-                                    </form>
+                                      </form>
+                                  }
+                                  else
+                                  {
+                                      <form method="post" asp-controller="Bookmark" asp-action="Add">
+                                        <input type="hidden" name="locationId" value="@location.Id">
+                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                                        <button type="submit" class="bookmark-button ab"></button>
+                                      </form>
+                                  }
                                 }
                             </div>
                             <div class="i-bookmark-container">
                                 @if (ViewBag.IsLoggedIn == true)
                                 {
-                                    <form method="post" asp-controller="Bookmark" asp-action="Add">
+                                  var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(location.Id);
+
+                                  @if (isBookmarked)
+                                  {
+                                      <form method="post" asp-controller="Bookmark" asp-action="Remove">
                                         <input type="hidden" name="locationId" value="@location.Id">
+                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
                                         <button type="submit" class="bookmark-button book-but"></button>
-                                    </form>
+                                      </form>
+                                  }
+                                  else
+                                  {
+                                      <form method="post" asp-controller="Bookmark" asp-action="Add">
+                                        <input type="hidden" name="locationId" value="@location.Id">
+                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                                        <button type="submit" class="bookmark-button book-but"></button>
+                                      </form>
+                                  }
                                 }
                             </div>
                             <div class="m-rating"><p>
@@ -70,8 +99,8 @@
             </a>
         }
     }
-    else 
-    {
-        <p>No locations found</p>
-    }
-</div>
+}
+else 
+{
+    <p>No locations found</p>
+}
