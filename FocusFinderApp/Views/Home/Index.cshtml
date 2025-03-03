@@ -38,51 +38,66 @@
 {
     @foreach (var location in Model)
     {
-        <a href="/Locations/@location.Id" class="i-location-link"> 
-            <div class="i-location-container glow-back">
-                <div class="i-study-pic-container">
-                    <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
-                </div>
-                <div class="i-location-info">
-                    <h2>@location.LocationName</h2>
-                    <p>@location.City</p>
-                    <p>
-                        Rating: @(location.Reviews?.Any() == true ? 
-                                $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : 
-                                "No ratings yet")
-                    </p>
+        @foreach (var location in Model)
+        {
+            <a href="/Locations/@location.Id" class="i-location-link"> 
+                    <div class="i-location-container glow-back i-study-pic-container">
+                        <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                        <div class="i-location-info">
+                            <div class="m-header"><h2>@location.City</h2></div>
+                            <div class="i-bookmark-container">
+                                @if (ViewBag.IsLoggedIn == true)
+                                {
+                                  var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(location.Id);
 
-                    <!-- Bookmark Button -->
-                    <div class="i-bookmark-container">
-                        @if (ViewBag.IsLoggedIn != null)
-                        {
-                            var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(location.Id);
+                                  @if (isBookmarked)
+                                  {
+                                      <form method="post" asp-controller="Bookmark" asp-action="Remove">
+                                        <input type="hidden" name="locationId" value="@location.Id">
+                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                                        <button type="submit" class="bookmark-button ab"></button>
+                                      </form>
+                                  }
+                                  else
+                                  {
+                                      <form method="post" asp-controller="Bookmark" asp-action="Add">
+                                        <input type="hidden" name="locationId" value="@location.Id">
+                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                                        <button type="submit" class="bookmark-button ab"></button>
+                                      </form>
+                                  }
+                                }
+                            </div>
+                            <div class="i-bookmark-container">
+                                @if (ViewBag.IsLoggedIn == true)
+                                {
+                                  var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(location.Id);
 
-                            @if (isBookmarked)
-                            {
-                                <form method="post" asp-controller="Bookmark" asp-action="Remove">
-                                    <input type="hidden" name="locationId" value="@location.Id">
-                                    <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
-                                    <button type="submit" class="btn btn-danger">Remove from Bookmarks</button>
-                                </form>
-                            }
-                            else
-                            {
-                                <form method="post" asp-controller="Bookmark" asp-action="Add">
-                                    <input type="hidden" name="locationId" value="@location.Id">
-                                    <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
-                                    <button type="submit" class="btn btn-primary">Bookmark</button>
-                                </form>
-                            }
-                        }
-                        else 
-                        {
-                            <a href="/Login" class="btn btn-primary">Login to Bookmark</a>
-                        }
+                                  @if (isBookmarked)
+                                  {
+                                      <form method="post" asp-controller="Bookmark" asp-action="Remove">
+                                        <input type="hidden" name="locationId" value="@location.Id">
+                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                                        <button type="submit" class="bookmark-button book-but"></button>
+                                      </form>
+                                  }
+                                  else
+                                  {
+                                      <form method="post" asp-controller="Bookmark" asp-action="Add">
+                                        <input type="hidden" name="locationId" value="@location.Id">
+                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                                        <button type="submit" class="bookmark-button book-but"></button>
+                                      </form>
+                                  }
+                                }
+                            </div>
+                            <div class="m-rating"><p>
+                                Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
+                            </p></div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </a>
+            </a>
+        }
     }
 }
 else 
