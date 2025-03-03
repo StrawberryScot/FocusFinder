@@ -61,7 +61,6 @@
     margin: 0 auto;
     height: 40vh;  /* Set a fixed height */
     width: 40vh;   /* Set a fixed width */
-    display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -88,11 +87,9 @@
 
 /* Styling for Bookmark and Login buttons container */
 .i-bookmark-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: auto; /* Push the button/link to the bottom */
-    height: 50px; /* Ensures consistent button height */
+    font-size: 10;
+    position: relative;
+    z-index: 80;
 }
 
 /* Ensure all location containers maintain a consistent height */
@@ -102,4 +99,17 @@
     flex-direction: column;
     justify-content: space-between; /* Ensures space between text and buttons */
     flex-grow: 1; /* Ensures the location info section grows to fill space */
+}
+
+.bookmark-button {
+    height: 3rem;
+    width: 3rem;
+    z-index: 85;
+    position: absolute;
+    x: -8rem;
+    y: -8rem;
+    background-image: url("../images/icons/bookmark.jpg");
+    background-size: 3rem;
+    border-radius: 0.5rem;
+    border: white;
 }
