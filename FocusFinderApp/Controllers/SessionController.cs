@@ -41,11 +41,7 @@ public class SessionController : Controller
         }
 
         var passwordHasher = new PasswordHasher<User>();
-        var result = PasswordVerificationResult.Failed;
-        if (user != null && user.Password != null)
-        {
-            result = passwordHasher.VerifyHashedPassword(user, user.Password, password);
-        }
+        var result = user.Password != null ? passwordHasher.VerifyHashedPassword(user, user.Password, password) : PasswordVerificationResult.Failed;
 
         if (result == PasswordVerificationResult.Success)
         {
