@@ -81,7 +81,7 @@
 }
 
 .glow-back:hover {
-    transform: scale(1.26); /* Enlarge the image on hover */
+    transform: scale(1.05); /* Enlarge the image on hover */
     box-shadow: 0 4px 6px 10px rgba(0, 0, 0, 0.1); /* Add shadow for glow effect */
     z-index: 100; /* Ensure image stays on top */
 }
@@ -95,7 +95,7 @@
 
 /* Ensure all location containers maintain a consistent height */
 .i-location-info {
-    min-height: 250px; /* Adjust this value based on the content */
+    min-height: 0rem; /* Adjust this value based on the content */
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Ensures space between text and buttons */
