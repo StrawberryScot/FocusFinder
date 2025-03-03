@@ -62,7 +62,7 @@ public class User {
 
     public virtual ICollection<Visit>? Visits { get; set; } = new List<Visit>();
 
-    public virtual ICollection<Review>? Reviews { get; set; } = new List<Review>();
+    //public virtual ICollection<Review>? Reviews { get; set; } = new List<Review>();
 
 
     }
