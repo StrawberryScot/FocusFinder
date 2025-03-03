@@ -91,23 +91,42 @@ public class LocationController : Controller
         return View("~/Views/Home/Location.cshtml", location);
     }
 
-    public IActionResult LocationByCity(string city)
+    // public IActionResult LocationByCity(string city)
+    // {
+    //     if (city == null)
+    //     {
+    //         return RedirectToAction("Index");
+    //     }
+    //     var location = _dbContext.Locations
+    //         .Where( l => l.City.ToLower() == city.ToLower())
+    //         .ToList();
+        
+    //     if (location == null)
+    //     {
+    //         Console.WriteLine("Location not found");
+    //         return RedirectToAction("Index");
+    //     }
+    //     return View("~/Views/Home/Index.cshtml", location);
+    // }
+
+    public IActionResult Search(string searchQuery)
     {
-        if (city == null)
+        if (searchQuery == null)
         {
             return RedirectToAction("Index");
         }
         var location = _dbContext.Locations
-            .Where( l => l.City.ToLower() == city.ToLower())
+            .Where(l => l.LocationName.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.BuildingIdentifier.ToLower().Contains(searchQuery.ToLower()) ||   
+                        l.StreetAddress.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.City.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.County.ToLower().Contains(searchQuery.ToLower()) ||
+                        l.Postcode.ToLower().Contains(searchQuery.ToLower()))
             .ToList();
         
-        if (location == null)
-        {
-            Console.WriteLine("Location not found");
-            return RedirectToAction("Index");
-        }
         return View("~/Views/Home/Index.cshtml", location);
     }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
