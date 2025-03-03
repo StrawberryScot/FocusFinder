@@ -43,7 +43,34 @@
                 </form>
             }
         }
+        <!-- Bookmark Button -->
+        <div class="i-bookmark-container mt-2">
+            @if (ViewBag.IsLoggedIn != null)
+                {
+                    var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(Model.Id);
 
+                    @if (isBookmarked)
+                    {
+                        <form method="post" asp-controller="Bookmark" asp-action="Remove">
+                            <input type="hidden" name="locationId" value="@Model.Id">
+                            <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                            <button type="submit" class="btn btn-danger">Remove from Bookmarks</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" asp-controller="Bookmark" asp-action="Add">
+                            <input type="hidden" name="locationId" value="@Model.Id">
+                            <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                            <button type="submit" class="btn btn-primary">Bookmark</button>
+                        </form>
+                    }
+                }
+                else 
+                {
+                    <a href="/Login" class="btn btn-primary">Login to Bookmark</a>
+                }
+            </div>
     </div>
 
     <!-- Bio -->
