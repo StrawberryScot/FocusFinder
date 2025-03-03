@@ -75,19 +75,19 @@
 /* Hover effects */
 .glow-back {
     transition-duration: 0.4s;
+    z-index: 60;
 }
 
 .glow-back:hover {
-    transform: scale(1.05); /* Enlarge the image on hover */
+    transform: scale(1.03); /* Enlarge the image on hover */
     box-shadow: 0 4px 6px 10px rgba(0, 0, 0, 0.1); /* Add shadow for glow effect */
-    z-index: 100; /* Ensure image stays on top */
+    z-index: 70; /* Ensure image stays on top */
 }
 
 /* Styling for Bookmark and Login buttons container */
 .i-bookmark-container {
     font-size: 10;
     position: relative;
-    z-index: 80;
 }
 
 /* Ensure all location containers maintain a consistent height */
@@ -106,7 +106,7 @@
 .bookmark-button {
     height: 3rem;
     width: 3rem;
-    z-index: 85;
+    z-index: 80;
     position: absolute;
     background-image: url("../images/icons/bookmark.jpg");
     background-size: 3rem;
