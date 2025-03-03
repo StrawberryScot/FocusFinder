@@ -92,7 +92,12 @@ public class UsersController : Controller
             return BadRequest("Username is required");
         }
 
-        var user = _dbContext.Users?.FirstOrDefault(u => u.Username.ToLower() == username.ToLower());
+        var user = _dbContext.Users?
+            .Include(u => u.Visits) // Include visits
+                .ThenInclude(v => v.Location) // Include the associated location
+            .FirstOrDefault(u => u.Username.ToLower() == username.ToLower());
+
+
 
         if (user == null)
         {

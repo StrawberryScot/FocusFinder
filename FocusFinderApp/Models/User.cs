@@ -58,7 +58,12 @@ public class User {
     ? null
     : $"{FirstName} {LastName}".Trim();
 
-    public virtual List<Bookmark>? Bookmarks { get; set; } = new List<Bookmark>();
+    public virtual ICollection<Bookmark>? Bookmarks { get; set; } = new List<Bookmark>();
+
+    public virtual ICollection<Visit>? Visits { get; set; } = new List<Visit>();
+
+    public virtual ICollection<Review>? Reviews { get; set; } = new List<Review>();
+
 
     }
 }
