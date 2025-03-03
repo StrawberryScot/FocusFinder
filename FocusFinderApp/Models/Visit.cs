@@ -11,7 +11,7 @@ public class Visit {
     [Key]
     public int id { get; set; }
 
-    [ForeignKey("user")]
+    [ForeignKey("User")]
     public int? userId { get; set; }
 
     [ForeignKey("Location")]
