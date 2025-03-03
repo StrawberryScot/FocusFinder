@@ -17,7 +17,7 @@ namespace FocusFinderApp.Controllers
 
         // ✅ Add a bookmark
         [HttpPost]
-        public IActionResult Add(int locationId)
+        public IActionResult Add(int locationId, string redirectUrl)
         {
             var username = HttpContext.Session.GetString("Username");
 
@@ -26,27 +26,21 @@ namespace FocusFinderApp.Controllers
                 return Unauthorized("You must be logged in to bookmark locations.");
             }
 
-            var user = _dbContext.Users.FirstOrDefault(u => u.Username == username);
+            var user = _dbContext.Users.Include(u => u.Bookmarks)
+                    .FirstOrDefault(u => u.Username == username);
             if (user == null) return NotFound("User not found.");
 
-            // Check if the bookmark already exists
-            if (_dbContext.Bookmarks.Any(b => b.userId == user.Id && b.locationId == locationId))
+            if (!_dbContext.Bookmarks.Any(b => b.userId == user.Id && b.locationId == locationId))
             {
-                TempData["InfoMessage"] = "You have already bookmarked this location.";
-                return RedirectToAction("Index", "Home");
+                _dbContext.Bookmarks.Add(new Bookmark { userId = user.Id, locationId = locationId });
+                _dbContext.SaveChanges();
             }
 
-            var bookmark = new Bookmark
-            {
-                userId = user.Id,
-                locationId = locationId
-            };
-
-            _dbContext.Bookmarks.Add(bookmark);
-            _dbContext.SaveChanges();
-            
-            return RedirectToAction("Index", "Home");
+            // Redirect back to the page where the user came from (using the passed redirectUrl)
+            return Redirect(redirectUrl ?? "/Home/Index"); // Default to /Home/Index if redirectUrl is null
         }
+
+
         // ✅ Show user's bookmarks on their profile
         [Route("Bookmarks")]
         public IActionResult UserBookmarks()
@@ -83,6 +77,9 @@ namespace FocusFinderApp.Controllers
                 _dbContext.Bookmarks.Remove(bookmark);
                 _dbContext.SaveChanges();
             }
+            // Get redirectUrl from the form submission
+            redirectUrl = Request.Form["redirectUrl"].ToString();
+
             // Redirect based on the passed redirectUrl
             if (!string.IsNullOrEmpty(redirectUrl))
             {
