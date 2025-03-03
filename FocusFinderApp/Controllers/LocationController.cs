@@ -18,36 +18,24 @@ public class LocationController : Controller
     }
 
     [Route("/Locations")]
-    [HttpGet]
     public IActionResult Index()
     {
-
         ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
         ViewBag.Username = HttpContext.Session.GetString("Username");
-        
-        var locations = _dbContext.Locations
-            .Include(l => l.Reviews) // Include Reviews to fetch them with Locations
-            .ToList(); 
 
-        if (locations == null || !locations.Any())
+        var locations = _dbContext.Locations.Include(l => l.Reviews).ToList();
+
+        if (ViewBag.IsLoggedIn)
         {
-            _logger.LogWarning("No locations found in the database.");
-        }
-        else
-        {
-            _logger.LogInformation($"Retrieved {locations.Count} locations from the database.");
+            var userId = HttpContext.Session.GetInt32("UserId");
+            ViewBag.BookmarkedLocations = _dbContext.Bookmarks
+                .Where(b => b.userId == userId)
+                .Select(b => b.locationId)
+                .ToList();
         }
 
         return View("~/Views/Home/Index.cshtml", locations);
     }
-
-    // [Route("/Locations")]
-    // [HttpGet]
-    // public IActionResult Index()
-    // {
-    //     var locations = _dbContext.Locations.ToList() ?? new List<Location>(); // Get all locations from the database (last bit ensures its never null)
-    //     return View("~/Views/Home/Index.cshtml", locations); // Adding locations at the end sends the locations list to the view
-    // }
 
     [Route("/Locations/{id}")]
     [HttpGet]
@@ -66,8 +54,6 @@ public class LocationController : Controller
             Console.WriteLine("Location not found");
             return RedirectToAction("Index");
         }
-        
-        // ViewBag.Location = location; << no longer needed as using @model in cshtml
 
         // Calculate average rating
         if (location.Reviews != null && location.Reviews.Any())
@@ -78,6 +64,23 @@ public class LocationController : Controller
         else
         {
             ViewBag.AverageRating = "No ratings yet";
+        }
+
+        // Check if the user has already pressed Visited
+        var locationIdForVisit = _dbContext.Locations.FirstOrDefault(l => l.Id == id);
+        int? currentUserId = HttpContext.Session.GetInt32("UserId");
+        ViewBag.IsLoggedIn = currentUserId;
+        
+        if (locationIdForVisit == null)
+        {
+            return NotFound();
+        }
+
+        var existingVisit = _dbContext.Visits.FirstOrDefault(l => l.locationId == id && l.userId == currentUserId);
+        if (existingVisit != null)
+        {
+            Console.WriteLine("Visit already exists.");
+            ViewBag.AlreadyVisited = "Already visited";     // << TBC!!
         }
 
         return View("~/Views/Home/Location.cshtml", location);
@@ -123,6 +126,74 @@ public class LocationController : Controller
         };
         _dbContext.Reviews.Add(newReview);
         _dbContext.SaveChanges();
+        return RedirectToAction("Location", new { id = LocationId });
+    }
+
+
+    [HttpPost]
+    public IActionResult AddVisit(int LocationId)
+    {
+        var location = _dbContext.Locations.FirstOrDefault(l => l.Id == LocationId);
+        int? currentUserId = HttpContext.Session.GetInt32("UserId");
+        if (location == null)
+        {
+            return NotFound();
+        }
+
+        // Check if the user has already pressed Visited
+        var existingVisit = _dbContext.Visits.FirstOrDefault(l => l.locationId == LocationId && l.userId == currentUserId);
+
+        if (existingVisit != null)
+        {
+            Console.WriteLine("Visit already exists.");
+            ViewBag.AlreadyVisited = "Already visited";
+        }
+        else
+        {
+            // Add the Visit
+            var newVisit = new Visit
+        {
+            locationId = LocationId,
+            dateVisited = DateTime.UtcNow,
+            userId = currentUserId
+        };
+
+            _dbContext.Visits.Add(newVisit);
+            _dbContext.SaveChanges();
+
+            ViewBag.AlreadyVisited = "Already visited";
+        }
+
+        return RedirectToAction("Location", new { id = LocationId });
+    }
+
+    [HttpPost]
+    public IActionResult RemoveVisit(int LocationId)
+    {
+        var location = _dbContext.Locations.FirstOrDefault(l => l.Id == LocationId);
+        int? currentUserId = HttpContext.Session.GetInt32("UserId");
+        if (location == null)
+        {
+            return NotFound();
+        }
+
+        // Check if the user has already pressed Visited
+        var existingVisit = _dbContext.Visits.FirstOrDefault(l => l.locationId == LocationId && l.userId == currentUserId);
+
+        if (existingVisit == null)
+        {
+            Console.WriteLine("Not visted yet, so can't remove visit.");
+            ViewBag.AlreadyVisited = "Not visited yet";  // << may change later
+        }
+        else
+        {
+            // Remove the Visit
+            _dbContext.Visits.Remove(existingVisit);
+            _dbContext.SaveChanges();
+
+            ViewBag.AlreadyVisited = "Not visited yet";  // << may change later
+        }
+
         return RedirectToAction("Location", new { id = LocationId });
     }
 }

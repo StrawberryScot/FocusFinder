@@ -10,30 +10,51 @@
 
 <div class="i-body-top body-top">
     <div class="text-center">
-        <h1 class="display-4">Location Name</h1>
+        <h1 class="display-4">@Model.LocationName</h1>
     </div>
 </div>
 
 <!-- Main Location Container -->
 <div>
 
+    <!-- Mark as Visited button -->
+    <div>
+        
+        @{
+            if (ViewBag.IsLoggedIn == null)
+            {
+                <!-- Visit buttion - asks user to login -->
+                <a href="/Login" class="btn btn-primary">Login to mark as visited</a>
+            } else if (ViewBag.AlreadyVisited == "Already visited")
+            {
+                <!-- Visit buttion - if logged in + pressed visit already -->
+                <h5>Already visited :)</h5>
+                <form asp-controller="Location" asp-action="RemoveVisit" method="post">
+                    <input type="hidden" name="LocationId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger">Remove visit</button>
+                </form>
+            } else
+            {
+                <h5>Have you visited @Model.LocationName?</h5>
+                <!-- Visit buttion - if logged in + has NOT pressed visit yet -->
+                <form asp-controller="Location" asp-action="AddVisit" method="post">
+                    <input type="hidden" name="LocationId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-primary">Mark as visited!</button>
+                </form>
+            }
+        }
+
+    </div>
+
     <!-- Bio -->
     <div> 
-        <p>Location Description:</p>
-        @* <p>@ViewBag.Location.Description</p> TESTING *@
+        <h5>About @Model.LocationName</h5>
         <p>@Model.Description</p>
     </div>
 
-    <!-- Image OLD -->
-    @* <div class="i-study-pic-container glow-back">
-        @{Console.WriteLine("image: " + @ViewBag.imageName);}
-        <img src="@Model.ImageURL" alt="Image of @Model.LocationName location.">
-        <!-- ^^ currently defaults to alt text if no image -->
-    </div> *@
-    <!-- Image NEW -->
+    <!-- Image -->
     <div class="i-study-pic-container glow-back">
         @{
-            Console.WriteLine("image: " + @ViewBag.imageName);
             var ifImage = "/images/noimagefound.jpg";
             if (@Model.ImageURL != null){
                 ifImage = @Model.ImageURL;
@@ -45,12 +66,11 @@
 
     <!-- Reviews Section -->
     <div>
-        @* @if (ViewBag.Location.Reviews != null && ViewBag.Location.Reviews.Any()) *@
         @{
             var reviews = Model.Reviews as IEnumerable<FocusFinderApp.Models.Review>;
         }
 
-        <h2>Reviews - Overall @ViewBag.AverageRating ⭐</h2>
+        <h5>Reviews - Overall @ViewBag.AverageRating ⭐</h5>
         @if (reviews?.Any() == true)
         {
             <ul>
@@ -81,16 +101,16 @@
 
     <!-- Address/Map << Advanced -->
     <div>
-        <p>Where even is it?</p>
+        <h5>Where even is it?</h5>
         <p>@Model.BuildingIdentifier @Model.StreetAddress</p>
         <p>@Model.City</p>
         <p>@Model.County</p>
         <p>@Model.Postcode</p>
     </div>
 
-    <!-- URL for Location's own webapage -->
+    <!-- URL for Location's own webapage <<- Ideal/Advanced-->
     <div>
-        <p>Find out more information here:</p>
+        <h5>Find out more information here:</h5>
         <p>✨URL tbc✨</p>
         <p>(awaiting column in Locations table)</p>
     </div>

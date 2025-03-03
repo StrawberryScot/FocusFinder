@@ -34,29 +34,58 @@
     </div>
 </div>
 
-<div class="i-container">
-    @if (Model?.Any() == true)
+@if (Model?.Any() == true)
+{
+    @foreach (var location in Model)
     {
-        @foreach (var location in Model)
-        {
-            <a href="/Locations/@location.Id" class="i-location-link"> 
-                <div class="i-location-container glow-back">
-                    <div class="i-study-pic-container">
-                        <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
-                    </div>
-                    <div class="i-location-info">
-                        <h2>@location.LocationName</h2>
-                        <p>@location.City</p>
-                        <p>
-                            Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
-                        </p>
+        <a href="/Locations/@location.Id" class="i-location-link"> 
+            <div class="i-location-container glow-back">
+                <div class="i-study-pic-container">
+                    <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                </div>
+                <div class="i-location-info">
+                    <h2>@location.LocationName</h2>
+                    <p>@location.City</p>
+                    <p>
+                        Rating: @(location.Reviews?.Any() == true ? 
+                                $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : 
+                                "No ratings yet")
+                    </p>
+
+                    <!-- Bookmark Button -->
+                    <div class="i-bookmark-container">
+                        @if (ViewBag.IsLoggedIn == true)
+                        {
+                            var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(location.Id);
+
+                            @if (isBookmarked)
+                            {
+                                <form method="post" asp-controller="Bookmark" asp-action="Remove">
+                                    <input type="hidden" name="locationId" value="@location.Id">
+                                    <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                                    <button type="submit" class="btn btn-danger">Remove from Bookmarks</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post" asp-controller="Bookmark" asp-action="Add">
+                                    <input type="hidden" name="locationId" value="@location.Id">
+                                    <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                                    <button type="submit" class="btn btn-primary">Bookmark</button>
+                                </form>
+                            }
+                        }
+                        else 
+                        {
+                            <a href="/Login" class="btn btn-primary">Login to Bookmark</a>
+                        }
                     </div>
                 </div>
-            </a>
-        }
+            </div>
+        </a>
     }
-    else 
-    {
-        <p>No locations found</p>
-    }
-</div>
+}
+else 
+{
+    <p>No locations found</p>
+}

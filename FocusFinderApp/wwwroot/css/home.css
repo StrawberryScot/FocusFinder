@@ -48,6 +48,9 @@
 
 .i-location-container {
     cursor: pointer; /* Makes it clear the container is clickable */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensures each container has the same height */
 }
 
 /* Image container styling */
@@ -83,3 +86,20 @@
     z-index: 100; /* Ensure image stays on top */
 }
 
+/* Styling for Bookmark and Login buttons container */
+.i-bookmark-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto; /* Push the button/link to the bottom */
+    height: 50px; /* Ensures consistent button height */
+}
+
+/* Ensure all location containers maintain a consistent height */
+.i-location-info {
+    min-height: 250px; /* Adjust this value based on the content */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures space between text and buttons */
+    flex-grow: 1; /* Ensures the location info section grows to fill space */
+}
