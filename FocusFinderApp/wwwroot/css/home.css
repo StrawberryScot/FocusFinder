@@ -18,7 +18,7 @@
     padding: 10px 15px;
     font-size: 16px;
     color: white;
-    background-color: #007bff;
+    background-color: #EFC69B;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -26,7 +26,7 @@
 }
 
 .search-button:hover {
-    background-color: #0056b3;
+    background-color: #DF9B6D;
 }
 
 /* Container styling */
