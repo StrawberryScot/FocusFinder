@@ -135,7 +135,8 @@ public class ReviewController : Controller
         _dbContext.Reviews.Add(newReview);
         _dbContext.SaveChanges();
         
-        return View("~/Views/Reviews/AllReviews.cshtml");
+        // return View("~/Views/Reviews/AllReviews.cshtml");
+        return Redirect("/Reviews");
     }
 
 
