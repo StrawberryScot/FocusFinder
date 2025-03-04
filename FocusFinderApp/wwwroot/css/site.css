@@ -10,9 +10,17 @@ input:focus-visible {
   outline: 0.15rem solid #EFC69B;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    border: none;
+    -webkit-text-fill-color: black;
+    -webkit-box-shadow: 0 0 0px 1000px #ececec inset;
+}
+
 .body-inner {
   width: 100%;
-  background-color: #ececec;
+  background-color: #f6f6f6;
 }
 
 .container-fluid {
