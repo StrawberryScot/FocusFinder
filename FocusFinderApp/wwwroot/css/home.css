@@ -1,6 +1,6 @@
 /* Style the search bar */
 .search-form {
-    margin-top: 20px;
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -18,7 +18,7 @@
     padding: 10px 15px;
     font-size: 16px;
     color: white;
-    background-color: #007bff;
+    background-color: #EFC69B;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -26,7 +26,7 @@
 }
 
 .search-button:hover {
-    background-color: #0056b3;
+    background-color: #DF9B6D;
 }
 
 /* Container styling */
@@ -34,7 +34,7 @@
     border-radius: 25px;
     display: grid;
     gap: 20px; /* Space between items */
-    padding-top: 30vh;
+    padding-top: 2rem;
     max-width: 90%;
     margin: 0 auto;
     grid-template-columns: repeat(auto-fit, minmax(40vh, 1fr)); /* Responsive grid */
