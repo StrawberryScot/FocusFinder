@@ -34,29 +34,3 @@ namespace FocusFinderApp.Controllers
 }
 }
 
-
-//         // List all achievements on the user’s achievements page
-//         [Route("Achievements")]
-//         [HttpGet]
-//         public IActionResult List()
-//         {
-//             int? currentUserId = HttpContext.Session.GetInt32("UserId");
-
-//             if (currentUserId == null)
-//             {
-//                 return Unauthorized("You must be logged in to view achievements.");
-//             }
-
-//             var achievements = _dbContext.Achievements
-//                                         .Where(a => a.userId == currentUserId.Value)
-//                                         .FirstOrDefault();
-
-//             if (achievements == null)
-//             {
-//                 return NotFound("No achievements found for this user.");
-//             }
-
-//             return View(achievements); // Pass achievements to the view
-//         }
-//     }
-// }

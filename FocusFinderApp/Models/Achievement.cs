@@ -34,6 +34,14 @@ public class Achievement {
         {
             case "visit":
                 achievement.visits += 1;
+                // Count unique cities visited
+                var uniqueCities = dbContext.Visits
+                    .Where(v => v.userId == userId)
+                    .Select(v => v.Location.City) 
+                    .Distinct()
+                    .Count();
+
+                achievement.citiesVisited = uniqueCities; 
                 break;
             case "review":
                 achievement.reviewsLeft += 1;
