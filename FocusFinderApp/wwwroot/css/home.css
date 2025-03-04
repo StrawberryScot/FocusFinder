@@ -1,34 +1,3 @@
-/* Style the search bar */
-.search-form {
-    margin-top: 2rem;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.search-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    width: 250px;
-}
-
-.search-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    color: white;
-    background-color: #EFC69B;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.search-button:hover {
-    background-color: #DF9B6D;
-}
-
 /* Container styling */
 .i-container {
     border-radius: 25px;
