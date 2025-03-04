@@ -11,6 +11,7 @@ public class FocusFinderDbContext : DbContext
     public DbSet<Review>? Reviews { get; set; }
     public DbSet<Bookmark>? Bookmarks { get; set; }
     public DbSet<Visit>? Visits { get; set; }
+    public DbSet<Achievement>? Achievements { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
