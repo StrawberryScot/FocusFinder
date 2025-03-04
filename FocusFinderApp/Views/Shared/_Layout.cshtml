@@ -12,12 +12,45 @@
 <body>
     <nav class="sidebar">
         <div class="sidebar-container">
-            <a class="logo hoverable" href="/">
+            <a class="logo-hoverable" href="/">
                 <img src="../images/icons/ff-logo.jpg" alt="Logo" asp-area="" asp-controller="Home" asp-action="Index" width="100%" height="100%">
             </a>
             <h2 class="al-cen">
                 FocusFinder
             </h2>
+            <div class="header-buttons">
+                @if (ViewBag.IsLoggedIn == true)
+                {
+                    <p class="welcome">Welcome, @ViewBag.Username!</p>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Profile">
+                            <img src="../images/icons/profile.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Profile/@ViewBag.Username" class="btn">Profile</a>
+                    </div>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Logout">
+                            <img src="../images/icons/logout.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Logout" class="btn">Logout</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="side-item">
+                        <a class="sidebar-icon" class="sidebar-icon" href="/Login">
+                            <img src="../images/icons/profile.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Login" class="btn">Login</a>
+                    </div>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Register">
+                            <img src="../images/icons/register.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Register" class="btn">Register</a>
+                    </div>
+                }
+            </div>
         </div>
     </nav>
     <div class="body-inner">

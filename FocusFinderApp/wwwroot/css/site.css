@@ -97,3 +97,27 @@ p {
   display: flex;
   flex-direction: row-reverse;
 }
+
+.sidebar-icon {
+  text-decoration: none;
+}
+
+.sidebar-icon img {
+  height: 2rem;
+  width: 2rem;
+}
+
+.header-buttons {
+  color: white;
+  align-items: left;
+  margin-top: 2rem;
+}
+
+.sidebar-text {
+  margin-left: 1rem;
+  text-decoration: none;
+}
+
+.side-item {
+  margin-bottom: 1rem;
+}
