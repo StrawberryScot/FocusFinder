@@ -11,7 +11,7 @@
 
 <div class="i-body-top body-top">
     <div class="text-center">
-        <h1 class="display-4">All Reviews</h1>
+        <h1 class="display-4">My Reviews</h1>
     </div>
 </div>
 
@@ -25,33 +25,97 @@
             <a href="/Login" class="btn btn-primary">Go to Login</a>
         }
         else{
-            <h5>You're signed in @ViewBag.Username! See your reviews below...</h5>
 
             if (Model?.Any() == true)
             { 
                 foreach (var review in Model)
                 {   
-                    <a href="/Reviews/@review.id" >Link</a>
+                    <div class="i-location-container i-study-pic-container glow-back">
+                        <a href="/Reviews/@review.id">
                     
-                    <h5>Your Review of Location Id @review.locationId</h5>
-                    
-                    <p>Review Id: @review.id</p>
+                            <h3>Your Review of @ViewBag.LocationName</h3>
+                            <h4> Overall Review</h4>
 
-                    if (@review.overallRating != null){
-                        <p>Overall Rating: @review.overallRating⭐</p>
-                    }
-                    if (@review.dateLastUpdated != null){
-                        <p>Date Updated: @review.dateLastUpdated</p>
-                    }
-                    if (@review.freeWifi != null){
-                        <p>Free Wi-Fi: @review.freeWifi</p>
-                    }
-                    if (@review.noiseLevel != null){
-                        <p>Noise (1-5): @review.noiseLevel</p>
-                    }
-                    if (@review.comments != null){
-                        <p>Comments: @review.comments</p>
-                    } 
+                            @{
+                                if (@review.dateLastUpdated != null){
+                                    <p>Date Added: @review.dateLastUpdated</p>
+                                }
+
+                                if (@review.overallRating != null){
+                                    <p>Overall Rating: @review.overallRating⭐</p>
+                                } 
+                                
+                            }
+                            
+                            <h4>In-Depth Review (if any)</h4>
+                            @{
+                                if (@review.comments != null){
+                                    <p>Comments: @review.comments</p>
+                                }
+                                if (@review.noiseLevel != null){
+                                    <p>Noise Levels: @review.noiseLevel</p>
+                                }
+                                if (@review.wifiSpeed != null){
+                                    <p>Wi-Fi Speed: @review.wifiSpeed</p>
+                                }
+                                if (@review.cleanliness != null){
+                                    <p>Cleanliness: @review.cleanliness</p>
+                                }
+                                if (@review.seatingAvailability != null){
+                                    <p>Seating Availability: @review.seatingAvailability</p>
+                                }
+                                if (@review.chargingPointAvailability != null){
+                                    <p>Charging Point Availability: @review.chargingPointAvailability</p>
+                                }
+                            }
+
+                            <h4>Review Tags (if any)</h4>
+                            @{
+                                if (@review.freeWifi != null){
+                                    <p>Free Wi-Fi Available</p>
+                                }
+                                if (@review.toilets != null){
+                                    <p>Toilets Available</p>
+                                }
+                                if (@review.babychanging != null){
+                                    <p>Babychanging Available</p>
+                                }
+                                if (@review.wheelchairAccessible != null){
+                                    <p>Wheelchair Accessible</p>
+                                }
+                                if (@review.officeLike != null){
+                                    <p>Office-like</p>
+                                }
+                                if (@review.homeLike != null){
+                                    <p>Home-like</p>
+                                }
+                                if (@review.queerFriendly != null){
+                                    <p>Queer Friendly</p>
+                                }
+                                if (@review.neurodivergentFriendly != null){
+                                    <p>Neurodiversity Friendly</p>
+                                }
+                                if (@review.groupFriendly != null){
+                                    <p>Group Friendly</p>
+                                }
+                                if (@review.veganFriendly != null){
+                                    <p>Vegan Options Available</p>
+                                }
+                                if (@review.glutenFreeOptions != null){
+                                    <p>Gluten Free Options Available</p>
+                                }
+                                if (@review.petFriendly != null){
+                                    <p>Pet Friendly</p>
+                                }
+                                if (@review.heating != null){
+                                    <p>Heating</p>
+                                }
+                                if (@review.airConditioning != null){
+                                    <p>Air Conditioning</p>
+                                }                                
+                            }
+                        </a>
+                    </div>
                 }
 
             }
