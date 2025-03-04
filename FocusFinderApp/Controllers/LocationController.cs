@@ -98,13 +98,32 @@ public class LocationController : Controller
         {
             return RedirectToAction("Index");
         }
+
+        searchQuery = searchQuery.ToLower();
+
         var location = _dbContext.Locations
-            .Where(l => l.LocationName.ToLower().Contains(searchQuery.ToLower()) ||
-                        l.BuildingIdentifier.ToLower().Contains(searchQuery.ToLower()) ||   
-                        l.StreetAddress.ToLower().Contains(searchQuery.ToLower()) ||
-                        l.City.ToLower().Contains(searchQuery.ToLower()) ||
-                        l.County.ToLower().Contains(searchQuery.ToLower()) ||
-                        l.Postcode.ToLower().Contains(searchQuery.ToLower()))
+            .Where(l => l.LocationName.ToLower().Contains(searchQuery) ||
+                        l.BuildingIdentifier.ToLower().Contains(searchQuery) ||   
+                        l.StreetAddress.ToLower().Contains(searchQuery) ||
+                        l.City.ToLower().Contains(searchQuery) ||
+                        l.County.ToLower().Contains(searchQuery) ||
+                        l.Postcode.ToLower().Contains(searchQuery) ||
+                        l.Reviews.Any(r => 
+                            (searchQuery.Contains("wifi") && r.freeWifi == true) ||
+                            (searchQuery.Contains("toilet") && r.toilets == true) ||
+                            (searchQuery.Contains("baby") && r.babychanging == true) ||
+                            (searchQuery.Contains("wheelchair") && r.wheelchairAccessible == true) ||
+                            (searchQuery.Contains("heating") && r.heating == true) ||
+                            (searchQuery.Contains("ac") && r.airConditioning == true) ||
+                            (searchQuery.Contains("neuro") && r.neurodivergentFriendly == true) ||
+                            (searchQuery.Contains("gluten") && r.glutenFreeOptions == true) ||
+                            (searchQuery.Contains("vegan") && r.veganFriendly == true) ||
+                            (searchQuery.Contains("office") && r.officeLike == true) ||
+                            (searchQuery.Contains("home") && r.homeLike == true) ||
+                            (searchQuery.Contains("queer") && r.queerFriendly == true) ||
+                            (searchQuery.Contains("group") && r.groupFriendly == true) ||
+                            (searchQuery.Contains("pet") && r.petFriendly == true)
+                        ))
             .ToList();
         
         return View("~/Views/Home/Index.cshtml", location);
