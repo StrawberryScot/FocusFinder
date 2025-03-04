@@ -133,6 +133,7 @@ public class LocationController : Controller
         };
         _dbContext.Reviews.Add(newReview);
         _dbContext.SaveChanges();
+        Achievement.UpdateUserAchievements(_dbContext, newReview.userId, "review");
         return RedirectToAction("Location", new { id = LocationId });
     }
 
@@ -145,6 +146,12 @@ public class LocationController : Controller
         if (location == null)
         {
             return NotFound();
+        }
+
+        // Check if the user is logged in (currentUserId is not null)
+        if (currentUserId == null)
+        {
+            return Unauthorized("You must be logged in to add a visit.");
         }
 
         // Check if the user has already pressed Visited
@@ -169,6 +176,9 @@ public class LocationController : Controller
             _dbContext.SaveChanges();
 
             ViewBag.AlreadyVisited = "Already visited";
+
+            // Add visit to the achievement counter
+            Achievement.UpdateUserAchievements(_dbContext, currentUserId.Value, "visit");
         }
 
         return RedirectToAction("Location", new { id = LocationId });

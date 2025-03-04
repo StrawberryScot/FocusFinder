@@ -34,6 +34,8 @@ namespace FocusFinderApp.Controllers
             {
                 _dbContext.Bookmarks.Add(new Bookmark { userId = user.Id, locationId = locationId });
                 _dbContext.SaveChanges();
+                // Add bookmark to the achievement counter
+                Achievement.UpdateUserAchievements(_dbContext, user.Id, "bookmark");
             }
 
             // Redirect back to the page where the user came from (using the passed redirectUrl)
