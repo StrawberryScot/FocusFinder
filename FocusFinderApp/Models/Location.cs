@@ -30,9 +30,13 @@ public class Location {
 
     public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
     public string? locationURL { get; set; }
+
+    public double? Latitude { get; set; }
+
+    public double? Longitude { get; set; }
     
 
-    public List<Review>? Reviews { get; set; }
+    public ICollection<Review>? Reviews { get; set; }
     }
 }
 
