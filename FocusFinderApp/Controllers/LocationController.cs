@@ -91,23 +91,6 @@ public class LocationController : Controller
         return View("~/Views/Home/Location.cshtml", location);
     }
 
-    // public IActionResult LocationByCity(string city)
-    // {
-    //     if (city == null)
-    //     {
-    //         return RedirectToAction("Index");
-    //     }
-    //     var location = _dbContext.Locations
-    //         .Where( l => l.City.ToLower() == city.ToLower())
-    //         .ToList();
-        
-    //     if (location == null)
-    //     {
-    //         Console.WriteLine("Location not found");
-    //         return RedirectToAction("Index");
-    //     }
-    //     return View("~/Views/Home/Index.cshtml", location);
-    // }
 
     public IActionResult Search(string searchQuery)
     {
