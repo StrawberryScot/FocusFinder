@@ -9,6 +9,12 @@
     grid-template-columns: repeat(auto-fit, minmax(40vh, 1fr)); /* Responsive grid */
 }
 
+@media (max-width: 768px) {
+    .i-container {
+        padding-top: 0px;
+    }
+}
+
 .i-location-link {
     text-decoration: none; /* Removes underline */
     color: inherit; /* Keeps the text color the same as the parent */
