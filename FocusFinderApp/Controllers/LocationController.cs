@@ -120,6 +120,7 @@ public class LocationController : Controller
     [HttpPost]
     public IActionResult AddReview(int LocationId, int Rating)
     {
+        int? currentUserId = HttpContext.Session.GetInt32("UserId");
         var location = _dbContext.Locations.FirstOrDefault(l => l.Id == LocationId);
         if (location == null)
         {
@@ -129,7 +130,8 @@ public class LocationController : Controller
         {
             locationId = LocationId,
             overallRating = Rating,
-            dateLastUpdated = DateTime.UtcNow
+            dateLastUpdated = DateTime.UtcNow,
+            userId = currentUserId
         };
         _dbContext.Reviews.Add(newReview);
         _dbContext.SaveChanges();

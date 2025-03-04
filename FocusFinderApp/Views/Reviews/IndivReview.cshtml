@@ -17,14 +17,102 @@
             </div>
         }
         else{
+            <h1>Your Review of @ViewBag.Location.LocationName</h1>
+            <a href="/Locations/@ViewBag.Location.Id" class="btn btn-primary">See @ViewBag.Location.LocationName page</a>
+
             <div>
-                <h1 > Review - Id @ViewBag.Review.id </h1>
-                <p>Review for location: @ViewBag.Location.LocationName</p>
+                <h4> Overall Review</h4>
+                @{
+                    if (@ViewBag.Review.dateLastUpdated != null){
+                        <p>Date Added: @ViewBag.Review.dateLastUpdated</p>
+                    }
+
+                    if (@ViewBag.Review.overallRating != null){
+                        <p>Overall Rating: @ViewBag.Review.overallRating⭐</p>
+                    } 
+                    
+                }
             </div>
-            <p>Edit your review below...</p>
+            <div>
+                <h4>In-Depth Review (if any)</h4>
+                @{
+                    if (@ViewBag.Review.comments != null){
+                        <p>Comments: @ViewBag.Review.comments/5</p>
+                    }
+                    if (@ViewBag.Review.noiseLevel != null){
+                        <p>Noise Levels (quiet ideal): @ViewBag.Review.noiseLevel/5</p>
+                    }
+                    if (@ViewBag.Review.wifiSpeed != null){
+                        <p>Wi-Fi Speed: @ViewBag.Review.wifiSpeed/5</p>
+                    }
+                    if (@ViewBag.Review.cleanliness != null){
+                        <p>Cleanliness: @ViewBag.Review.cleanliness/5</p>
+                    }
+                    if (@ViewBag.Review.seatingAvailability != null){
+                        <p>Seating Availability: @ViewBag.Review.seatingAvailability/5</p>
+                    }
+                    if (@ViewBag.Review.chargingPointAvailability != null){
+                        <p>Charging Point Availability: @ViewBag.Review.chargingPointAvailability/5</p>
+                    }
+                }
+            </div>
+            <div>
+                <h4>Review Tags (if any)</h4>
+                @{
+                    if (@ViewBag.Review.freeWifi != null){
+                        <p>Free Wi-Fi Available</p>
+                    }
+                    if (@ViewBag.Review.toilets != null){
+                        <p>Toilets Available</p>
+                    }
+                    if (@ViewBag.Review.babychanging != null){
+                        <p>Babychanging Available</p>
+                    }
+                    if (@ViewBag.Review.wheelchairAccessible != null){
+                        <p>Wheelchair Accessible</p>
+                    }
+                    if (@ViewBag.Review.officeLike != null){
+                        <p>Office-like</p>
+                    }
+                    if (@ViewBag.Review.homeLike != null){
+                        <p>Home-like</p>
+                    }
+                    if (@ViewBag.Review.queerFriendly != null){
+                        <p>Queer Friendly</p>
+                    }
+                    if (@ViewBag.Review.neurodivergentFriendly != null){
+                        <p>Neurodiversity Friendly</p>
+                    }
+                    if (@ViewBag.Review.groupFriendly != null){
+                        <p>Group Friendly</p>
+                    }
+                    if (@ViewBag.Review.veganFriendly != null){
+                        <p>Vegan Options Available</p>
+                    }
+                    if (@ViewBag.Review.glutenFreeOptions != null){
+                        <p>Gluten Free Options Available</p>
+                    }
+                    if (@ViewBag.Review.petFriendly != null){
+                        <p>Pet Friendly</p>
+                    }
+                    if (@ViewBag.Review.heating != null){
+                        <p>Heating</p>
+                    }
+                    if (@ViewBag.Review.airConditioning != null){
+                        <p>Air Conditioning</p>
+                    }                               
+                }
+            </div>
+
+
+
+
+            <h2>TBC/TEST -- Edit your review below...</h2>
             
             <h4>Rate this place out of 5 stars!</h4>
+            
             <p>1-5*</p>
+
             <p>Comments...</p>
 
             <h4>What tickled your fancy?</h4>
