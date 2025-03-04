@@ -7,7 +7,7 @@
     @{
         if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
         {
-            <h2>You cannot view your own reviews unless you are signed in.</h2>
+            <h2>To see a review, please sign in and ensure you have selected one of your own reviews.</h2>
             <a href="/Login" class="btn btn-primary">Go to Login</a>
         }
         else if (@ViewBag.currentUserId != @ViewBag.Review.userId) {
