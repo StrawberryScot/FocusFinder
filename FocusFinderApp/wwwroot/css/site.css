@@ -7,6 +7,10 @@ html {
   background-color: #ececec;
 }
 
+.container-fluid {
+  vertical-align: middle;
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -27,17 +31,66 @@ html {
   .body-inner {
     margin-left: 15rem;
   }
+
+  .container-fluid {
+    display: none;
+    height: 6rem;
+  }
+
+  header {
+    background-color: white;
+  }
 }
 
 @media (max-width: 768px) {
   .sidebar {
     display: none;
   }
+
+  .container-fluid {
+    display: flex;
+    flex-direction: row;
+  }
+
+  header{
+    background-color: #AF1B3F;
+  }
+
+  .menu-in input, .header-buttons {
+    display: none;
+  }
+  
+  label {
+    position: relative;
+    cursor: pointer;
+    height: 4rem;
+    width: 4rem;
+    background-size: 4rem;
+    margin: 1rem;
+    background-image: url("../images/icons/menu.jpg");
+    vertical-align: middle;
+    margin-left: auto;
+  }
+
+  .menu {
+    vertical-align: middle;
+    height: 3rem;
+    width: 3rem;
+  }
+  
+  .menu-in input:checked~.header-buttons {
+    display: block;
+    position: absolute;
+    top: 6rem;
+    right: 1rem;
+    background-color: #AF1B3F;
+    border-radius: 0.6rem;
+    padding: 1rem 1rem 0 1rem;
+  }
 }
 
 header {
   width:100vw;
-  background-color: white;
   height: 6rem;
   position: fixed;
   left: 0;
@@ -47,6 +100,14 @@ header {
 
 .container {
   padding-top: 6rem;
+}
+
+.logo-mobile img {
+  height: 5rem;
+  width: 5rem;
+  padding: 0.5rem;
+  background-color: #AF1B3F;
+  vertical-align: middle;
 }
 
 .sidebar-container {
@@ -91,11 +152,6 @@ p {
 
 .al-cen {
   align-self: center;
-}
-
-.container-fluid {
-  display: flex;
-  flex-direction: row-reverse;
 }
 
 .sidebar-icon {
