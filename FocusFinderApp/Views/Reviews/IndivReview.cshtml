@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Reviews";
+}
+
+@* <head>
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head> *@
+
+<div>
+    @{
+        if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
+        {
+            <h2>You cannot view your own reviews unless you are signed in.</h2>
+            <a href="/Login" class="btn btn-primary">Go to Login</a>
+        }
+        else{
+            <div>
+                <h1 > Review - Id *insert here*</h1>
+            </div>
+            @* <h5>You're signed in @ViewBag.Username! Edit your review below...</h5> *@
+            <h5>You're signed in! Edit your review below...</h5>
+        }
+    }
+</div>
+
+

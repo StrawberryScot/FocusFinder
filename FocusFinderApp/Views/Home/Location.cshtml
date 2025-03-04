@@ -24,6 +24,7 @@
             if (!ViewBag.IsLoggedIn)
             {
                 <!-- Visit buttion - asks user to login -->
+                <h5>Have you visited @Model.LocationName?</h5>
                 <a href="/Login" class="btn btn-primary">Login to mark as visited</a>
             } else if (ViewBag.AlreadyVisited == "Already visited")
             {
