@@ -2,6 +2,14 @@ html {
   font-size: 14px;
 }
 
+a:focus-visible, button:focus-visible {
+  outline: 0.1rem solid #000000;
+}
+
+input:focus-visible {
+  outline: 0.15rem solid #EFC69B;
+}
+
 .body-inner {
   width: 100%;
   background-color: #ececec;
@@ -18,20 +26,22 @@ html {
 }
 
 .search-input {
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  width: 250px;
+  padding: 0.85rem;
+  font-size: 1.1rem;
+  border: none;
+  background-color: #ececec;
+  border-radius: 2rem;
+  width: 20rem
 }
 
 .search-button {
   padding: 10px 15px;
-  font-size: 16px;
-  color: white;
+  font-size: 1.2rem;
+  color: rgb(50, 50, 50);
   background-color: #EFC69B;
+  margin-left: 1rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 3rem;
   cursor: pointer;
   transition: background 0.3s;
 }
@@ -154,6 +164,7 @@ header {
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #DF9B6D;
+  border-color: #473144;
 }
 
 html {
