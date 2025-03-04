@@ -55,7 +55,13 @@
     </nav>
     <div class="body-inner">
     <header>
-        <div class="container-fluid menu-in">
+        <div class="container-fluid desk">
+            <form asp-controller="Location" asp-action="Search" method="get" class="search-form">
+                <input type="text" name="searchQuery" placeholder="Search by name or address" class="search-input" required>
+                <button type="submit" class="search-button">Search</button>
+            </form>
+        </div>
+        <div class="container-fluid menu-in mob">
             <a class="logo-mobile" href="/">
                 <img src="../images/icons/ff-logo.jpg" alt="Logo" asp-area="" asp-controller="Home" asp-action="Index">
             </a>

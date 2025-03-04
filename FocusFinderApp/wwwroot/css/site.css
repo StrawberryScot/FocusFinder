@@ -9,6 +9,35 @@ html {
 
 .container-fluid {
   vertical-align: middle;
+  height: 6rem;
+}
+
+.search-form {
+  position: relative;
+  margin: 1.5rem;
+}
+
+.search-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+}
+
+.search-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  color: white;
+  background-color: #EFC69B;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-button:hover {
+  background-color: #DF9B6D;
 }
 
 @media (min-width: 768px) {
@@ -32,13 +61,16 @@ html {
     margin-left: 15rem;
   }
 
-  .container-fluid {
-    display: none;
-    height: 6rem;
-  }
-
   header {
     background-color: white;
+  }
+
+  .mob {
+    display: none;
+  }
+
+  .search-form {
+    left: 15rem;
   }
 }
 
@@ -50,6 +82,10 @@ html {
   .container-fluid {
     display: flex;
     flex-direction: row;
+  }
+
+  .desk {
+    display: none;
   }
 
   header{
