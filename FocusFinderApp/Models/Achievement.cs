@@ -16,20 +16,32 @@ public class Achievement {
     public int? visits { get; set; } = 0;
     public int? citiesVisited { get; set; } = 0;
     public int? bookmarks { get; set; } = 0;
-    public static void UpdateUserAchievements(FocusFinderDbContext dbContext, int userId, string actionType)
+    public static void UpdateUserAchievements(FocusFinderDbContext dbContext, int? userId, string actionType)
     {
         var achievement = dbContext.Achievements.FirstOrDefault(a => a.userId == userId);
 
+        // If there's no achievements currently, add it
         if (achievement == null)
         {
             achievement = new Achievement { userId = userId, reviewsLeft = 0, visits = 0, citiesVisited = 0, bookmarks = 0 };
             dbContext.Achievements.Add(achievement);
         }
 
+        // If there are already achievements, add another
+        // when UpdateUserAchievements is called, it takes actionType as a string e.g. "visit" and switch checks its value 
+        // and executes the code e.global. if actionType is "visit" then achievement.visits += 1;
         switch (actionType)
         {
             case "visit":
                 achievement.visits += 1;
+                // Count unique cities visited
+                var uniqueCities = dbContext.Visits
+                    .Where(v => v.userId == userId)
+                    .Select(v => v.Location.City) 
+                    .Distinct()
+                    .Count();
+
+                achievement.citiesVisited = uniqueCities; 
                 break;
             case "review":
                 achievement.reviewsLeft += 1;
