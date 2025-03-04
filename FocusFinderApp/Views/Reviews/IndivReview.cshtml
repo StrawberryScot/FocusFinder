@@ -1,10 +1,7 @@
+@model FocusFinderApp.Models.Review
 @{
     ViewData["Title"] = "Reviews";
 }
-
-@* <head>
-    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-</head> *@
 
 <div>
     @{
@@ -13,14 +10,21 @@
             <h2>You cannot view your own reviews unless you are signed in.</h2>
             <a href="/Login" class="btn btn-primary">Go to Login</a>
         }
+        else if (@ViewBag.currentUserId != @ViewBag.Review.userId) {
+            <div>
+                <h1 >You did not create this review and therefore cannot view it.</h1>
+                <a href="/Reviews" class="btn btn-primary">Go to My Reviews</a>
+            </div>
+        }
         else{
             <div>
-                <h1 > Review - Id *insert here*</h1>
+                <h1 > Review - Id @ViewBag.Review.id </h1>
+                <p>Review for location: @ViewBag.Location.LocationName</p>
             </div>
-            @* <h5>You're signed in @ViewBag.Username! Edit your review below...</h5> *@
             <h5>You're signed in! Edit your review below...</h5>
         }
     }
+    
 </div>
 
 
