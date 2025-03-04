@@ -8,13 +8,19 @@ a.navbar-brand {
 }
 
 a {
+  color: white;
+  vertical-align: middle;
+}
+
+.welcome {
+  text-align: center;
+  align-self: center;
   color: #EFC69B;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #EFC69B;
-  border-color: #EFC69B;
+.btn {
+  color: #ffffff;
+  text-decoration: none;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {

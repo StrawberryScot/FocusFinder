@@ -1,6 +1,7 @@
 using FocusFinderApp.Models;
 using Microsoft.EntityFrameworkCore;
 using FocusFinderApp.ActionFilters;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +54,18 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+Env.Load(); // Load .env variables
+
+var googleMapsApiKey = Environment.GetEnvironmentVariable("GOOGLE_MAPS_API_KEY");
+
+app.Use(async (context, next) =>
+{
+    context.Items["GoogleMapsApiKey"] = googleMapsApiKey;
+    await next();
+});
+
+
 
 app.Run();
 

@@ -7,6 +7,39 @@ html {
   background-color: #ececec;
 }
 
+.container-fluid {
+  vertical-align: middle;
+  height: 6rem;
+}
+
+.search-form {
+  position: relative;
+  margin: 1.5rem;
+}
+
+.search-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+}
+
+.search-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  color: white;
+  background-color: #EFC69B;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-button:hover {
+  background-color: #DF9B6D;
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -27,17 +60,73 @@ html {
   .body-inner {
     margin-left: 15rem;
   }
+
+  header {
+    background-color: white;
+  }
+
+  .mob {
+    display: none;
+  }
+
+  .search-form {
+    left: 15rem;
+  }
 }
 
 @media (max-width: 768px) {
   .sidebar {
     display: none;
   }
+
+  .container-fluid {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .desk {
+    display: none;
+  }
+
+  header{
+    background-color: #AF1B3F;
+  }
+
+  .menu-in input, .header-buttons {
+    display: none;
+  }
+  
+  label {
+    position: relative;
+    cursor: pointer;
+    height: 4rem;
+    width: 4rem;
+    background-size: 4rem;
+    margin: 1rem;
+    background-image: url("../images/icons/menu.jpg");
+    vertical-align: middle;
+    margin-left: auto;
+  }
+
+  .menu {
+    vertical-align: middle;
+    height: 3rem;
+    width: 3rem;
+  }
+  
+  .menu-in input:checked~.header-buttons {
+    display: block;
+    position: absolute;
+    top: 6rem;
+    right: 1rem;
+    background-color: #AF1B3F;
+    border-radius: 0.6rem;
+    padding: 1rem 1rem 0 1rem;
+  }
 }
 
 header {
   width:100vw;
-  background-color: white;
   height: 6rem;
   position: fixed;
   left: 0;
@@ -47,6 +136,14 @@ header {
 
 .container {
   padding-top: 6rem;
+}
+
+.logo-mobile img {
+  height: 5rem;
+  width: 5rem;
+  padding: 0.5rem;
+  background-color: #AF1B3F;
+  vertical-align: middle;
 }
 
 .sidebar-container {
@@ -93,7 +190,26 @@ p {
   align-self: center;
 }
 
-.container-fluid {
-  display: flex;
-  flex-direction: row-reverse;
+.sidebar-icon {
+  text-decoration: none;
+}
+
+.sidebar-icon img {
+  height: 2rem;
+  width: 2rem;
+}
+
+.header-buttons {
+  color: white;
+  align-items: left;
+  margin-top: 2rem;
+}
+
+.sidebar-text {
+  margin-left: 1rem;
+  text-decoration: none;
+}
+
+.side-item {
+  margin-bottom: 1rem;
 }

@@ -12,65 +12,95 @@
 <body>
     <nav class="sidebar">
         <div class="sidebar-container">
-            <a class="logo hoverable" href="/">
+            <a class="logo-hoverable" href="/">
                 <img src="../images/icons/ff-logo.jpg" alt="Logo" asp-area="" asp-controller="Home" asp-action="Index" width="100%" height="100%">
             </a>
             <h2 class="al-cen">
                 FocusFinder
             </h2>
+            <div class="header-buttons">
+                @if (ViewBag.IsLoggedIn == true)
+                {
+                    <p class="welcome">Welcome, @ViewBag.Username!</p>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Profile">
+                            <img src="../images/icons/profile.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Profile/@ViewBag.Username" class="btn">Profile</a>
+                    </div>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Logout">
+                            <img src="../images/icons/logout.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Logout" class="btn">Logout</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="side-item">
+                        <a class="sidebar-icon" class="sidebar-icon" href="/Login">
+                            <img src="../images/icons/profile.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Login" class="btn">Login</a>
+                    </div>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Register">
+                            <img src="../images/icons/register.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Register" class="btn">Register</a>
+                    </div>
+                }
+            </div>
         </div>
     </nav>
     <div class="body-inner">
     <header>
-        <nav class="navbar">
-            <div class="container-fluid">
-                
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FocusFinderApp</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <div class="header-buttons">
-                        @if (ViewBag.IsLoggedIn == true)
-                        {
-                            <div class="user-info">
-                                <p>Welcome, @ViewBag.Username!</p>
-                                <a href="/Profile/@ViewBag.Username" class="btn btn-primary">Profile</a>
-                                <a href="/Logout" class="btn btn-danger">Logout</a>
-                            </div>
-                        }
-                        else
-                        {
-                            <a href="/Login" class="btn btn-primary">Login</a>
-                            <a href="/Register" class="btn btn-success">Register</a>
-                        }
+        <div class="container-fluid desk">
+            <form asp-controller="Location" asp-action="Search" method="get" class="search-form">
+                <input type="text" name="searchQuery" placeholder="Search by name or address" class="search-input" required>
+                <button type="submit" class="search-button">Search</button>
+            </form>
+        </div>
+        <div class="container-fluid menu-in mob">
+            <a class="logo-mobile" href="/">
+                <img src="../images/icons/ff-logo.jpg" alt="Logo" asp-area="" asp-controller="Home" asp-action="Index">
+            </a>
+            <input id="check01" type="checkbox" name="menu" />
+            <label for="check01"></label>
+            <div class="header-buttons">
+                @if (ViewBag.IsLoggedIn == true)
+                {
+                    <p class="welcome">Welcome, @ViewBag.Username!</p>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Profile">
+                            <img src="../images/icons/profile.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Profile/@ViewBag.Username" class="btn">Profile</a>
                     </div>
-                    
-                    
-                    
-                    
-                    @* {
-                    <!-- Profile and Settings Links -->
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <!-- Ensure 'Username' is available in the view and holds the current username -->
-                            <a class="nav-link text-dark" asp-controller="Users" asp-action="Profile" asp-route-username="@ViewData["Username"]">Profile</a>
-                        </li>
-                    </ul>
-                    } *@
-
-                </div>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Logout">
+                            <img src="../images/icons/logout.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Logout" class="btn">Logout</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="side-item">
+                        <a class="sidebar-icon" class="sidebar-icon" href="/Login">
+                            <img src="../images/icons/profile.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Login" class="btn">Login</a>
+                    </div>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Register">
+                            <img src="../images/icons/register.jpg" alt="Profile">
+                        </a>
+                        <a class="sidebar-text" href="/Register" class="btn">Register</a>
+                    </div>
+                }
             </div>
-        </nav>
+        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
