@@ -9,45 +9,68 @@
 </head>
 </div>
 
-<div class="i-body-top body-top">
+@* <div class="i-body-top body-top">
     <div class="text-center">
-        <h1 class="display-4">Your Bookmarked Locations</h1>
+        <h1 class="display-4">My Bookmarked Locations</h1>
     </div>
-</div>
+</div> *@
 
-<div class="i-container">
-    @if (Model?.Any() == true)
-    {
-        @foreach (var bookmark in Model)
+<div>
+
+    @{
+        if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
         {
-            var location = bookmark.Location; // Reference the related Location entity
-
-            if (location != null) // Ensure location exists
-            {
-                <a href="/Locations/@location.Id" class="i-location-link"> 
-                    <div class="i-location-container glow-back">
-                        <div class="i-study-pic-container">
-                            <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
-                        </div>
-                        <div class="i-location-info">
-                            <h2>@location.LocationName</h2>
-                            <p>@location.City</p>
-                            <p>
-                                Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
-                            </p>
-                                <form method="post" asp-controller="Bookmark" asp-action="Remove">
-                                    <input type="hidden" name="locationId" value="@location.Id">
-                                    <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
-                                    <button type="submit" class="btn btn-danger">Remove from Bookmarks</button>
-                                </form>
-                        </div>
-                    </div>
-                </a>
-            }
+            <div class="i-body-top body-top">
+                <div class="text-center">
+                    <h1 class="display-4">My Bookmarked Locations</h1>
+                </div>
+            </div>
+            <h5>Please login to view your reviews</h5>
+            <a href="/Login" class="btn btn-primary">Go to Login</a>
         }
+        else 
+        {  
+            <div class="i-body-top body-top">
+                <div class="text-center">
+                    <h1 class="display-4">My Bookmarked Locations</h1>
+                </div>
+            </div>
+            <div class="i-container">
+            @if (Model?.Any() == true)
+            {
+                @foreach (var bookmark in Model)
+                {
+                    var location = bookmark.Location; // Reference the related Location entity
+
+                    if (location != null) // Ensure location exists
+                    {
+                        <a href="/Locations/@location.Id" class="i-location-link"> 
+                            <div class="i-location-container glow-back">
+                                <div class="i-study-pic-container">
+                                    <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                                </div>
+                                <div class="i-location-info">
+                                    <h2>@location.LocationName</h2>
+                                    <p>@location.City</p>
+                                    <p>
+                                        Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
+                                    </p>
+                                        <form method="post" asp-controller="Bookmark" asp-action="Remove">
+                                            <input type="hidden" name="locationId" value="@location.Id">
+                                            <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                                            <button type="submit" class="btn btn-danger">Remove from Bookmarks</button>
+                                        </form>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                }
+            }
+            else
+            {
+                <h5>You have not bookmarked any locations yet</h5>
+            }
+        </div>
     }
-    else 
-    {
-        <p>No bookmarked locations yet.</p>
-    }
+}
 </div>

@@ -46,7 +46,7 @@
         }
         <!-- Bookmark Button -->
         <div class="i-bookmark-container mt-2">
-            @if (ViewBag.IsLoggedIn != null)
+            @if (ViewBag.IsLoggedIn)
                 {
                     var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(Model.Id);
 

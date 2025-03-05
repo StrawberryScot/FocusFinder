@@ -10,6 +10,7 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 @if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
 {
     <h5>Please login to suggest a new location</h5>
@@ -20,57 +21,56 @@ else
     <p>Please fill in the required fields. The location will be reviewed before approval.</p>
 
     <form method="post" asp-controller="Location" asp-action="GetNewLocation" enctype="multipart/form-data" class="container mt-4">
-    <fieldset class="border p-4 rounded bg-light">
-        <legend class="text-center">Suggest a New Location</legend>
+        <fieldset class="border p-4 rounded bg-light">
+            <legend class="text-center">Suggest a New Location</legend>
 
-        <div class="mb-3">
-            <label for="SuggestedLocationName" class="form-label">Location Name</label>
-            <input id="SuggestedLocationName" name="SuggestedLocationName" class="form-control" required/>
-        </div>
+            <div class="mb-3">
+                <label for="SuggestedLocationName" class="form-label">Location Name</label>
+                <input id="SuggestedLocationName" name="SuggestedLocationName" class="form-control" required/>
+            </div>
 
-        <div class="mb-3">
-            <label for="StreetAddress" class="form-label">Street Address</label>
-            <input id="StreetAddress" name="StreetAddress" class="form-control" required/>
-        </div>
+            <div class="mb-3">
+                <label for="StreetAddress" class="form-label">Street Address</label>
+                <input id="StreetAddress" name="StreetAddress" class="form-control" required/>
+            </div>
 
-        <div class="mb-3">
-            <label for="BuildingIdentifier" class="form-label">Building Number</label>
-            <input id="BuildingIdentifier" name="BuildingIdentifier" class="form-control" required/>
-        </div>
+            <div class="mb-3">
+                <label for="BuildingIdentifier" class="form-label">Building Number</label>
+                <input id="BuildingIdentifier" name="BuildingIdentifier" class="form-control" required/>
+            </div>
 
-        <div class="mb-3">
-            <label for="City" class="form-label">City</label>
-            <input id="City" name="City" class="form-control" required/>
-        </div>
+            <div class="mb-3">
+                <label for="City" class="form-label">City</label>
+                <input id="City" name="City" class="form-control" required/>
+            </div>
 
-        <div class="mb-3">
-            <label for="County" class="form-label">County</label>
-            <input id="County" name="County" class="form-control"/>
-        </div>
+            <div class="mb-3">
+                <label for="County" class="form-label">County</label>
+                <input id="County" name="County" class="form-control"/>
+            </div>
 
-        <div class="mb-3">
-            <label for="Postcode" class="form-label">Postcode</label>
-            <input id="Postcode" name="Postcode" class="form-control" required/>
-        </div>
+            <div class="mb-3">
+                <label for="Postcode" class="form-label">Postcode</label>
+                <input id="Postcode" name="Postcode" class="form-control" required/>
+            </div>
 
-        <div class="mb-3">
-            <label for="ImageURL" class="form-label">Upload an Image (JPG, PNG, GIF only)</label>
-            <input type="file" id="ImageURL" name="ImageURL" accept=".jpg,.jpeg,.png,.gif" class="form-control"/>
-        </div>
+            <div class="mb-3">
+                <label for="ImageURL" class="form-label">Upload an Image (JPG, PNG, GIF only)</label>
+                <input type="file" id="ImageURL" name="ImageURL" accept=".jpg,.jpeg,.png,.gif" class="form-control"/>
+            </div>
 
-        <div class="mb-3">
-            <label for="locationURL" class="form-label">Location Website (optional)</label>
-            <input id="locationURL" name="locationURL" class="form-control"/>
-        </div>
+            <div class="mb-3">
+                <label for="locationURL" class="form-label">Location Website (optional)</label>
+                <input id="locationURL" name="locationURL" class="form-control"/>
+            </div>
 
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary w-100">Submit Location Suggestion</button>
-        </div>
-    </fieldset>
-</form>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary w-100">Submit Location Suggestion</button>
+            </div>
+        </fieldset>
+    </form>
 
-<!-- Include Bootstrap -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-
+    <!-- Include Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 }
+

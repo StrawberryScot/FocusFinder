@@ -284,9 +284,9 @@ public class LocationController : Controller
         string StreetAddress, 
         string City, 
         string County, 
-        string Postcode, 
-        string locationURL,
+        string Postcode,
         IFormFile ImageURL)
+
     {
         if (string.IsNullOrWhiteSpace(StreetAddress) || string.IsNullOrWhiteSpace(City) || string.IsNullOrWhiteSpace(Postcode))
         {
@@ -366,7 +366,6 @@ public class LocationController : Controller
             County = County,
             Postcode = Postcode,
             ImageURL = imagePath,
-            locationURL = locationURL,
             Latitude = latitude,
             Longitude = longitude
         };
@@ -416,7 +415,6 @@ public class LocationController : Controller
             County = suggestedLocation.County,
             Postcode = suggestedLocation.Postcode,
             ImageURL = suggestedLocation.ImageURL,
-            locationURL = suggestedLocation.locationURL,
             Latitude = suggestedLocation.Latitude,
             Longitude = suggestedLocation.Longitude
         };
