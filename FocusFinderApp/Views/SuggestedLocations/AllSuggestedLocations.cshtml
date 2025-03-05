@@ -1,0 +1,36 @@
+@model List<FocusFinderApp.Models.SuggestedLocation>
+
+@{
+    ViewData["Title"] = "Suggested Locations";
+}
+
+
+<h1>New Location Suggestions</h1>
+
+<div class="i-container">
+    @if (Model?.Any() == true)
+    {
+        @foreach (var sugggestedLoc in Model)
+        {
+            <h3>@sugggestedLoc.SuggestedLocationName</h3>
+            <!-- Bio -->
+            <div> 
+                <h5>About @sugggestedLoc.SuggestedLocationName</h5>
+                <p>@sugggestedLoc.Description</p>
+            </div>
+            <!-- Image TBC -->
+            
+            <!-- Address/Map << Advanced -->
+            <div>
+                <h5>Where even is it?</h5>
+                <p>@sugggestedLoc.BuildingIdentifier @sugggestedLoc.StreetAddress</p>
+                <p>@sugggestedLoc.City</p>
+                <p>@sugggestedLoc.County</p>
+                <p>@sugggestedLoc.Postcode</p>
+            </div>
+
+            <button>Accept (no action)</button>
+            <button>Decline (no action)</button>
+        }
+    }
+</div>
