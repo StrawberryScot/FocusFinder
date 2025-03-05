@@ -141,6 +141,13 @@ public class LocationController : Controller
     {
         int? currentUserId = HttpContext.Session.GetInt32("UserId");
         var location = _dbContext.Locations.FirstOrDefault(l => l.Id == LocationId);
+        
+        // Check if the user is logged in (currentUserId is not null)
+        if (currentUserId == null)
+        {
+            return Unauthorized("You must be logged in to add a visit.");
+        }
+        
         if (location == null)
         {
             return NotFound();
