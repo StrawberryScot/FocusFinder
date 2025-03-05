@@ -1,3 +1,5 @@
+@model List<FocusFinderApp.Models.Review>
+
 @{
     ViewData["Title"] = "New Review";
 }
@@ -27,7 +29,6 @@
             
             <form method="post" asp-controller="Review" asp-action="AddExtReview">
                 <fieldset>
-                    <!-- Add Review Form -->
                     <input type="hidden" name="locationId" value="@ViewBag.locId"/>
                     <div>
                         <label for="rating">Your Overall Rating:</label>
@@ -93,12 +94,33 @@
                         <label for="comments">Please tell us your thoughts:</label>
                         <input name="comments" placeholder="Add comments here"/>
                     </div>
+
+                    <div class="tag-box-check">
+                        <input id="check02" type="checkbox" name="tag-box-check" />
+                        <label for="check02"></label>
+                        <div class="tag-box">
+
+                            @{
+                                var properties = typeof(Review).GetProperties()
+                                                .Select(p => p.Name)
+                                                .Skip(4)
+                                                .Take(19)
+                                                .ToList();
+                            }
+                            <ul>
+                                @foreach (var col in properties)
+                                {
+                                    <li>@col</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
                     <div>
                         <button type="submit">Add Review</button>
                     </div>
-                    
                 </fieldset>
             </form>
-            
         }
     }
+</div>
