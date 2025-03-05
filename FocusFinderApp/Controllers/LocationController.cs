@@ -285,8 +285,8 @@ public class LocationController : Controller
         string City, 
         string County, 
         string Postcode, 
-        string ImageURL, 
-        string locationURL)
+        string locationURL,
+        IFormFile ImageURL)
     {
         if (string.IsNullOrWhiteSpace(StreetAddress) || string.IsNullOrWhiteSpace(City) || string.IsNullOrWhiteSpace(Postcode))
         {
@@ -330,6 +330,30 @@ public class LocationController : Controller
         {
             Console.WriteLine($"Error retrieving coordinates: {ex.Message}");
         }
+
+        string imagePath = null;
+        if (ImageURL != null && ImageURL.Length > 0)
+        {
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+            var fileExtension = Path.GetExtension(ImageURL.FileName).ToLower();
+
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                TempData["ErrorMessage"] = "Invalid image format. Only JPG, PNG, and GIF are allowed.";
+                return RedirectToAction("NewLocationForm");
+            }
+
+            string uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
+            string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await ImageURL.CopyToAsync(stream);
+            }
+
+            imagePath = $"/images/{uniqueFileName}";
+        }
     
         // Save location in SuggestedLocations table
         var newSuggestedLocation = new SuggestedLocation
@@ -341,7 +365,7 @@ public class LocationController : Controller
             City = City,
             County = County,
             Postcode = Postcode,
-            ImageURL = ImageURL,
+            ImageURL = imagePath,
             locationURL = locationURL,
             Latitude = latitude,
             Longitude = longitude
@@ -382,7 +406,7 @@ public class LocationController : Controller
         }
 
         // Move data from SuggestedLocations to Locations table
-        var newLocation = new Location
+        var newLocation = new Models.Location
         {
             LocationName = suggestedLocation.SuggestedLocationName,
             Description = suggestedLocation.Description,

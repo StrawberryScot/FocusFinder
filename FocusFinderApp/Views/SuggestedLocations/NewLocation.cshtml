@@ -19,81 +19,58 @@ else
 {
     <p>Please fill in the required fields. The location will be reviewed before approval.</p>
 
-    <form method="post" asp-controller="Location" asp-action="GetNewLocation" id="locationForm">
-        <fieldset>
-            <!-- Location Name -->
-            <label for="SuggestedLocationName">Location Name</label>
-            <input id="SuggestedLocationName" name="SuggestedLocationName" required/>
+    <form method="post" asp-controller="Location" asp-action="GetNewLocation" enctype="multipart/form-data" class="container mt-4">
+    <fieldset class="border p-4 rounded bg-light">
+        <legend class="text-center">Suggest a New Location</legend>
 
-            <!-- Description -->
-            <label for="Description">Description</label>
-            <input id="Description" name="Description"/>
+        <div class="mb-3">
+            <label for="SuggestedLocationName" class="form-label">Location Name</label>
+            <input id="SuggestedLocationName" name="SuggestedLocationName" class="form-control" required/>
+        </div>
 
-            <!-- Building Identifier -->
-            <label for="BuildingIdentifier">Building Number/Name</label>
-            <input id="BuildingIdentifier" name="BuildingIdentifier"/>
+        <div class="mb-3">
+            <label for="StreetAddress" class="form-label">Street Address</label>
+            <input id="StreetAddress" name="StreetAddress" class="form-control" required/>
+        </div>
 
-            <!-- Street Address -->
-            <label for="StreetAddress">Street Address</label>
-            <input id="StreetAddress" name="StreetAddress" required/>
+        <div class="mb-3">
+            <label for="BuildingIdentifier" class="form-label">Building Number</label>
+            <input id="BuildingIdentifier" name="BuildingIdentifier" class="form-control" required/>
+        </div>
 
-            <!-- City -->
-            <label for="City">City</label>
-            <input id="City" name="City" required/>
+        <div class="mb-3">
+            <label for="City" class="form-label">City</label>
+            <input id="City" name="City" class="form-control" required/>
+        </div>
 
-            <!-- County -->
-            <label for="County">County</label>
-            <input id="County" name="County"/>
+        <div class="mb-3">
+            <label for="County" class="form-label">County</label>
+            <input id="County" name="County" class="form-control"/>
+        </div>
 
-            <!-- Postcode -->
-            <label for="Postcode">Postcode</label>
-            <input id="Postcode" name="Postcode" required/>
+        <div class="mb-3">
+            <label for="Postcode" class="form-label">Postcode</label>
+            <input id="Postcode" name="Postcode" class="form-control" required/>
+        </div>
 
-            <!-- Image URL -->
-            <label for="ImageURL">Image URL (optional)</label>
-            <input id="ImageURL" name="ImageURL"/>
+        <div class="mb-3">
+            <label for="ImageURL" class="form-label">Upload an Image (JPG, PNG, GIF only)</label>
+            <input type="file" id="ImageURL" name="ImageURL" accept=".jpg,.jpeg,.png,.gif" class="form-control"/>
+        </div>
 
-            <!-- Website URL -->
-            <label for="locationURL">Location Website (optional)</label>
-            <input id="locationURL" name="locationURL"/>
+        <div class="mb-3">
+            <label for="locationURL" class="form-label">Location Website (optional)</label>
+            <input id="locationURL" name="locationURL" class="form-control"/>
+        </div>
 
-            <!-- Auto-Fetch Lat & Lng -->
-            <button type="button" onclick="getCoordinates()">Get Coordinates</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary w-100">Submit Location Suggestion</button>
+        </div>
+    </fieldset>
+</form>
 
-            <!-- Latitude -->
-            <label for="Latitude">Latitude</label>
-            <input id="Latitude" name="Latitude" readonly required/>
+<!-- Include Bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-            <!-- Longitude -->
-            <label for="Longitude">Longitude</label>
-            <input id="Longitude" name="Longitude" readonly required/>
 
-            <!-- Submit -->
-            <button type="submit">Submit Location Suggestion</button>
-        </fieldset>
-    </form>
-
-    <!-- Google Maps API for Geolocation -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.GoogleMapsApiKey&callback=initAutocomplete"></script>
-
-    <script>
-        function getCoordinates() {
-            let address = document.getElementById("StreetAddress").value + ", " +
-                          document.getElementById("City").value + ", " +
-                          document.getElementById("County").value + ", " +
-                          document.getElementById("Postcode").value;
-
-            let geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ 'address': address }, function(results, status) {
-                if (status === 'OK') {
-                    let location = results[0].geometry.location;
-                    document.getElementById("Latitude").value = location.lat();
-                    document.getElementById("Longitude").value = location.lng();
-                    console.log("Latitude:", location.lat(), "Longitude:", location.lng());
-                } else {
-                    alert("Geocode was not successful: " + status);
-                }
-            });
-        }
-    </script>
 }
