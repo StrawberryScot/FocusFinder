@@ -100,7 +100,21 @@ public class ReviewController : Controller
         int noiseLevel = -1,
         int wifiSpeed = -1,
         int chargingPointAvailability = -1,
-        int seatingAvailability = -1
+        int seatingAvailability = -1,
+        bool? petFriendly = null,
+        bool? groupFriendly = null,
+        bool? queerFriendly = null,
+        bool? homeLike = null,
+        bool? officeLike = null,
+        bool? veganfriendly = null,
+        bool? glutenFreeOptions = null,
+        bool? neurodivergentFriendly = null,
+        bool? airConditioning = null,
+        bool? heating= null,
+        bool? wheelchairAccessible = null,
+        bool? babychanging = null,
+        bool? toilets = null,
+        bool? freeWifi = null
         )
     {
         Console.WriteLine("Reached - 'AddExtReview' HttpPost");
