@@ -1,4 +1,4 @@
-@model List<FocusFinderApp.Models.Achievement>
+@model FocusFinderApp.Models.Achievement
 
 @{
     ViewData["Title"] = "Achievements";
@@ -6,51 +6,49 @@
 
 <h1>Achievements</h1>
 
-@foreach (var achievement in Model)
-{
     <div class="achievement-category">
         <h2>Visits</h2>
-        <div class="achievement @((achievement.visits >= 1) ? "unlocked" : "locked")">
+        <div class="achievement @((Model.visits >= 1) ? "unlocked" : "locked")">
             <p>✅ Visited Your First Location</p>
         </div>
-        <div class="achievement @((achievement.visits >= 5) ? "unlocked" : "locked")">
+        <div class="achievement @((Model.visits >= 5) ? "unlocked" : "locked")">
             <p>🏅 Visited 5 Locations</p>
         </div>
-        <div class="achievement @((achievement.visits >= 10) ? "unlocked" : "locked")">
+        <div class="achievement @((Model.visits >= 10) ? "unlocked" : "locked")">
             <p>🏆 Visited 10 Locations</p>
         </div>
     </div>
 
     <div class="achievement-category">
         <h2>Cities Visited</h2>
-        <div class="achievement @((achievement.citiesVisited >= 1) ? "unlocked" : "locked")">
+        <div class="achievement @((Model.citiesVisited >= 1) ? "unlocked" : "locked")">
             <p>✅ Visited a New City</p>
         </div>
-        <div class="achievement @((achievement.citiesVisited >= 3) ? "unlocked" : "locked")">
+        <div class="achievement @((Model.citiesVisited >= 3) ? "unlocked" : "locked")">
             <p>🌍 Visited 3 Different Cities</p>
         </div>
     </div>
 
     <div class="achievement-category">
         <h2>Reviews</h2>
-        <div class="achievement @((achievement.reviewsLeft >= 1) ? "unlocked" : "locked")">
+        <div class="achievement @((Model.reviewsLeft >= 1) ? "unlocked" : "locked")">
             <p>✅ Left Your First Review</p>
         </div>
-        <div class="achievement @((achievement.reviewsLeft >= 5) ? "unlocked" : "locked")">
+        <div class="achievement @((Model.reviewsLeft >= 5) ? "unlocked" : "locked")">
             <p>💬 Left 5 Reviews</p>
         </div>
     </div>
 
     <div class="achievement-category">
         <h2>Bookmarks</h2>
-        <div class="achievement @((achievement.bookmarks >= 1) ? "unlocked" : "locked")">
+        <div class="achievement @((Model.bookmarks >= 1) ? "unlocked" : "locked")">
             <p>✅ Bookmarked Your First Location</p>
         </div>
-        <div class="achievement @((achievement.bookmarks >= 5) ? "unlocked" : "locked")">
+        <div class="achievement @((Model.bookmarks >= 5) ? "unlocked" : "locked")">
             <p>📌 Bookmarked 5 Locations</p>
         </div>
     </div>
-}
+
 
 
 <style>

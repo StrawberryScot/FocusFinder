@@ -26,8 +26,10 @@ namespace FocusFinderApp.Controllers
         }
 
         var userAchievements = _dbContext.Achievements
-            .Where(a => a.userId == userId)
-            .ToList(); // Ensure it's a List
+            // Creates single instance of achievement or default one so that HTML appears initially with all achievements greyed out, rather than creating a list which is looped through
+            .FirstOrDefault(a => a.userId == userId) ?? new Achievement { userId = userId };
+            // .Where(a => a.userId == userId)
+            // .ToList();
 
         return View("~/Views/Users/Achievement.cshtml", userAchievements);
     }
