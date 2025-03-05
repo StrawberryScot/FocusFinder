@@ -9,7 +9,7 @@ namespace FocusFinderApp.Models
 public class SuggestedLocation {
 
     [Key]
-    public int Id { get; set; }
+    public int id { get; set; }
 
     public string? SuggestedLocationName { get; set; }
 
