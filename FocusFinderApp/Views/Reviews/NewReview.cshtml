@@ -1,3 +1,5 @@
+@model List<FocusFinderApp.Models.Review>
+
 @{
     ViewData["Title"] = "New Review";
 }
@@ -27,7 +29,6 @@
             
             <form method="post" asp-controller="Review" asp-action="AddExtReview">
                 <fieldset>
-                    <!-- Add Review Form -->
                     <input type="hidden" name="locationId" value="@ViewBag.locId"/>
                     <div>
                         <label for="rating">Your Overall Rating:</label>
@@ -93,12 +94,45 @@
                         <label for="comments">Please tell us your thoughts:</label>
                         <input name="comments" placeholder="Add comments here"/>
                     </div>
+
+                    <div class="tag-box-check">
+                        <input id="check02" type="checkbox" name="tag-box-check" class="hid"/>
+                        <label for="check02">Add some tags!</label>
+                        <div class="tag-box">
+
+                            @{
+                                var properties = typeof(Review).GetProperties()
+                                                .Select(p => p.Name)
+                                                .Skip(5)
+                                                .Take(14)
+                                                .ToList();
+                            }
+                                @foreach (var col in properties)
+                                {
+                                    var result = new System.Text.StringBuilder();
+                                    result.Append(char.ToLower(col[0]));
+                                    
+                                    for (int i = 1; i < col.Length; i++)
+                                    {
+                                        if (char.IsUpper(col[i]))
+                                        {
+                                            result.Append(' ');
+                                        }
+                                        result.Append(char.ToLower(col[i]));
+                                    }
+                                    
+                                    var formattedTag = result.ToString();
+                                    <input id="@formattedTag" type="checkbox" />
+                                    <label for="@formattedTag">@formattedTag</label>
+                                }
+                        </div>
+                    </div>
+
                     <div>
                         <button type="submit">Add Review</button>
                     </div>
-                    
                 </fieldset>
             </form>
-            
         }
     }
+</div>
