@@ -1,0 +1,104 @@
+@{
+    ViewData["Title"] = "New Review";
+}
+
+@{Console.WriteLine("Reached - NewReview.cshtml");}
+
+<head>
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
+
+<div class="i-body-top body-top">
+    <div class="text-center">
+        <h1 class="display-4">Create A New Review</h1>
+    </div>
+</div>
+
+<div>
+    
+    @{
+        if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
+        {
+            <h5>Please login to create a review</h5>
+            <a href="/Login" class="btn btn-primary">Go to Login</a>
+        }
+        else{
+            <p>TEST - location id @ViewBag.locId</p>
+            
+            <form method="post" asp-controller="Review" asp-action="AddExtReview">
+                <fieldset>
+                    <!-- Add Review Form -->
+                    <input type="hidden" name="locationId" value="@ViewBag.locId"/>
+                    <div>
+                        <label for="rating">Your Overall Rating:</label>
+                        <select name="Rating" id="rating">
+                            <option value="1">1 ⭐</option>
+                            <option value="2">2 ⭐</option>
+                            <option value="3">3 ⭐</option>
+                            <option value="4">4 ⭐</option>
+                            <option value="5">5 ⭐</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="cleanliness">Cleanliness Rating:</label>
+                        <select name="Cleanliness" id="cleanliness">
+                            <option value="1">1 - very poor</option>
+                            <option value="2">2 - poor</option>
+                            <option value="3">3 - acceptable</option>
+                            <option value="4">4 - good</option>
+                            <option value="5">5 - excellent</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="noiseLevel">Noise Level Rating (with ideal being quiet study):</label>
+                        <select name="NoiseLevel" id="noiseLevel">
+                            <option value="1">1 - very loud</option>
+                            <option value="2">2 - moderate noise</option>
+                            <option value="3">3 - a little noise</option>
+                            <option value="4">4 - quiet</option>
+                            <option value="5">5 - near silent</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="wifiSpeed"> Wi-Fi Speed Rating:</label>
+                        <select name="WifiSpeed" id="wifiSpeed">
+                            <option value="1">1 - very slow</option>
+                            <option value="2">2 - slow</option>
+                            <option value="3">3 - acceptable</option>
+                            <option value="4">4 - good speed</option>
+                            <option value="5">5 - very speedy</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="chargingPointAvailability">Charging Point Availability Rating:</label>
+                        <select name="ChargingPointAvailability" id="chargingPointAvailability">
+                            <option value="1">1 - very poor</option>
+                            <option value="2">2 - poor</option>
+                            <option value="3">3 - acceptable</option>
+                            <option value="4">4 - good</option>
+                            <option value="5">5 - excellent</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="seatingAvailability">Seating Availability Rating:</label>
+                        <select name="SeatingAvailability" id="seatingAvailability">
+                            <option value="1">1 - very poor</option>
+                            <option value="2">2 - poor</option>
+                            <option value="3">3 - acceptable</option>
+                            <option value="4">4 - good</option>
+                            <option value="5">5 - excellent</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="comments">Please tell us your thoughts:</label>
+                        <input name="comments" placeholder="Add comments here"/>
+                    </div>
+                    <div>
+                        <button type="submit">Add Review</button>
+                    </div>
+                    
+                </fieldset>
+            </form>
+            
+        }
+    }

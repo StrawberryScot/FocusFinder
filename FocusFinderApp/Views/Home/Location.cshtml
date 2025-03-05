@@ -71,7 +71,22 @@
                 {
                     <a href="/Login" class="btn btn-primary">Login to Bookmark</a>
                 }
-            </div>
+        </div>
+
+        <!-- New Ext Review Button -->
+        @{if (!ViewBag.IsLoggedIn)
+            {
+                <!-- New review buttion - asks user to login -->
+                <a href="/Login" class="btn btn-primary">Login to leave a review</a>
+            } else {
+                <form method="get" asp-controller="Review" asp-action="NewReviewForm">
+                    <input type="hidden" name="locationId" value="@Model.Id">
+                    <button type="submit" class="btn btn-primary">Create New Review</button>
+                </form>
+            }
+        }
+
+
     </div>
 
     <!-- Bio -->
@@ -92,7 +107,7 @@
     </div>
 
 
-    <!-- Reviews Section -->
+    <!-- Reviews(1-5*) Section -->
     <div>
         @{
             var reviews = Model.Reviews as IEnumerable<FocusFinderApp.Models.Review>;
@@ -115,7 +130,7 @@
         <!-- Add Review Form -->
         <form asp-controller="Location" asp-action="AddReview" method="post">
             <input type="hidden" name="LocationId" value="@Model.Id" />
-            <label for="rating">Your Rating (1-5):</label>
+            <label for="rating">Your Overall Rating (1-5):</label>
             <select name="Rating" id="rating" required>
                 <option value="1">1 ⭐</option>
                 <option value="2">2 ⭐</option>

@@ -56,7 +56,7 @@ public class ReviewController : Controller
 
         if (id <= 0)
         {
-            Console.WriteLine("Review  ID not found");
+            Console.WriteLine("Review ID not found");
             return View("~/Views/Reviews/IndivReview.cshtml");
         }
         else {
@@ -87,19 +87,72 @@ public class ReviewController : Controller
             return View("~/Views/Reviews/IndivReview.cshtml");
             }
         }
-
-        
-
-        
-
     }
 
 
-    // [Route("/Reviews/{id}")]
-    // [HttpPost]
-    // public IActionResult AddExtReview(int id)
-    // {
-    //     // ...
-    // }
+
+    [HttpPost]
+    public IActionResult AddExtReview(int locationId, string comments = null, int rating = -1, int cleanliness = -1, int noiseLevel = -1, int wifiSpeed = -1, int chargingPointAvailability = -1, int seatingAvailability = -1)
+    {
+        Console.WriteLine("Reached - 'AddExtReview' HttpPost");
+        ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
+        int? currentUserId = HttpContext.Session.GetInt32("UserId");
+
+        Console.WriteLine("loc id: " + locationId);
+
+        var newReview = new Review
+        {
+            userId = currentUserId,
+            locationId = locationId,
+            comments = comments
+        };
+
+        if (rating != -1)
+        {
+            newReview.overallRating = rating;
+        }
+        if (cleanliness != -1)
+        {
+            newReview.cleanliness = cleanliness;
+        }
+        if (noiseLevel != -1)
+        {
+            newReview.noiseLevel = noiseLevel;
+        }
+        if (wifiSpeed != -1)
+        {
+            newReview.wifiSpeed = wifiSpeed;
+        }
+        if (chargingPointAvailability != -1)
+        {
+            newReview.chargingPointAvailability = chargingPointAvailability;
+        }
+        if (seatingAvailability != -1)
+        {
+            newReview.seatingAvailability = seatingAvailability;
+        }
+
+        _dbContext.Reviews.Add(newReview);
+        _dbContext.SaveChanges();
+        
+        // return View("~/Views/Reviews/AllReviews.cshtml");
+        return Redirect("/Reviews");
+    }
+
+
+
+
+    [Route("/Reviews/NewReview")]
+    [HttpGet]
+    public IActionResult NewReviewForm(int locationId)
+    {
+        Console.WriteLine("Reached - HttpGet /Reviews/NewReview");
+        ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
+
+        Console.WriteLine("loc id: " + locationId);
+        ViewBag.locId = locationId;
+        
+        return View("~/Views/Reviews/NewReview.cshtml");
+    }
 
 }
