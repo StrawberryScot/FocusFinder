@@ -109,11 +109,11 @@
 }
 
 .unbookmarked {
-    background-image: url("../images/icons/red-book.jpg");
+    background-image: url("../images/icons/black-book.jpg");
 }
 
 .bookmarked {
-    background-image: url("../images/icons/black-book.jpg");
+    background-image: url("../images/icons/red-book.jpg");
 }
 
 .book-but:hover {
