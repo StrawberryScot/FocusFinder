@@ -141,6 +141,7 @@ public class LocationController : Controller
     {
         int? currentUserId = HttpContext.Session.GetInt32("UserId");
         var location = _dbContext.Locations.FirstOrDefault(l => l.Id == LocationId);
+        int? currentUserId = HttpContext.Session.GetInt32("UserId");
         if (location == null)
         {
             return NotFound();
@@ -154,7 +155,8 @@ public class LocationController : Controller
         };
         _dbContext.Reviews.Add(newReview);
         _dbContext.SaveChanges();
-        Achievement.UpdateUserAchievements(_dbContext, newReview.userId, "review");
+        Achievement.UpdateUserAchievements(_dbContext, currentUserId.Value, "review");
+        // Achievement.UpdateUserAchievements(_dbContext, newReview.userId, "review");
         return RedirectToAction("Location", new { id = LocationId });
     }
 
