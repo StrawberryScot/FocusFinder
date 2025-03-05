@@ -236,3 +236,19 @@ p {
 .beige {
   color: #EFC69B;
 }
+
+.hid {
+  display: none;
+}
+
+.tag-box {
+  display: none;
+}
+
+.tag-box-check input:checked~.tag-box {
+  display: block;
+  position: relative;
+  background-color: #EFC69B;
+  border-radius: 0.6rem;
+  padding: 1rem 1rem 0 1rem;
+}

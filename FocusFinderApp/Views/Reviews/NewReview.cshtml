@@ -96,23 +96,35 @@
                     </div>
 
                     <div class="tag-box-check">
-                        <input id="check02" type="checkbox" name="tag-box-check" />
-                        <label for="check02"></label>
+                        <input id="check02" type="checkbox" name="tag-box-check" class="hid"/>
+                        <label for="check02">Add some tags!</label>
                         <div class="tag-box">
 
                             @{
                                 var properties = typeof(Review).GetProperties()
                                                 .Select(p => p.Name)
                                                 .Skip(5)
-                                                .Take(19)
+                                                .Take(14)
                                                 .ToList();
                             }
-                            <ul>
                                 @foreach (var col in properties)
                                 {
-                                    <li>@col</li>
+                                    var result = new System.Text.StringBuilder();
+                                    result.Append(char.ToLower(col[0]));
+                                    
+                                    for (int i = 1; i < col.Length; i++)
+                                    {
+                                        if (char.IsUpper(col[i]))
+                                        {
+                                            result.Append(' ');
+                                        }
+                                        result.Append(char.ToLower(col[i]));
+                                    }
+                                    
+                                    var formattedTag = result.ToString();
+                                    <input id="@formattedTag" type="checkbox" />
+                                    <label for="@formattedTag">@formattedTag</label>
                                 }
-                            </ul>
                         </div>
                     </div>
 
