@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using FocusFinderApp.Models;
 using Microsoft.EntityFrameworkCore;
 
+using System.Text.Json;
+
 namespace FocusFinderApp.Controllers;
 
 public class LocationController : Controller
@@ -256,20 +258,14 @@ public class LocationController : Controller
     [HttpGet]
     public IActionResult AllSuggestedLocations()
     {
-        ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
-        ViewBag.Username = HttpContext.Session.GetString("Username");
+        var username = HttpContext.Session.GetString("Username");
+
+        if (username != "BestAdmin")
+        {
+            return View("~/Views/Shared/AccessDenied.cshtml");
+        }
 
         var suggestedLocations = _dbContext.SuggestedLocations.ToList();
-
-        if (ViewBag.IsLoggedIn)
-        {
-            Console.WriteLine("SuggestedLocations page - user IS logged in.");
-            // return View("~/Views/Home/AllSuggestedLocations.cshtml", suggestedLocations);
-        }
-        else{
-            Console.WriteLine("SuggestedLocations page - user NOT logged in.");
-        }
-        // return View("~/Views/Home/Index.cshtml");
 
         if (suggestedLocations == null)
         {
@@ -291,11 +287,87 @@ public class LocationController : Controller
     
     [Route("/NewLocationForm")]
     [HttpPost]
-    public IActionResult GetNewLocation(string SuggestedLocationName = null, string Description = null, string BuildingIdentifier = null, string StreetAddress = null, string City = null, string County = null, string Postcode = null, string ImageURL = null, float Latitude = 0, float Longitude = 0)
+    public async Task<IActionResult> GetNewLocation(
+        string SuggestedLocationName, 
+        string Description, 
+        string BuildingIdentifier, 
+        string StreetAddress, 
+        string City, 
+        string County, 
+        string Postcode,
+        IFormFile ImageURL)
+
     {
+        if (string.IsNullOrWhiteSpace(StreetAddress) || string.IsNullOrWhiteSpace(City) || string.IsNullOrWhiteSpace(Postcode))
+        {
+            TempData["ErrorMessage"] = "Please fill in the required address fields.";
+            return RedirectToAction("NewLocationForm");
+        }
+    
+        // Build the address string
+        string fullAddress = $"{StreetAddress}, {City}, {County}, {Postcode}";
+    
+        // Retrieve latitude and longitude using Google Geocoding API
+        double? latitude = null;
+        double? longitude = null;
+    
+        try
+        {
+            string googleApiKey = Environment.GetEnvironmentVariable("GOOGLE_MAPS_API_KEY");
+            string requestUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={Uri.EscapeDataString(fullAddress)}&key={googleApiKey}";
+    
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetAsync(requestUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var geocodeData = JsonSerializer.Deserialize<GeocodeResponse>(jsonResponse);
+    
+                    if (geocodeData?.status == "OK" && geocodeData.results.Length > 0)
+                    {
+                        latitude = geocodeData.results[0].geometry.location.lat;
+                        longitude = geocodeData.results[0].geometry.location.lng;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Geocoding failed: {geocodeData?.status}");
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error retrieving coordinates: {ex.Message}");
+        }
+
+        string imagePath = null;
+        if (ImageURL != null && ImageURL.Length > 0)
+        {
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+            var fileExtension = Path.GetExtension(ImageURL.FileName).ToLower();
+
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                TempData["ErrorMessage"] = "Invalid image format. Only JPG, PNG, and GIF are allowed.";
+                return RedirectToAction("NewLocationForm");
+            }
+
+            string uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
+            string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await ImageURL.CopyToAsync(stream);
+            }
+
+            imagePath = $"/images/{uniqueFileName}";
+        }
+    
+        // Save location in SuggestedLocations table
         var newSuggestedLocation = new SuggestedLocation
         {
-            
             SuggestedLocationName = SuggestedLocationName,
             Description = Description,
             BuildingIdentifier = BuildingIdentifier,
@@ -303,23 +375,86 @@ public class LocationController : Controller
             City = City,
             County = County,
             Postcode = Postcode,
-            ImageURL = ImageURL
+            ImageURL = imagePath,
+            Latitude = latitude,
+            Longitude = longitude
         };
-
-        if (Latitude != 0)
-        {
-            newSuggestedLocation.Latitude = Latitude;
-        }
-        if (Longitude != 0)
-        {
-            newSuggestedLocation.Longitude = Longitude;
-        }
-
-            _dbContext.SuggestedLocations.Add(newSuggestedLocation);
-            _dbContext.SaveChanges();
-        
-        Console.WriteLine("new location form submitted");
+    
+        _dbContext.SuggestedLocations.Add(newSuggestedLocation);
+        _dbContext.SaveChanges();
+    
+        TempData["SuccessMessage"] = "Location submitted for approval!";
         return RedirectToAction("Index");
     }
 
+
+    
+    [Route("/SuggestedLocations/Accept/{id}")]
+    [HttpPost]
+    public IActionResult AcceptLocation(int id)
+    {
+        var suggestedLocation = _dbContext.SuggestedLocations.FirstOrDefault(l => l.id == id);
+
+        if (suggestedLocation == null)
+        {
+            TempData["ErrorMessage"] = "Location not found.";
+            return RedirectToAction("AllSuggestedLocations");
+        }
+
+        // Check if a location with the same name or address already exists in Locations
+        bool locationExists = _dbContext.Locations.Any(l =>
+            l.LocationName == suggestedLocation.SuggestedLocationName &&
+            l.StreetAddress == suggestedLocation.StreetAddress &&
+            l.City == suggestedLocation.City &&
+            l.Postcode == suggestedLocation.Postcode);
+
+        if (locationExists)
+        {
+            TempData["ErrorMessage"] = "This location already exists in the database.";
+            return RedirectToAction("AllSuggestedLocations");
+        }
+
+        // Move data from SuggestedLocations to Locations table
+        var newLocation = new Models.Location
+        {
+            LocationName = suggestedLocation.SuggestedLocationName,
+            Description = suggestedLocation.Description,
+            BuildingIdentifier = suggestedLocation.BuildingIdentifier,
+            StreetAddress = suggestedLocation.StreetAddress,
+            City = suggestedLocation.City,
+            County = suggestedLocation.County,
+            Postcode = suggestedLocation.Postcode,
+            ImageURL = suggestedLocation.ImageURL,
+            Latitude = suggestedLocation.Latitude,
+            Longitude = suggestedLocation.Longitude
+        };
+
+        _dbContext.Locations.Add(newLocation);
+        _dbContext.SuggestedLocations.Remove(suggestedLocation); // Remove from suggestions
+        _dbContext.SaveChanges();
+
+        TempData["SuccessMessage"] = "Location successfully added!";
+        return RedirectToAction("AllSuggestedLocations"); // Refresh the admin page
+    }
+
+
+    
+    [Route("/SuggestedLocations/Reject/{id}")]
+    [HttpPost]
+    public IActionResult RejectLocation(int id)
+    {
+        var suggestedLocation = _dbContext.SuggestedLocations.FirstOrDefault(l => l.id == id);
+
+        if (suggestedLocation == null)
+        {
+            return NotFound("Location not found.");
+        }
+
+        _dbContext.SuggestedLocations.Remove(suggestedLocation);
+        _dbContext.SaveChanges();
+
+        return RedirectToAction("AllSuggestedLocations"); // Refresh admin page
+    }
+
 }
+
