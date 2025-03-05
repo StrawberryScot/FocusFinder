@@ -187,11 +187,11 @@ public class LocationController : Controller
         {
             // Add the Visit
             var newVisit = new Visit
-        {
-            locationId = LocationId,
-            dateVisited = DateTime.UtcNow,
-            userId = currentUserId
-        };
+            {
+                locationId = LocationId,
+                dateVisited = DateTime.UtcNow,
+                userId = currentUserId
+            };
 
             _dbContext.Visits.Add(newVisit);
             _dbContext.SaveChanges();
@@ -234,4 +234,77 @@ public class LocationController : Controller
 
         return RedirectToAction("Location", new { id = LocationId });
     }
+
+
+    [Route("/SuggestedLocations")]
+    [HttpGet]
+    public IActionResult AllSuggestedLocations()
+    {
+        ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
+        ViewBag.Username = HttpContext.Session.GetString("Username");
+
+        var suggestedLocations = _dbContext.SuggestedLocations.ToList();
+
+        if (ViewBag.IsLoggedIn)
+        {
+            Console.WriteLine("SuggestedLocations page - user IS logged in.");
+            // return View("~/Views/Home/AllSuggestedLocations.cshtml", suggestedLocations);
+        }
+        else{
+            Console.WriteLine("SuggestedLocations page - user NOT logged in.");
+        }
+        // return View("~/Views/Home/Index.cshtml");
+
+        if (suggestedLocations == null)
+        {
+            Console.WriteLine("   suggestedLocations IS null.");
+        }
+        else{
+            Console.WriteLine("   suggestedLocations is NOT null.");
+        }
+        return View("~/Views/SuggestedLocations/AllSuggestedLocations.cshtml", suggestedLocations);
+    }
+
+    [Route("/NewLocationForm")]
+    [HttpGet]
+    public IActionResult NewLocationForm()
+    {
+        return View("~/Views/SuggestedLocations/NewLocation.cshtml");
+    }
+
+    
+    [Route("/NewLocationForm")]
+    [HttpPost]
+    public IActionResult GetNewLocation(string SuggestedLocationName = null, string Description = null, string BuildingIdentifier = null, string StreetAddress = null, string City = null, string County = null, string Postcode = null, string ImageURL = null, string locationURL = null, float Latitude = 0, float Longitude = 0)
+    {
+        var newSuggestedLocation = new SuggestedLocation
+        {
+            
+            SuggestedLocationName = SuggestedLocationName,
+            Description = Description,
+            BuildingIdentifier = BuildingIdentifier,
+            StreetAddress = StreetAddress,
+            City = City,
+            County = County,
+            Postcode = Postcode,
+            ImageURL = ImageURL,
+            locationURL = locationURL
+        };
+
+        if (Latitude != 0)
+        {
+            newSuggestedLocation.Latitude = Latitude;
+        }
+        if (Longitude != 0)
+        {
+            newSuggestedLocation.Longitude = Longitude;
+        }
+
+            _dbContext.SuggestedLocations.Add(newSuggestedLocation);
+            _dbContext.SaveChanges();
+        
+        Console.WriteLine("new location form submitted");
+        return RedirectToAction("Index");
+    }
+
 }
