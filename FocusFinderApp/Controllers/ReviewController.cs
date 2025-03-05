@@ -92,7 +92,16 @@ public class ReviewController : Controller
 
 
     [HttpPost]
-    public IActionResult AddExtReview(int locationId, string comments = null, int rating = -1, int cleanliness = -1, int noiseLevel = -1, int wifiSpeed = -1, int chargingPointAvailability = -1, int seatingAvailability = -1)
+    public IActionResult AddExtReview(
+        int locationId,
+        string? comments = null,
+        int rating = -1,
+        int cleanliness = -1,
+        int noiseLevel = -1,
+        int wifiSpeed = -1,
+        int chargingPointAvailability = -1,
+        int seatingAvailability = -1
+        )
     {
         Console.WriteLine("Reached - 'AddExtReview' HttpPost");
         ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
