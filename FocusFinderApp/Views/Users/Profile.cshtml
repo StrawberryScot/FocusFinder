@@ -34,6 +34,13 @@
             <a href="/Achievements" class="btn btn-info">View Achievements</a>
             <a href="/NewLocationForm" class="btn btn-info">Suggest A Location</a>
         </div>
+
+        @if (Model.Username == "BestAdmin")
+        {
+            <div class="admin-actions">
+                <a href="/SuggestedLocations" class="btn btn-danger">Manage Suggested Locations</a>
+            </div>
+        }
         
         <hr>
 

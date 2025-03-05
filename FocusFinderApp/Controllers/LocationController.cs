@@ -242,20 +242,14 @@ public class LocationController : Controller
     [HttpGet]
     public IActionResult AllSuggestedLocations()
     {
-        ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
-        ViewBag.Username = HttpContext.Session.GetString("Username");
+        var username = HttpContext.Session.GetString("Username");
+
+        if (username != "BestAdmin")
+        {
+            return View("~/Views/Shared/AccessDenied.cshtml");
+        }
 
         var suggestedLocations = _dbContext.SuggestedLocations.ToList();
-
-        if (ViewBag.IsLoggedIn)
-        {
-            Console.WriteLine("SuggestedLocations page - user IS logged in.");
-            // return View("~/Views/Home/AllSuggestedLocations.cshtml", suggestedLocations);
-        }
-        else{
-            Console.WriteLine("SuggestedLocations page - user NOT logged in.");
-        }
-        // return View("~/Views/Home/Index.cshtml");
 
         if (suggestedLocations == null)
         {
