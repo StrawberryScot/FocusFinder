@@ -73,9 +73,11 @@
                                   }
                                 }
                             </div>
-                            <div class="m-rating"><p>
-                                Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
-                            </p></div>
+                            <div class="m-rating">
+                                <p>Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)}" : "No ratings yet")
+                                    <div class="star"><img src="../images/icons/star-4p.png" alt="Star"></div>
+                                </p>
+                            </div>
                         </div>
                     </div>
             </a>
