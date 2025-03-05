@@ -275,7 +275,7 @@ public class LocationController : Controller
     
     [Route("/NewLocationForm")]
     [HttpPost]
-    public IActionResult GetNewLocation(string SuggestedLocationName = null, string Description = null, string BuildingIdentifier = null, string StreetAddress = null, string City = null, string County = null, string Postcode = null, string ImageURL = null, string locationURL = null, float Latitude = 0, float Longitude = 0)
+    public IActionResult GetNewLocation(string SuggestedLocationName = null, string Description = null, string BuildingIdentifier = null, string StreetAddress = null, string City = null, string County = null, string Postcode = null, string ImageURL = null, float Latitude = 0, float Longitude = 0)
     {
         var newSuggestedLocation = new SuggestedLocation
         {
@@ -287,8 +287,7 @@ public class LocationController : Controller
             City = City,
             County = County,
             Postcode = Postcode,
-            ImageURL = ImageURL,
-            locationURL = locationURL
+            ImageURL = ImageURL
         };
 
         if (Latitude != 0)
