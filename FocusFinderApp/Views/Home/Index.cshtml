@@ -74,9 +74,17 @@
                                 }
                             </div>
                             <div class="m-rating">
-                                <p>Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)}" : "No ratings yet")
-                                    <div class="star"><img src="../images/icons/star-4p.png" alt="Star"></div>
-                                </p>
+                                    @{
+                                        if (location.Reviews?.Any() == true ){
+                                            <p class="beige">Rating: </p>
+                                            for (decimal i = 0.5M; i < Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1); i++){
+                                                <div class="star"><img src="../images/icons/star-4p.png" alt="Star"></div>
+                                            }
+                                        }
+                                        else {
+                                            <p class="beige">Unrated</p>
+                                        }
+                                    }
                             </div>
                         </div>
                     </div>
