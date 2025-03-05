@@ -15,22 +15,37 @@ namespace FocusFinderApp.Controllers
             _dbContext = dbContext;
         }
 
-        [Route("Achievements")]
+        [Route("/Achievements")]
         [HttpGet]
         public IActionResult Achievements()
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
-        {
-            return RedirectToAction("Index", "Home");
-        }
+            ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
+            int? currentUserId = HttpContext.Session.GetInt32("UserId");
+            ViewBag.Username = HttpContext.Session.GetString("Username");
+            
+            
+            
+        //     var userId = HttpContext.Session.GetInt32("UserId");
+        //     if (userId == null)
+        // {
+        //     return RedirectToAction("Index", "Home");
+        // }
 
         var userAchievements = _dbContext.Achievements
-            .Where(a => a.userId == userId)
-            .ToList(); // Ensure it's a List
+            // Creates single instance of achievement or default one so that HTML appears initially with all achievements greyed out, rather than creating a list which is looped through
+            .FirstOrDefault(a => a.userId == currentUserId) ?? new Achievement { userId = currentUserId };
+            // .Where(a => a.userId == userId)
+            // .ToList();
 
-        return View("~/Views/Users/Achievement.cshtml", userAchievements);
+        if (userAchievements == null)
+        {
+            Console.WriteLine("Achievement not found");
+            return RedirectToAction("Index");
+        }
+        else
+        {
+            return View("~/Views/Users/Achievement.cshtml", userAchievements);
+        }
+    }
     }
 }
-}
-

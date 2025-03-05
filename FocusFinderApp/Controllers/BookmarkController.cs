@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace FocusFinderApp.Controllers
 {
     // [Authorize] // Ensure only logged-in users can bookmark
+    [Route("Bookmark")]
     public class BookmarkController : Controller
     {
         private readonly FocusFinderDbContext _dbContext;
@@ -43,21 +44,39 @@ namespace FocusFinderApp.Controllers
         }
 
 
-        // ✅ Show user's bookmarks on their profile
-        [Route("Bookmarks")]
+        // Show user's bookmarks on their profile
+        [Route("/Bookmarks")]
         public IActionResult UserBookmarks()
         {
-            var username = HttpContext.Session.GetString("Username");
-            if (string.IsNullOrEmpty(username)) return RedirectToAction("Login", "Session");
+            // var username = HttpContext.Session.GetString("Username");
+            // if (string.IsNullOrEmpty(username)) return RedirectToAction("Login", "Session");
 
-            var user = _dbContext.Users.Include(u => u.Bookmarks)
-                                        .ThenInclude(b => b.Location)
-                                        .FirstOrDefault(u => u.Username == username);
+            // var user = _dbContext.Users.Include(u => u.Bookmarks)
+            //                             .ThenInclude(b => b.Location)
+            //                             .FirstOrDefault(u => u.Username == username);
 
-            if (user == null) return NotFound("User not found.");
+            // if (user == null) return NotFound("User not found.");
+        
+            ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
+            int? currentUserId = HttpContext.Session.GetInt32("UserId");
+            ViewBag.Username = HttpContext.Session.GetString("Username");
 
-            return View("~/Views/Users/Bookmark.cshtml", user.Bookmarks);
+            var bookmarks = _dbContext.Bookmarks
+                .Where( l => l.userId == currentUserId)
+                .ToList();
+
+            if (bookmarks == null)
+            {
+                Console.WriteLine("Bookmark not found");
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("~/Views/Users/Bookmark.cshtml", bookmarks);
+                // return View("~/Views/Users/Bookmark.cshtml", user.Bookmarks);
+            }
         }
+
         [HttpPost]
         public IActionResult Remove(int locationId, string redirectUrl)
         {
@@ -80,6 +99,7 @@ namespace FocusFinderApp.Controllers
                 _dbContext.SaveChanges();
             }
             // Get redirectUrl from the form submission
+            
             redirectUrl = Request.Form["redirectUrl"].ToString();
 
             // Redirect based on the passed redirectUrl
