@@ -61,7 +61,7 @@ public class ReviewController : Controller
         }
         else {
             var review = _dbContext.Reviews
-            .FirstOrDefault(l => l.id == id); // << very important ! 
+            .FirstOrDefault(l => l.id == id);
 
             if (review == null)
             {

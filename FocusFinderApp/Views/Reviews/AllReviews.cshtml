@@ -33,8 +33,9 @@
                     <div class="i-location-container i-study-pic-container glow-back">
                         <a href="/Reviews/@review.id">
                     
-                            <h3>Your Review of @ViewBag.LocationName</h3>
-                            <h4> Overall Review</h4>
+                            <h3>Your Review of Location Id @review.locationId</h3>
+                            @* <h3>Your Review of @review.Location?.LocationName</h3> *@
+                            <h4> Overall Review (if any)</h4>
 
                             @{
                                 if (@review.dateLastUpdated != null){
