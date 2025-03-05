@@ -46,8 +46,17 @@ public class LocationController : Controller
             return RedirectToAction("Index");
         }
         var location = _dbContext.Locations
-            // .Include(l => l.Reviews)
             .FirstOrDefault(l => l.Id == id);
+
+
+        // var reviews = _dbContext.Reviews
+            // .Include(l => l.Reviews)
+            // .FirstOrDefault(l => l.id == id);
+
+        var reviews = _dbContext.Reviews
+            .Where(b => b.locationId == id)
+            .ToList();
+        ViewBag.reviews = reviews;
 
         if (location == null)
         {

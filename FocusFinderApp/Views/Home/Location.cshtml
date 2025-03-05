@@ -109,23 +109,15 @@
 
     <!-- Reviews(1-5*) Section -->
     <div>
-        @{
-            var reviews = Model.Reviews as IEnumerable<FocusFinderApp.Models.Review>;
-        }
-
         <h5>Reviews - Overall @ViewBag.AverageRating ⭐</h5>
-        @if (reviews?.Any() == true)
+        @if (ViewBag.reviews != null)
         {
             <ul>
-                @foreach (var review in reviews)
+                @foreach (var review in ViewBag.reviews)
                 {
                     <li>Rating: @review.overallRating ⭐ | Posted on: @review.dateLastUpdated?.ToString("MMM dd, yyyy")</li>
                 }
             </ul>
-        }
-        else
-        {
-            <p>No reviews yet. Be the first to review!</p>
         }
         <!-- Add Review Form -->
         @{
