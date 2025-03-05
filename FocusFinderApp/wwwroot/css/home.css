@@ -15,6 +15,10 @@
     }
 }
 
+button {
+    margin-left: 0.8rem;
+}
+
 .i-location-link {
     text-decoration: none; /* Removes underline */
     color: inherit; /* Keeps the text color the same as the parent */
@@ -63,7 +67,6 @@
 .i-bookmark-container {
     font-size: 10;
     position: relative;
-
 }
 
 /* Ensure all location containers maintain a consistent height */
@@ -102,11 +105,18 @@
     width: 3rem;
     z-index: 80;
     position: absolute;
-    background-image: url("../images/icons/bookmark.jpg");
     background-size: 3rem;
     border-radius: 0.5rem;
     border: white;
     transition-duration: 0.2s;
+}
+
+.unbookmarked {
+    background-image: url("../images/icons/black-book-em.jpg");
+}
+
+.bookmarked {
+    background-image: url("../images/icons/black-book.jpg");
 }
 
 .book-but:hover {
