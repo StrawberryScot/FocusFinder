@@ -15,10 +15,6 @@
     }
 }
 
-button {
-    margin-left: 0.8rem;
-}
-
 .i-location-link {
     text-decoration: none; /* Removes underline */
     color: inherit; /* Keeps the text color the same as the parent */
@@ -103,6 +99,7 @@ button {
 .bookmark-button {
     height: 3rem;
     width: 3rem;
+    margin-right: 1rem;
     z-index: 80;
     position: absolute;
     background-size: 3rem;
@@ -112,7 +109,7 @@ button {
 }
 
 .unbookmarked {
-    background-image: url("../images/icons/black-book-em.jpg");
+    background-image: url("../images/icons/red-book.jpg");
 }
 
 .bookmarked {
