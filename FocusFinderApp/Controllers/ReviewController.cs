@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using FocusFinderApp.Models;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.Replication;
 
 namespace FocusFinderApp.Controllers;
 
@@ -92,7 +93,30 @@ public class ReviewController : Controller
 
 
     [HttpPost]
-    public IActionResult AddExtReview(int locationId, string comments = null, int rating = -1, int cleanliness = -1, int noiseLevel = -1, int wifiSpeed = -1, int chargingPointAvailability = -1, int seatingAvailability = -1)
+    public IActionResult AddExtReview(
+        int locationId,
+        string? comments = null,
+        int rating = -1,
+        int cleanliness = -1,
+        int noiseLevel = -1,
+        int wifiSpeed = -1,
+        int chargingPointAvailability = -1,
+        int seatingAvailability = -1,
+        bool? petFriendly = null,
+        bool? groupFriendly = null,
+        bool? queerFriendly = null,
+        bool? homeLike = null,
+        bool? officeLike = null,
+        bool? veganFriendly = null,
+        bool? glutenFreeOptions = null,
+        bool? neurodivergentFriendly = null,
+        bool? airConditioning = null,
+        bool? heating= null,
+        bool? wheelchairAccessible = null,
+        bool? babychanging = null,
+        bool? toilets = null,
+        bool? freeWifi = null
+        )
     {
         Console.WriteLine("Reached - 'AddExtReview' HttpPost");
         ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
@@ -131,6 +155,52 @@ public class ReviewController : Controller
         {
             newReview.seatingAvailability = seatingAvailability;
         }
+        Console.WriteLine($"petFriendly = {petFriendly}");
+        if (
+            (petFriendly ?? false) ||
+            (groupFriendly ?? false) ||
+            (queerFriendly ?? false) ||
+            (homeLike ?? false) ||
+            (officeLike ?? false) ||
+            (veganFriendly ?? false) ||
+            (glutenFreeOptions ?? false) ||
+            (neurodivergentFriendly ?? false) ||
+            (airConditioning ?? false) ||
+            (heating ?? false) ||
+            (wheelchairAccessible ?? false) ||
+            (babychanging ?? false) ||
+            (toilets ?? false) ||
+            (freeWifi ?? false)
+            ) {
+                petFriendly ??= false;
+                groupFriendly ??= false;
+                queerFriendly ??= false;
+                homeLike ??= false;
+                officeLike ??= false;
+                veganFriendly ??= false;
+                glutenFreeOptions ??= false;
+                neurodivergentFriendly ??= false;
+                airConditioning ??= false;
+                heating ??= false;
+                wheelchairAccessible ??= false;
+                babychanging ??= false;
+                toilets ??= false;
+                freeWifi ??= false;
+                newReview.petFriendly = petFriendly;
+                newReview.groupFriendly = groupFriendly;
+                newReview.queerFriendly = queerFriendly;
+                newReview.homeLike = homeLike;
+                newReview.officeLike = officeLike;
+                newReview.veganFriendly = veganFriendly;
+                newReview.glutenFreeOptions = glutenFreeOptions;
+                newReview.neurodivergentFriendly = neurodivergentFriendly;
+                newReview.airConditioning = airConditioning;
+                newReview.heating = heating;
+                newReview.wheelchairAccessible = wheelchairAccessible;
+                newReview.babychanging = babychanging;
+                newReview.toilets = toilets;
+                newReview.freeWifi = freeWifi;
+            }
 
         _dbContext.Reviews.Add(newReview);
         _dbContext.SaveChanges();
