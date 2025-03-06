@@ -18,6 +18,54 @@ input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0px 1000px #ececec inset;
 }
 
+/* Container styling */
+.i-container {
+  border-radius: 25px;
+  display: grid;
+  gap: 20px; /* Space between items */
+  padding-top: 2rem;
+  max-width: 90%;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(40vh, 1fr)); /* Responsive grid */
+}
+
+@media (max-width: 768px) {
+  .i-container {
+      padding-top: 0px;
+  }
+}
+
+/* Image container styling */
+.i-study-pic-container {
+  display: grid;
+  background-color: white;
+  border-radius: 1.5rem;
+  margin: 0 auto;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;  /* Prevent images from overflowing container */
+}
+
+.i-study-pic-container img {
+  max-width: 100%;  /* Ensure image scales to fit container */
+  max-height: 100%; /* Ensure image scales to fit container */
+  object-fit: cover;  /* Crop image if necessary to fill container */
+  object-position: center;  /* Center the image if cropped */
+  border-radius: 1.3rem 1.3rem;
+}
+
+/* Hover effects */
+.glow-back {
+  transition-duration: 0.4s;
+  z-index: 60;
+}
+
+.glow-back:hover {
+  transform: scale(1.03); /* Enlarge the image on hover */
+  box-shadow: 0 4px 6px 7px rgba(0, 0, 0, 0.1); /* Add shadow for glow effect */
+  z-index: 70; /* Ensure image stays on top */
+}
+
 .body-inner {
   width: 100%;
   background-color: #f6f6f6;
@@ -42,16 +90,34 @@ input:-webkit-autofill:focus {
   width: 20.8rem
 }
 
+.padded {
+  padding: 2rem;
+}
+
+.bar {
+  width: 22.42rem;
+  padding: 0.85rem;
+  margin-left: 0px;
+}
+
+.small-in {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
 .search-button {
   padding: 10px 15px;
   font-size: 1.2rem;
   color: rgb(50, 50, 50);
   background-color: #EFC69B;
-  margin-left: 1rem;
   border: none;
   border-radius: 3rem;
   cursor: pointer;
   transition: background 0.3s;
+}
+
+.mar-1 {
+  margin-left: 1rem;
 }
 
 .search-button:hover {
@@ -75,8 +141,17 @@ input:-webkit-autofill:focus {
     box-shadow: 0 7rem 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
     z-index: 100;
   }
+
   .body-inner {
     margin-left: 15rem;
+  }
+
+  .filler {
+    height: 38.2vh;
+  }
+
+  .filler-2 {
+    height: 11.8vh;
   }
 
   header {
