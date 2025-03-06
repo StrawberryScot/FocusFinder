@@ -1,19 +1,4 @@
-/* Container styling */
-.i-container {
-    border-radius: 25px;
-    display: grid;
-    gap: 20px; /* Space between items */
-    padding-top: 2rem;
-    max-width: 90%;
-    margin: 0 auto;
-    grid-template-columns: repeat(auto-fit, minmax(40vh, 1fr)); /* Responsive grid */
-}
 
-@media (max-width: 768px) {
-    .i-container {
-        padding-top: 0px;
-    }
-}
 
 .i-location-link {
     text-decoration: none; /* Removes underline */
@@ -26,37 +11,6 @@
     display: flex;
     flex-direction: column;
     height: 100%; /* Ensures each container has the same height */
-}
-
-/* Image container styling */
-.i-study-pic-container {
-    display: grid;
-    background-color: white;
-    border-radius: 1.5rem;
-    margin: 0 auto;
-
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;  /* Prevent images from overflowing container */
-}
-
-.i-study-pic-container img {
-    max-width: 100%;  /* Ensure image scales to fit container */
-    max-height: 100%; /* Ensure image scales to fit container */
-    object-fit: cover;  /* Crop image if necessary to fill container */
-    object-position: center;  /* Center the image if cropped */
-    border-radius: 1.3rem 1.3rem;
-}
-
-/* Hover effects */
-.glow-back {
-    transition-duration: 0.4s;
-    z-index: 60;
-}
-
-.glow-back:hover {
-    transform: scale(1.03); /* Enlarge the image on hover */
-    box-shadow: 0 4px 6px 7px rgba(0, 0, 0, 0.1); /* Add shadow for glow effect */
-    z-index: 70; /* Ensure image stays on top */
 }
 
 /* Styling for Bookmark and Login buttons container */
