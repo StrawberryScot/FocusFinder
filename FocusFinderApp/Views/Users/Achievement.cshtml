@@ -4,23 +4,25 @@
     ViewData["Title"] = "Achievements";
 }
 
-<div>
-    
     @{
         if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
         {
+        <div class="i-container">
             <div class="i-body-top body-top">
                 <div class="text-center">
                     <h1 class="display-4">My Achievements</h1>
+                </div>
             </div>
-        </div>
             <h5>Please login to view your achievements</h5>
             <a href="/Login" class="btn btn-primary">Go to Login</a>
+        </div>
         }
         else
         {
+        <div class="i-container">
         <h1>Achievements</h1>
-
+        </div>
+    <div class="i-container">
     <div class="achievement-category">
         <h2>Visits</h2>
         <div class="achievement @((Model.visits >= 1) ? "unlocked" : "locked")">
@@ -63,9 +65,11 @@
             <p>📌 Bookmarked 5 Locations</p>
         </div>
     </div>
+    </div>
+    <div class="filler"></div>
     }
     }
-</div>
+
 
 
 
@@ -83,7 +87,7 @@
     }
 
     .unlocked {
-        background-color: #4CAF50;
+        background-color: #EFC69B;
         color: white;
     }
 
