@@ -74,6 +74,7 @@ namespace FocusFinderApp.Controllers
             var bookmarks = _dbContext.Bookmarks
                 .Where( l => l.userId == currentUserId)
                 .Include(b => b.Location) 
+                .ThenInclude(l => l.Reviews)
                 .ToList();
 
             if (bookmarks == null)
