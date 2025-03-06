@@ -433,7 +433,7 @@ public class LocationController : Controller
         _dbContext.SuggestedLocations.Remove(suggestedLocation); // Remove from suggestions
         _dbContext.SaveChanges();
 
-        TempData["SuccessMessage"] = "Location successfully added!";
+        // TempData["SuccessMessage"] = "Location successfully added!";
         return RedirectToAction("AllSuggestedLocations"); // Refresh the admin page
     }
 
