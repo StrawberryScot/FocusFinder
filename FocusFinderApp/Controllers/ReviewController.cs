@@ -134,6 +134,8 @@ public class ReviewController : Controller
 
         _dbContext.Reviews.Add(newReview);
         _dbContext.SaveChanges();
+        Achievement.UpdateUserAchievements(_dbContext, currentUserId.Value, "review");
+        Console.WriteLine("Review added");
         
         // return View("~/Views/Reviews/AllReviews.cshtml");
         return Redirect("/Reviews");
