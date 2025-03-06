@@ -247,8 +247,16 @@ header {
   z-index: 99;
 }
 
+select:focus {
+  outline: #EFC69B;
+}
+
 .container {
   padding-top: 6rem;
+}
+
+.no-top {
+  margin-top: 0px;
 }
 
 .logo-mobile img {
@@ -342,11 +350,30 @@ p {
 }
 
 .tag-box-check input:checked~.tag-box {
-  display: block;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: auto auto auto;
   position: relative;
   background-color: #EFC69B;
   border-radius: 0.6rem;
-  padding: 1rem 1rem 0 1rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.tag-box-check label {
+  color: #EFC69B;
+}
+
+.tag-box label {
+  padding: 0.2rem;
+  border-radius: 0.4rem;
+  background-color: white;
+  color: black;
+}
+
+.tag-box input:checked+label {
+  background-color: #DF9B6D;
+  color: white;
 }
 
 .flex-row {
@@ -357,4 +384,9 @@ p {
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+
+.mar-top {
+  margin-top: 1.5rem;
+  align-self: center;
 }

@@ -17,8 +17,9 @@
         <h1 class="display-4">Create A New Review</h1>
     </div>
 </div>
+</div>
 
-<div>
+<div class="i-container flex-column">
     
     @{
         if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
@@ -27,10 +28,9 @@
             <a href="/Login" class="btn">Go to Login</a>
         }
         else{
-            <p>TEST - location id @ViewBag.locId</p>
-            
+            <div class="i-location-container i-study-pic-container glow-back padded">
+            <h3 class="no-top">TEST - location id @ViewBag.locId</h3>
             <form method="post" asp-controller="Review" asp-action="AddExtReview">
-                <fieldset>
                     <input type="hidden" name="locationId" value="@ViewBag.locId"/>
                     <div>
                         <label for="rating">Your Overall Rating:</label>
@@ -105,7 +105,7 @@
 
                     <div class="tag-box-check">
                         <input id="check02" type="checkbox" name="tag-box-check" class="hid"/>
-                        <label for="check02">Add some tags!</label>
+                        <label for="check02">Click here to add some tags!</label>
                         <div class="tag-box">
 
                             @{
@@ -130,18 +130,17 @@
                                     }
                                     
                                     var formattedTag = result.ToString();
-                                    <input id="@col" name="@col" type="checkbox" value="true" />
+                                    <input id="@col" name="@col" type="checkbox" value="true" class="hid"/>
                                     <label for="@col">@formattedTag</label>
                                 }
                         </div>
                     </div>
 
                     <div>
-                        <button type="submit">Add Review</button>
+                        <button class="search-button bar mar-top" type="submit">Add Review</button>
                     </div>
-                </fieldset>
             </form>
+            </div>
         }
     }
-</div>
 </div>
