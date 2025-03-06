@@ -1,21 +1,21 @@
-<form class="login-form" action="/Login" method="post">
-  <fieldset>
-    <legend>Login</legend>
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["ErrorMessage"]
-        </div>
-    }
-    <div class="form-group">
-            <input type="text" name="email" id="email" class="form-control" placeholder="Email" />
-        </div>
-        <div class="form-group">
-            <input type="password" name="password" id="password" class="form-control" placeholder="password" />
-        </div>
-        <div class="form-group" style="display: flex; gap: 10px;">
-            <input type="submit" value="Login" class="btn btn-primary" />
-            <a href="/Register" class="btn btn-primary">Register</a>
-        </div>
-  </fieldset>
-</form>
+<div class="i-container">
+    <div class="i-location-container i-study-pic-container padded">
+        <form class="login-form" action="/Login" method="post">
+            <div class="form-group">
+                <input type="text" name="email" id="email" class="search-input small-in" placeholder="Email" />
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" id="password" class="search-input small-in" placeholder="password" />
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 10px;">
+                <input type="submit" value="Login" class="search-button bar"/>
+                <div>
+                    <span>Don't have an account yet? </span>
+                    <a href="/Register" class="btn">Register</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="filler-2"></div>
+<div class="filler"></div>

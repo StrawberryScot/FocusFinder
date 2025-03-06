@@ -12,7 +12,7 @@
     <div class="text-center">
         <form asp-controller="Location" asp-action="Search" method="get" class="search-form">
             <input type="text" name="searchQuery" placeholder="Search by name or address" class="search-input" required>
-            <button type="submit" class="search-button">&rsaquo;</button>
+            <button type="submit" class="search-button mar-1">&rsaquo;</button>
         </form>
     </div>
 </div>
@@ -26,7 +26,7 @@
                     <div class="i-location-container glow-back i-study-pic-container">
                         <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
                         <div class="i-location-info">
-                            <div class="m-header"><h2>@location.City</h2></div>
+                            <div class="m-header"><h1>@location.LocationName</h1><h3>@location.City</h3></div>
                             <div class="i-bookmark-container">
                                 @if (ViewBag.IsLoggedIn == true)
                                 {
