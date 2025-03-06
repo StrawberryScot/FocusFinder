@@ -390,3 +390,11 @@ p {
   margin-top: 1.5rem;
   align-self: center;
 }
+
+.wid {
+  width: 25rem;
+}
+
+.pad-less {
+  width: 20.7rem;
+}

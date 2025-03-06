@@ -4,12 +4,6 @@
 
 @{Console.WriteLine("Reached - NewLocation.cshtml");}
 
-<div class="i-body-top body-top">
-    <div class="text-center">
-        <h1 class="display-4">Suggest A New Location</h1>
-    </div>
-</div>
-
 @if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
 {
     <h5>Please login to suggest a new location</h5>
@@ -17,54 +11,45 @@
 }
 else
 {
-    <p>Please fill in the required fields. The location will be reviewed before approval.</p>
-
-    <form method="post" asp-controller="Location" asp-action="GetNewLocation" enctype="multipart/form-data" class="container mt-4">
-        <fieldset class="border p-4 rounded bg-light">
-            <legend class="text-center">Suggest a New Location</legend>
+    <div class="i-container">
+    <div class="i-location-container i-study-pic-container padded wid">
+    <form method="post" asp-controller="Location" asp-action="GetNewLocation" enctype="multipart/form-data">
+            <h2 class="no-top">Suggest a new location</h2>
 
             <div class="mb-3">
-                <label for="SuggestedLocationName" class="form-label">Location Name</label>
-                <input id="SuggestedLocationName" name="SuggestedLocationName" class="form-control" required/>
+                <input id="SuggestedLocationName" name="SuggestedLocationName" placeholder="Enter location name" class="search-input small-in" required/>
             </div>
 
             <div class="mb-3">
-                <label for="StreetAddress" class="form-label">Street Address</label>
-                <input id="StreetAddress" name="StreetAddress" class="form-control" required/>
+                <input id="StreetAddress" name="StreetAddress" placeholder="Enter street address" class="search-input small-in" required/>
             </div>
 
             <div class="mb-3">
-                <label for="BuildingIdentifier" class="form-label">Building Number</label>
-                <input id="BuildingIdentifier" name="BuildingIdentifier" class="form-control" required/>
+                <input id="BuildingIdentifier" name="BuildingIdentifier" placeholder="Enter building number" class="search-input small-in" required/>
             </div>
 
             <div class="mb-3">
-                <label for="City" class="form-label">City</label>
-                <input id="City" name="City" class="form-control" required/>
+                <input id="City" name="City" placeholder="Enter city" class="search-input small-in" required/>
             </div>
 
             <div class="mb-3">
-                <label for="County" class="form-label">County</label>
-                <input id="County" name="County" class="form-control"/>
+                <input id="County" name="County" placeholder="Enter country" class="search-input small-in"/>
             </div>
 
             <div class="mb-3">
-                <label for="Postcode" class="form-label">Postcode</label>
-                <input id="Postcode" name="Postcode" class="form-control" required/>
+                <input id="Postcode" name="Postcode" placeholder="Enter postcode" class="search-input small-in" required/>
             </div>
 
             <div class="mb-3">
-                <label for="ImageURL" class="form-label">Upload an Image (JPG, PNG, GIF only)</label>
-                <input type="file" id="ImageURL" name="ImageURL" accept=".jpg,.jpeg,.png,.gif" class="form-control"/>
+                <label for="ImageURL" class="form-label">Upload a JPG, PNG or GIF</label>
+                <input type="file" id="ImageURL" name="ImageURL" accept=".jpg,.jpeg,.png,.gif"/>
             </div>
 
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary w-100">Submit Location Suggestion</button>
-            </div>
-        </fieldset>
+                <button type="submit" class="search-button mar-top sidebar-icon pad-less">Submit Location Suggestion</button>
     </form>
+    </div>
+    </div>
 
-    <!-- Include Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 }
 
