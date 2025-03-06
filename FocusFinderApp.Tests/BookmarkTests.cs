@@ -15,38 +15,116 @@ namespace FocusFinderApp.Tests
 
         private BookmarkController _controller;
 
-        [SetUp] // Runs before each test
-        public void Setup()
+[SetUp]
+public void Setup()
+{
+    var options = new DbContextOptionsBuilder<FocusFinderDbContext>()
+        .UseInMemoryDatabase(databaseName: "TestDatabase")
+        .Options;
+
+    _dbContext = new FocusFinderDbContext(options);
+    _dbContext.Database.EnsureCreated();
+
+    // Mocking session
+    var httpContext = new DefaultHttpContext();
+    var sessionMock = new Mock<ISession>(); // Use Moq for mocking
+    var sessionValues = new Dictionary<string, byte[]>(); // Store session values
+
+    sessionMock.Setup(s => s.Set(It.IsAny<string>(), It.IsAny<byte[]>()))
+        .Callback<string, byte[]>((key, value) => sessionValues[key] = value);
+
+    sessionMock.Setup(s => s.TryGetValue(It.IsAny<string>(), out It.Ref<byte[]>.IsAny))
+        .Returns((string key, out byte[] value) => sessionValues.TryGetValue(key, out value));
+
+    httpContext.Session = sessionMock.Object; // Assign mock session
+
+    // Set UserId in session before each test
+    var userIdBytes = BitConverter.GetBytes(1);  // Example for setting userId in session
+    httpContext.Session.Set("UserId", userIdBytes);
+
+    _controller = new BookmarkController(_dbContext)
+    {
+        ControllerContext = new ControllerContext
         {
-            var options = new DbContextOptionsBuilder<FocusFinderDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase") // Unique per test session
-                .Options;
-
-            _dbContext = new FocusFinderDbContext(options);
-            _dbContext.Database.EnsureCreated();
-
-            // Mocking session
-            var httpContext = new DefaultHttpContext();
-            var sessionMock = new Mock<ISession>(); // Use Moq for mocking
-            var sessionValues = new Dictionary<string, byte[]>(); // Store session values
-
-            sessionMock.Setup(s => s.Set(It.IsAny<string>(), It.IsAny<byte[]>()))
-                .Callback<string, byte[]>((key, value) => sessionValues[key] = value);
-    
-            sessionMock.Setup(s => s.TryGetValue(It.IsAny<string>(), out It.Ref<byte[]>.IsAny))
-                .Returns((string key, out byte[] value) => sessionValues.TryGetValue(key, out value));
-
-            httpContext.Session = sessionMock.Object; // Assign mock session
-
-            // Set UserId in session
-            var userIdBytes = BitConverter.GetBytes(1);
-            httpContext.Session.Set("UserId", userIdBytes);
-
-            _controller = new BookmarkController(_dbContext)
-            {
-                ControllerContext = new ControllerContext { HttpContext = httpContext }
-            };
+            HttpContext = httpContext
         }
+    };
+}
+
+
+//         [SetUp] // Runs before each test
+// public void Setup()
+// {
+//     var options = new DbContextOptionsBuilder<FocusFinderDbContext>()
+//         .UseInMemoryDatabase(databaseName: "TestDatabase") // Unique per test session
+//         .Options;
+
+//     _dbContext = new FocusFinderDbContext(options);
+//     _dbContext.Database.EnsureCreated();
+
+//     // Mocking session
+//     var httpContext = new DefaultHttpContext();
+//     var sessionMock = new Mock<ISession>(); // Use Moq for mocking
+//     var sessionValues = new Dictionary<string, byte[]>(); // Store session values
+
+//     sessionMock.Setup(s => s.Set(It.IsAny<string>(), It.IsAny<byte[]>()))
+//         .Callback<string, byte[]>((key, value) => sessionValues[key] = value);
+
+//     sessionMock.Setup(s => s.TryGetValue(It.IsAny<string>(), out It.Ref<byte[]>.IsAny))
+//         .Returns((string key, out byte[] value) => sessionValues.TryGetValue(key, out value));
+
+//     httpContext.Session = sessionMock.Object; // Assign mock session
+
+//     // Mock IHttpContextAccessor
+//     var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
+//     httpContextAccessorMock.Setup(h => h.HttpContext).Returns(httpContext);
+
+//     // Set UserId in session
+//     var userIdBytes = BitConverter.GetBytes(1);
+//     httpContext.Session.Set("UserId", userIdBytes);
+
+//     _controller = new BookmarkController(_dbContext)
+//     {
+//         ControllerContext = new ControllerContext
+//         {
+//             HttpContext = httpContext
+//         }
+//     };
+// }
+
+
+        // [SetUp] // Runs before each test
+        // public void Setup()
+        // {
+        //     var options = new DbContextOptionsBuilder<FocusFinderDbContext>()
+        //         .UseInMemoryDatabase(databaseName: "TestDatabase") // Unique per test session
+        //         .Options;
+
+        //     _dbContext = new FocusFinderDbContext(options);
+        //     _dbContext.Database.EnsureCreated();
+
+        //     // Mocking session
+        //     var httpContext = new DefaultHttpContext();
+        //     var sessionMock = new Mock<ISession>(); // Use Moq for mocking
+        //     var sessionValues = new Dictionary<string, byte[]>(); // Store session values
+
+        //     sessionMock.Setup(s => s.Set(It.IsAny<string>(), It.IsAny<byte[]>()))
+        //         .Callback<string, byte[]>((key, value) => sessionValues[key] = value);
+    
+        //     sessionMock.Setup(s => s.TryGetValue(It.IsAny<string>(), out It.Ref<byte[]>.IsAny))
+        //         .Returns((string key, out byte[] value) => sessionValues.TryGetValue(key, out value));
+
+        //     httpContext.Session = sessionMock.Object; // Assign mock session
+
+        //     // Set UserId in session
+        //     var userIdBytes = BitConverter.GetBytes(1);
+        //     httpContext.Session.Set("UserId", userIdBytes);
+
+        //     _controller = new BookmarkController(_dbContext)
+        //     {
+        //         ControllerContext = new ControllerContext { HttpContext = httpContext }
+        //     };
+        // }
 
 
         [TearDown] // Runs after each test
@@ -185,6 +263,123 @@ namespace FocusFinderApp.Tests
                 Assert.That(model.Count, Is.Not.EqualTo(1), "Expected 1 bookmark but found 0");
             }
         }
+//         [Test]
+// public void Test_UserBookmarks_EmptyBookmarks()
+// {
+//     // Arrange
+//     var user = new User 
+//     {  
+//         Id = 1, 
+//         Username = "testUser",
+//         Email = "test@example.com",
+//         Password = "hashedpassword123"
+//     };
+//     _dbContext.Users.Add(user);
+//     _dbContext.SaveChanges();
+
+//     var httpContext = new DefaultHttpContext();
+//     httpContext.Session.SetInt32("UserId", 1); // Make sure UserId is set
+//     _controller = new BookmarkController(_dbContext) 
+//     { 
+//         ControllerContext = new ControllerContext { HttpContext = httpContext }
+//     };
+
+//     // Act
+//     var result = _controller.UserBookmarks();
+
+//     // Assert
+//     var viewResult = result as ViewResult;
+//     var model = viewResult?.Model as List<Bookmark>;
+//     Assert.That(model, Is.Empty, "Expected model to be empty as user has no bookmarks.");
+// }
+
+        
+        
+        // [Test]
+        // public void Test_UserBookmarks_EmptyBookmarks()
+        // {
+        //     // Arrange
+        //     var user = new User 
+        //     {  
+        //         Id = 1, 
+        //         Username = "testUser",
+        //         Email = "test@example.com",
+        //         Password = "hashedpassword123"
+        //     };
+        //     _dbContext.Users.Add(user);
+        //     _dbContext.SaveChanges();
+
+        //     var httpContext = new DefaultHttpContext();
+        //     httpContext.Session.SetInt32("UserId", 1);
+        //     _controller = new BookmarkController(_dbContext) 
+        //     { 
+        //         ControllerContext = new ControllerContext { HttpContext = httpContext }
+        //     };
+
+        //     // Act
+        //     var result = _controller.UserBookmarks();
+
+        //     // Assert
+        //     var viewResult = result as ViewResult;
+        //     var model = viewResult?.Model as List<Bookmark>;
+        //     Assert.That(model, Is.Empty, "Expected model to be empty as user has no bookmarks.");
+        // }
+
+
+
+
+        // [Test]
+        // public void Test_AddBookmark_RedirectToCorrectUrl()
+        // {
+        //     // Arrange
+        // var httpContext = new DefaultHttpContext();
+        // httpContext.Session.SetString("Username", "testUser");
+
+        //     _controller = new BookmarkController(_dbContext)
+        //     {
+        //         ControllerContext = new ControllerContext { HttpContext = httpContext }
+        //     };
+
+        //     // Act
+        //     var result = _controller.Add(1, "/Bookmarks");
+
+        //     // Assert - Check if the redirect URL is correct
+        //     var redirectResult = result as RedirectResult;
+        //     Assert.That(redirectResult, Is.Not.Null, "Expected redirect result.");
+        //     Assert.That(redirectResult?.Url, Is.EqualTo("/Bookmarks"), "Expected redirect URL to be /Bookmarks.");
+        // }
     }
     
+}
+
+public class MockHttpSession : ISession
+{
+    private readonly Dictionary<string, byte[]> _sessionStorage = new Dictionary<string, byte[]>();
+
+    public bool IsAvailable => true;
+
+    public string Id => "mock-session-id";
+
+    public void Clear() => _sessionStorage.Clear();
+
+    public Task CommitAsync(CancellationToken cancellationToken = default)
+    {
+        // Mock committing session
+        return Task.CompletedTask;
+    }
+
+    public Task LoadAsync(CancellationToken cancellationToken = default)
+    {
+        // Mock loading session
+        return Task.CompletedTask;
+    }
+
+    public void Remove(string key) => _sessionStorage.Remove(key);
+
+    public void Set(string key, byte[] value) => _sessionStorage[key] = value;
+
+    public bool TryGetValue(string key, out byte[] value) => _sessionStorage.TryGetValue(key, out value);
+
+    // Implement the Keys property
+    public IEnumerable<string> Keys => _sessionStorage.Keys;
 }
