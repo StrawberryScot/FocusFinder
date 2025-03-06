@@ -49,6 +49,7 @@ input:-webkit-autofill:focus {
 .i-study-pic-container img {
   max-width: 100%;  /* Ensure image scales to fit container */
   max-height: 100%; /* Ensure image scales to fit container */
+  aspect-ratio: 16 / 9;
   object-fit: cover;  /* Crop image if necessary to fill container */
   object-position: center;  /* Center the image if cropped */
   border-radius: 1.3rem 1.3rem;
@@ -268,8 +269,9 @@ body {
   vertical-align: middle;
 }
 
-h2 {
+h1 {
   margin: 1rem 0;
+  color: #473144;
 }
 
 p {
