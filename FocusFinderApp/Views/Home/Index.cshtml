@@ -12,7 +12,7 @@
     <div class="text-center">
         <form asp-controller="Location" asp-action="Search" method="get" class="search-form">
             <input type="text" name="searchQuery" placeholder="Search by name or address" class="search-input" required>
-            <button type="submit" class="search-button">&rsaquo;</button>
+            <button type="submit" class="search-button mar-1">&rsaquo;</button>
         </form>
     </div>
 </div>
@@ -23,71 +23,70 @@
         @foreach (var location in Model)
         {
             <a href="/Locations/@location.Id" class="i-location-link"> 
-                    <div class="i-location-container glow-back i-study-pic-container">
-                        <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
-                        <div class="i-location-info">
-                            <div class="m-header"><h2>@location.City</h2></div>
-                            <div class="i-bookmark-container">
-                                @if (ViewBag.IsLoggedIn == true)
-                                {
-                                  var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(location.Id);
-
-                                  @if (isBookmarked)
-                                  {
-                                      <form method="post" asp-controller="Bookmark" asp-action="Remove">
-                                        <input type="hidden" name="locationId" value="@location.Id">
-                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
-                                        <button type="submit" class="bookmark-button ab bookmarked"></button>
-                                      </form>
-                                  }
-                                  else
-                                  {
-                                      <form method="post" asp-controller="Bookmark" asp-action="Add">
-                                        <input type="hidden" name="locationId" value="@location.Id">
-                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
-                                        <button type="submit" class="bookmark-button ab unbookmarked"></button>
-                                      </form>
-                                  }
-                                }
-                            </div>
-                            <div class="i-bookmark-container">
-                                @if (ViewBag.IsLoggedIn == true)
-                                {
-                                  var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(location.Id);
-
-                                  @if (isBookmarked)
-                                  {
-                                      <form method="post" asp-controller="Bookmark" asp-action="Remove">
-                                        <input type="hidden" name="locationId" value="@location.Id">
-                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
-                                        <button type="submit" class="bookmark-button book-but bookmarked"></button>
-                                      </form>
-                                  }
-                                  else
-                                  {
-                                      <form method="post" asp-controller="Bookmark" asp-action="Add">
-                                        <input type="hidden" name="locationId" value="@location.Id">
-                                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
-                                        <button type="submit" class="bookmark-button book-but unbookmarked"></button>
-                                      </form>
-                                  }
-                                }
-                            </div>
-                            <div class="m-rating">
-                                    @{
-                                        if (location.Reviews?.Any() == true ){
-                                            <p class="beige">Rating: </p>
-                                            for (decimal i = 0.5M; i < Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1); i++){
-                                                <div class="star"><img src="../images/icons/star-4p.png" alt="Star"></div>
-                                            }
-                                        }
-                                        else {
-                                            <p class="beige">Unrated</p>
-                                        }
+            <div class="i-bookmark-container">
+                @if (ViewBag.IsLoggedIn == true)
+                {
+                    var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(location.Id);
+                    @if (isBookmarked)
+                    { 
+                        <form method="post" asp-controller="Bookmark" asp-action="Remove">
+                            <input type="hidden" name="locationId" value="@location.Id">
+                            <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                            <button type="submit" class="bookmark-button ab bookmarked"></button>
+                        </form>
+                    } 
+                    else
+                    {
+                        <form method="post" asp-controller="Bookmark" asp-action="Add">
+                            <input type="hidden" name="locationId" value="@location.Id">
+                            <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                            <button type="submit" class="bookmark-button ab unbookmarked"></button>
+                        </form>
+                    } 
+                }
+            </div>
+            <div class="i-bookmark-container">
+                @if (ViewBag.IsLoggedIn == true)
+                {
+                  var isBookmarked = ViewBag.BookmarkedLocations != null && ViewBag.BookmarkedLocations.Contains(location.Id);
+                  @if (isBookmarked)
+                  {
+                      <form method="post" asp-controller="Bookmark" asp-action="Remove">
+                        <input type="hidden" name="locationId" value="@location.Id">
+                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                        <button type="submit" class="bookmark-button book-but bookmarked"></button>
+                      </form>
+                  }
+                  else
+                  {
+                      <form method="post" asp-controller="Bookmark" asp-action="Add">
+                        <input type="hidden" name="locationId" value="@location.Id">
+                        <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
+                        <button type="submit" class="bookmark-button book-but unbookmarked"></button>
+                      </form>
+                  }
+                }
+            </div>
+            <div class="i-location-container glow-back i-study-pic-container">
+                <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
+                <div class="i-location-info">
+                    <div class="m-header"><h1>@location.LocationName</h1><h3>@location.City</h3></div>
+                    
+                    <div class="m-rating">
+                            @{
+                                if (location.Reviews?.Any() == true ){
+                                    <p class="beige">Rating: </p>
+                                    for (decimal i = 0.5M; i < Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1); i++){
+                                        <div class="star"><img src="../images/icons/star-4p.png" alt="Star"></div>
                                     }
-                            </div>
-                        </div>
+                                }
+                                else {
+                                    <p class="beige">Unrated</p>
+                                }
+                            }
                     </div>
+                </div>
+            </div>
             </a>
         }
     }
