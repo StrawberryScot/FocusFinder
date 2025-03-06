@@ -17,17 +17,24 @@
 </div>
 
 <!-- Main Location Container -->
-<div class="i-container">
-
-    <!-- Average Overall Rating -->
-    <div>
-    <h4>Reviews - Overall @ViewBag.AverageRating ⭐</h4>
-    </div>
-
-    <!-- Bio -->
+<div class="i-container big-gap">
+<div class="i-location-container i-study-pic-container padded">
+        @{
+            var ifImage = "/images/noimagefound.jpg";
+            if (@Model.ImageURL != null){
+                ifImage = @Model.ImageURL;
+            }
+        }
+        <img src="@Url.Content(ifImage)" alt="Image of @Model.LocationName location.">
+        <!-- Bio -->
     <div>
         <h5>About @Model.LocationName</h5>
         <p>@Model.Description</p>
+    </div>
+    </div>
+    <!-- Average Overall Rating -->
+    <div>
+    <h4>Reviews - Overall @ViewBag.AverageRating ⭐</h4>
     </div>
 
     <!-- Mark as Visited button -->
@@ -115,18 +122,6 @@
                     }
                 }
             </div>
-    </div>
-
-
-    <!-- Image -->
-    <div class="i-location-container i-study-pic-container padded">
-        @{
-            var ifImage = "/images/noimagefound.jpg";
-            if (@Model.ImageURL != null){
-                ifImage = @Model.ImageURL;
-            }
-        }
-        <img src="@Url.Content(ifImage)" alt="Image of @Model.LocationName location.">
     </div>
 
     <!-- Address/Map << Advanced -->

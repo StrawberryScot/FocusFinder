@@ -428,3 +428,7 @@ p {
   background-color: #ccc;
   color: #777;
 }
+
+.big-gap {
+  gap: 2rem;
+}
