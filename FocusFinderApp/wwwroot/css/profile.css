@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh;
+    min-height: 76vh;
     background-color: #f6f6f6;
     padding: 20px;
 }
@@ -10,7 +10,7 @@
 .profile-card {
     background: white;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 25px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 350px;
