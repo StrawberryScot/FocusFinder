@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using FocusFinderApp.Models;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.Replication;
 
 namespace FocusFinderApp.Controllers;
 
@@ -106,7 +107,7 @@ public class ReviewController : Controller
         bool? queerFriendly = null,
         bool? homeLike = null,
         bool? officeLike = null,
-        bool? veganfriendly = null,
+        bool? veganFriendly = null,
         bool? glutenFreeOptions = null,
         bool? neurodivergentFriendly = null,
         bool? airConditioning = null,
@@ -154,6 +155,37 @@ public class ReviewController : Controller
         {
             newReview.seatingAvailability = seatingAvailability;
         }
+        Console.WriteLine($"petFriendly = {petFriendly}");
+        if (
+            (petFriendly ?? false) ||
+            (groupFriendly ?? false) ||
+            (queerFriendly ?? false) ||
+            (homeLike ?? false) ||
+            (officeLike ?? false) ||
+            (veganFriendly ?? false) ||
+            (glutenFreeOptions ?? false) ||
+            (neurodivergentFriendly ?? false) ||
+            (airConditioning ?? false) ||
+            (heating ?? false) ||
+            (wheelchairAccessible ?? false) ||
+            (babychanging ?? false) ||
+            (toilets ?? false) ||
+            (freeWifi ?? false)
+            ) {
+                newReview.petFriendly = petFriendly;
+                newReview.groupFriendly = groupFriendly;
+                newReview.queerFriendly = queerFriendly;
+                newReview.homeLike = homeLike;
+                newReview.officeLike = officeLike;
+                newReview.veganFriendly = veganFriendly;
+                newReview.glutenFreeOptions = glutenFreeOptions;
+                newReview.neurodivergentFriendly = neurodivergentFriendly;
+                newReview.airConditioning = airConditioning;
+                newReview.wheelchairAccessible = wheelchairAccessible;
+                newReview.babychanging = babychanging;
+                newReview.toilets = toilets;
+                newReview.freeWifi = freeWifi;
+            }
 
         _dbContext.Reviews.Add(newReview);
         _dbContext.SaveChanges();
