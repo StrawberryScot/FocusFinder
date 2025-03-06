@@ -4,23 +4,29 @@
     ViewData["Title"] = "Achievements";
 }
 
-<div>
-    
+<head>
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
+
     @{
         if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
         {
+        <div class="i-container">
             <div class="i-body-top body-top">
                 <div class="text-center">
                     <h1 class="display-4">My Achievements</h1>
+                </div>
             </div>
-        </div>
             <h5>Please login to view your achievements</h5>
             <a href="/Login" class="btn btn-primary">Go to Login</a>
+        </div>
         }
         else
         {
+        <div class="i-container">
         <h1>Achievements</h1>
-
+        </div>
+    <div class="i-container">
     <div class="achievement-category">
         <h2>Visits</h2>
         <div class="achievement @((Model.visits >= 1) ? "unlocked" : "locked")">
@@ -63,32 +69,10 @@
             <p>📌 Bookmarked 5 Locations</p>
         </div>
     </div>
+    </div>
+    <div class="filler"></div>
     }
     }
-</div>
 
 
 
-
-<style>
-    .achievement-category {
-        margin-bottom: 20px;
-    }
-
-    .achievement {
-        padding: 10px;
-        margin: 5px 0;
-        border-radius: 5px;
-        font-weight: bold;
-    }
-
-    .unlocked {
-        background-color: #4CAF50;
-        color: white;
-    }
-
-    .locked {
-        background-color: #ccc;
-        color: #777;
-    }
-</style>

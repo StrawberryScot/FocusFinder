@@ -6,6 +6,25 @@ a:focus-visible, button:focus-visible {
   outline: 0.1rem solid #000000;
 }
 
+a:link {
+  color: #473144;
+}
+
+/* visited link */
+a:visited {
+  color: #473144;
+}
+
+/* mouse over link */
+a:hover {
+  color: #473144;
+}
+
+/* selected link */
+a:active {
+  color: #473144;
+}
+
 input:focus-visible {
   outline: 0.15rem solid #EFC69B;
 }
@@ -190,7 +209,7 @@ input:-webkit-autofill:focus {
     display: none;
   }
   
-  label {
+  .menu-in label {
     position: relative;
     cursor: pointer;
     height: 4rem;
@@ -228,8 +247,16 @@ header {
   z-index: 99;
 }
 
+select:focus {
+  outline: #EFC69B;
+}
+
 .container {
   padding-top: 6rem;
+}
+
+.no-top {
+  margin-top: 0px;
 }
 
 .logo-mobile img {
@@ -323,9 +350,85 @@ p {
 }
 
 .tag-box-check input:checked~.tag-box {
-  display: block;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: auto auto auto;
   position: relative;
   background-color: #EFC69B;
   border-radius: 0.6rem;
-  padding: 1rem 1rem 0 1rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.tag-box-check label {
+  color: #EFC69B;
+}
+
+.tag-box label {
+  padding: 0.2rem;
+  border-radius: 0.4rem;
+  background-color: white;
+  color: black;
+}
+
+.tag-box input:checked+label {
+  background-color: #DF9B6D;
+  color: white;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.mar-top {
+  margin-top: 1.5rem;
+  align-self: center;
+}
+
+.wid {
+  width: 25rem;
+}
+
+.pad-less {
+  width: 20.7rem;
+}
+
+.filler-small {
+  height: 2rem;
+}
+
+.achievement-category {
+  margin-bottom: 20px;
+}
+
+.achievement {
+  padding: 1rem;
+  margin: 5px 0;
+  border-radius: 1rem;
+  font-weight: bold;
+  height: 1.3rem;
+}
+
+.achievement p {
+  vertical-align: middle;
+}
+
+.unlocked {
+  background-color: #EFC69B;
+  color: black;
+}
+
+.locked {
+  background-color: #ccc;
+  color: #777;
+}
+
+.big-gap {
+  gap: 2rem;
 }

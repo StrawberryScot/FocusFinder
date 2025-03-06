@@ -8,15 +8,10 @@
 <head>
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
 </head>
-
-<div class="i-body-top body-top">
-    <div class="text-center">
-        <h1 class="display-4">My Reviews</h1>
-    </div>
+<div class="i-container">
+<h1 class="display-4">My Reviews</h1>
 </div>
-
-
-<div>
+<div class="i-container">
     
     @{
         if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
@@ -31,7 +26,7 @@
                 foreach (var review in Model)
                 {   
                     <div class="i-location-container i-study-pic-container glow-back">
-                        <a href="/Reviews/@review.id">
+                        <a href="/Reviews/@review.id" class="sidebar-icon padded">
                     
                             <h3>Your Review of Location Id @review.locationId</h3>
                             @* <h3>Your Review of @review.Location?.LocationName</h3> *@
@@ -43,7 +38,12 @@
                                 }
 
                                 if (@review.overallRating != null){
-                                    <p>Overall Rating: @review.overallRating⭐</p>
+                                    <div class="flex-row">
+                                    <p class="beige">Rating: </p>
+                                    @for (decimal i = 0.5M; i < review.overallRating; i++){
+                                        <div class="star"><img src="../images/icons/star-4p.png" alt="Star"></div>
+                                        }
+                                    </div>
                                 } 
                                 
                             }

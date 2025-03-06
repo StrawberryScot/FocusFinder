@@ -7,13 +7,11 @@
 <head>
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
 </head>
-</div>
-
-<div>
 
     @{
         if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
         {
+            <div class="i-container">
             <div class="i-body-top body-top">
                 <div class="text-center">
                     <h1 class="display-4">My Bookmarked Locations</h1>
@@ -21,13 +19,16 @@
             </div>
             <h5>Please login to view your reviews</h5>
             <a href="/Login" class="btn btn-primary">Go to Login</a>
+            </div>
         }
         else 
-        {  
+        {
+            <div class="i-container">
             <div class="i-body-top body-top">
                 <div class="text-center">
                     <h1 class="display-4">My Bookmarked Locations</h1>
                 </div>
+            </div>
             </div>
             <div class="i-container">
             @if (Model?.Any() == true)
@@ -39,20 +40,28 @@
                     if (location != null) // Ensure location exists
                     {
                         <a href="/Locations/@location.Id" class="i-location-link"> 
-                            <div class="i-location-container glow-back">
-                                <div class="i-study-pic-container">
-                                    <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
-                                </div>
+                            <div class="i-location-container glow-back i-study-pic-container">
+                                <img src="@Url.Content(location.ImageURL)" alt="@location.LocationName">
                                 <div class="i-location-info">
-                                    <h2>@location.LocationName</h2>
-                                    <p>@location.City</p>
-                                    <p>
-                                        Rating: @(location.Reviews?.Any() == true ? $"{Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1)} ⭐" : "No ratings yet")
-                                    </p>
+                                    <div class="m-header"><h1>@location.LocationName</h1><h3>@location.City</h3></div>
+                    
+                                        <div class="m-rating">
+                                                @{
+                                                    if (location.Reviews?.Any() == true ){
+                                                        <p class="beige">Rating: </p>
+                                                        for (decimal i = 0.5M; i < Math.Round((decimal)(location.Reviews.Average(r => (double?)r.overallRating) ?? 0), 1); i++){
+                                                            <div class="star"><img src="../images/icons/star-4p.png" alt="Star"></div>
+                                                        }
+                                                    }
+                                                    else {
+                                                        <p class="beige">Unrated</p>
+                                                    }
+                                                }
+                                        </div>
                                         <form method="post" asp-controller="Bookmark" asp-action="Remove">
                                             <input type="hidden" name="locationId" value="@location.Id">
                                             <input type="hidden" name="redirectUrl" value="@Context.Request.Path">
-                                            <button type="submit" class="btn btn-danger">Remove from Bookmarks</button>
+                                            <button type="submit" class="search-button mar-top">Remove from Bookmarks</button>
                                         </form>
                                 </div>
                             </div>
@@ -67,4 +76,3 @@
         </div>
     }
 }
-</div>

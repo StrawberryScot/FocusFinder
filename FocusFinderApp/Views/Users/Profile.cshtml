@@ -27,12 +27,12 @@
             <p><strong>Joined on:</strong> @Model.JoinDate.ToString("MMMM dd, yyyy")</p>
         </div>
 
-        <div class="profile-actions">
-            <a href="/Profile/Edit" class="btn btn-info">Edit Profile</a>
-            <a href="/Bookmarks" class="btn btn-info">View Bookmarked Locations</a>
-            <a href="/Reviews" class="btn btn-info">View My Reviews</a>
-            <a href="/Achievements" class="btn btn-info">View Achievements</a>
-            <a href="/NewLocationForm" class="btn btn-info">Suggest A Location</a>
+        <div class="flex-column">
+            <a href="/Profile/Edit" class="btn">Edit Profile</a>
+            <a href="/Bookmarks" class="btn">View Bookmarked Locations</a>
+            <a href="/Reviews" class="btn">View My Reviews</a>
+            <a href="/Achievements" class="btn">View Achievements</a>
+            <a href="/NewLocationForm" class="btn">Suggest A Location</a>
         </div>
 
         @if (Model.Username == "BestAdmin")

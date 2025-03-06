@@ -2,6 +2,11 @@
 @{
     ViewData["Title"] = "Reviews";
 }
+<head>
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
+
+<div class="i-container">
 
 <div>
     @{
@@ -28,7 +33,12 @@
                     }
 
                     if (@ViewBag.Review.overallRating != null){
-                        <p>Overall Rating: @ViewBag.Review.overallRating⭐</p>
+                        <div class="flex-row">
+                            <p class="beige">Rating: </p>
+                            @for (decimal i = 0.5M; i < @ViewBag.Review.overallRating; i++){
+                                <div class="star"><img src="../images/icons/star-4p.png" alt="Star"></div>
+                                }
+                        </div>
                     } 
                     
                 }
@@ -122,5 +132,4 @@
     }
     
 </div>
-
-
+</div>
