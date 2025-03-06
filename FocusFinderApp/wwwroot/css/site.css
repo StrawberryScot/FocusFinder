@@ -147,7 +147,11 @@ input:-webkit-autofill:focus {
   }
 
   .filler {
-    height: 40vh;
+    height: 38.2vh;
+  }
+
+  .filler-2 {
+    height: 11.8vh;
   }
 
   header {
