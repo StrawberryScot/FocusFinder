@@ -172,6 +172,20 @@ public class ReviewController : Controller
             (toilets ?? false) ||
             (freeWifi ?? false)
             ) {
+                petFriendly ??= false;
+                groupFriendly ??= false;
+                queerFriendly ??= false;
+                homeLike ??= false;
+                officeLike ??= false;
+                veganFriendly ??= false;
+                glutenFreeOptions ??= false;
+                neurodivergentFriendly ??= false;
+                airConditioning ??= false;
+                heating ??= false;
+                wheelchairAccessible ??= false;
+                babychanging ??= false;
+                toilets ??= false;
+                freeWifi ??= false;
                 newReview.petFriendly = petFriendly;
                 newReview.groupFriendly = groupFriendly;
                 newReview.queerFriendly = queerFriendly;
@@ -181,6 +195,7 @@ public class ReviewController : Controller
                 newReview.glutenFreeOptions = glutenFreeOptions;
                 newReview.neurodivergentFriendly = neurodivergentFriendly;
                 newReview.airConditioning = airConditioning;
+                newReview.heating = heating;
                 newReview.wheelchairAccessible = wheelchairAccessible;
                 newReview.babychanging = babychanging;
                 newReview.toilets = toilets;
