@@ -3,15 +3,15 @@
 <form action="/Profile/Edit" method="post" enctype="multipart/form-data">
     <div>
         <label>First Name:</label>
-        <input type="text" name="FirstName" value="@Model.FirstName">
+        <input class="search-input small-in" type="text" name="FirstName" value="@Model.FirstName">
     </div>
     <div>
         <label>Last Name:</label>
-        <input type="text" name="LastName" value="@Model.LastName">
+        <input class="search-input small-in" type="text" name="LastName" value="@Model.LastName">
     </div>
     <div>
         <label>Default City:</label>
-        <input type="text" name="DefaultCity" value="@Model.DefaultCity">
+        <input class="search-input small-in" type="text" name="DefaultCity" value="@Model.DefaultCity">
     </div>
 
     <!-- Show existing profile picture -->
@@ -29,7 +29,7 @@
         <input type="file" name="ProfilePictureFile">
     </div>
 
-    <a href="/Profile/ChangePassword" class="btn btn-warning">Change Password</a>
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="/Profile/ChangePassword" class="search-button bar mar-top sidebar-icon">Change Password</a>
+    <button type="submit" class="search-button bar mar-top">Save Changes</button>
 </form>
 </div>
