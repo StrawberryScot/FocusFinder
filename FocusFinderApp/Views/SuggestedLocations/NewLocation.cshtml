@@ -4,80 +4,72 @@
 
 @{Console.WriteLine("Reached - NewLocation.cshtml");}
 
-@* <head>
-    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-</head> *@
-
 <div class="i-body-top body-top">
     <div class="text-center">
         <h1 class="display-4">Suggest A New Location</h1>
     </div>
 </div>
 
-@{
-    if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
-    {
-        <h5>Please login to suggest a new location</h5>
-        <a href="/Login" class="btn btn-primary">Go to Login</a>
-    }
-    else{
-        <p>Please make sure to fill in all the boxes below, or we may not be able to approve your suggested location.</p>
-        
-        <form method="post" asp-controller="Location" asp-action="NewLocationForm">
-            <fieldset>
-                <!-- New Form -->
-                <div>
-                    <label for="SuggestedLocationName">What is this location called?</label>
-                    <input name="SuggestedLocationName"/>
-                </div>
-                <div>
-                    <label for="Description">Please give a brief description of this location</label>
-                    <input name="Description"/>
-                </div>
-                <div>
-                    <label for="BuildingIdentifier">Building Number/Name</label>
-                    <input name="BuildingIdentifier"/>
-                </div>
-                <div>
-                    <label for="StreetAddress">Street Address</label>
-                    <input name="StreetAddress"/>
-                </div>
-                <div>
-                    <label for="City">City</label>
-                    <input name="City"/>
-                </div>
-                <div>
-                    <label for="County">County</label>
-                    <input name="County"/>
-                </div>
-                <div>
-                    <label for="Postcode">Postcode</label>
-                    <input name="Postcode"/>
-                </div>
-                <div>
-                    <label for="ImageURL">URL of an image of the location (if possible)</label>
-                    <input name="ImageURL"/>
-                </div>
-                <div>
-                    <label for="locationURL">Location's Website</label>
-                    <input name="locationURL"/>
-                </div>
-                <div>
-                    <label for="Latitude">Latitude (can be found using Google Maps)</label>
-                    <input name="Latitude"/>
-                </div>
-                <div>
-                    <label for="Longitude">Longitude (can be found using Google Maps)</label>
-                    <input name="Longitude"/>
-                </div>
-
-
-                <div>
-                    <button type="submit">Submit Location Suggestion</button>
-                </div>
-                
-            </fieldset>
-        </form>
-        
-    }
+@if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
+{
+    <h5>Please login to suggest a new location</h5>
+    <a href="/Login" class="btn btn-primary">Go to Login</a>
 }
+else
+{
+    <p>Please fill in the required fields. The location will be reviewed before approval.</p>
+
+    <form method="post" asp-controller="Location" asp-action="GetNewLocation" enctype="multipart/form-data" class="container mt-4">
+        <fieldset class="border p-4 rounded bg-light">
+            <legend class="text-center">Suggest a New Location</legend>
+
+            <div class="mb-3">
+                <label for="SuggestedLocationName" class="form-label">Location Name</label>
+                <input id="SuggestedLocationName" name="SuggestedLocationName" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="StreetAddress" class="form-label">Street Address</label>
+                <input id="StreetAddress" name="StreetAddress" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="BuildingIdentifier" class="form-label">Building Number</label>
+                <input id="BuildingIdentifier" name="BuildingIdentifier" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="City" class="form-label">City</label>
+                <input id="City" name="City" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="County" class="form-label">County</label>
+                <input id="County" name="County" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="Postcode" class="form-label">Postcode</label>
+                <input id="Postcode" name="Postcode" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label for="ImageURL" class="form-label">Upload an Image (JPG, PNG, GIF only)</label>
+                <input type="file" id="ImageURL" name="ImageURL" accept=".jpg,.jpeg,.png,.gif" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="locationURL" class="form-label">Location Website (optional)</label>
+                <input id="locationURL" name="locationURL" class="form-control"/>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary w-100">Submit Location Suggestion</button>
+            </div>
+        </fieldset>
+    </form>
+
+    <!-- Include Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+}
+

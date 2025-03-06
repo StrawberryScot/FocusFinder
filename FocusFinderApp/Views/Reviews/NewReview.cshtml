@@ -1,3 +1,5 @@
+@model List<FocusFinderApp.Models.Review>
+
 @{
     ViewData["Title"] = "New Review";
 }
@@ -27,11 +29,11 @@
             
             <form method="post" asp-controller="Review" asp-action="AddExtReview">
                 <fieldset>
-                    <!-- Add Review Form -->
                     <input type="hidden" name="locationId" value="@ViewBag.locId"/>
                     <div>
                         <label for="rating">Your Overall Rating:</label>
                         <select name="Rating" id="rating">
+                            <option value=null>Please select</option>
                             <option value="1">1 ⭐</option>
                             <option value="2">2 ⭐</option>
                             <option value="3">3 ⭐</option>
@@ -42,6 +44,7 @@
                     <div>
                         <label for="cleanliness">Cleanliness Rating:</label>
                         <select name="Cleanliness" id="cleanliness">
+                            <option value="null">Please select</option>
                             <option value="1">1 - very poor</option>
                             <option value="2">2 - poor</option>
                             <option value="3">3 - acceptable</option>
@@ -52,6 +55,7 @@
                     <div>
                         <label for="noiseLevel">Noise Level Rating (with ideal being quiet study):</label>
                         <select name="NoiseLevel" id="noiseLevel">
+                            <option value="null">Please select</option>
                             <option value="1">1 - very loud</option>
                             <option value="2">2 - moderate noise</option>
                             <option value="3">3 - a little noise</option>
@@ -62,6 +66,7 @@
                     <div>
                         <label for="wifiSpeed"> Wi-Fi Speed Rating:</label>
                         <select name="WifiSpeed" id="wifiSpeed">
+                            <option value="null">Please select</option>
                             <option value="1">1 - very slow</option>
                             <option value="2">2 - slow</option>
                             <option value="3">3 - acceptable</option>
@@ -72,6 +77,7 @@
                     <div>
                         <label for="chargingPointAvailability">Charging Point Availability Rating:</label>
                         <select name="ChargingPointAvailability" id="chargingPointAvailability">
+                            <option value="null">Please select</option>
                             <option value="1">1 - very poor</option>
                             <option value="2">2 - poor</option>
                             <option value="3">3 - acceptable</option>
@@ -82,6 +88,7 @@
                     <div>
                         <label for="seatingAvailability">Seating Availability Rating:</label>
                         <select name="SeatingAvailability" id="seatingAvailability">
+                            <option value="null">Please select</option>
                             <option value="1">1 - very poor</option>
                             <option value="2">2 - poor</option>
                             <option value="3">3 - acceptable</option>
@@ -93,12 +100,45 @@
                         <label for="comments">Please tell us your thoughts:</label>
                         <input name="comments" placeholder="Add comments here"/>
                     </div>
+
+                    <div class="tag-box-check">
+                        <input id="check02" type="checkbox" name="tag-box-check" class="hid"/>
+                        <label for="check02">Add some tags!</label>
+                        <div class="tag-box">
+
+                            @{
+                                var properties = typeof(Review).GetProperties()
+                                                .Select(p => p.Name)
+                                                .Skip(5)
+                                                .Take(14)
+                                                .ToList();
+                            }
+                                @foreach (var col in properties)
+                                {
+                                    var result = new System.Text.StringBuilder();
+                                    result.Append(char.ToLower(col[0]));
+                                    
+                                    for (int i = 1; i < col.Length; i++)
+                                    {
+                                        if (char.IsUpper(col[i]))
+                                        {
+                                            result.Append(' ');
+                                        }
+                                        result.Append(char.ToLower(col[i]));
+                                    }
+                                    
+                                    var formattedTag = result.ToString();
+                                    <input id="@col" name="@col" type="checkbox" value="true" />
+                                    <label for="@col">@formattedTag</label>
+                                }
+                        </div>
+                    </div>
+
                     <div>
                         <button type="submit">Add Review</button>
                     </div>
-                    
                 </fieldset>
             </form>
-            
         }
     }
+</div>

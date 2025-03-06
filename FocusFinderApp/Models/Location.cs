@@ -29,7 +29,6 @@ public class Location {
     public string? ImageURL { get; set; }
 
     public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-    public string? locationURL { get; set; }
 
     public double? Latitude { get; set; }
 
