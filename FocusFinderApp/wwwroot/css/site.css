@@ -6,6 +6,25 @@ a:focus-visible, button:focus-visible {
   outline: 0.1rem solid #000000;
 }
 
+a:link {
+  color: #473144;
+}
+
+/* visited link */
+a:visited {
+  color: #473144;
+}
+
+/* mouse over link */
+a:hover {
+  color: #473144;
+}
+
+/* selected link */
+a:active {
+  color: #473144;
+}
+
 input:focus-visible {
   outline: 0.15rem solid #EFC69B;
 }
@@ -328,4 +347,9 @@ p {
   background-color: #EFC69B;
   border-radius: 0.6rem;
   padding: 1rem 1rem 0 1rem;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
 }
