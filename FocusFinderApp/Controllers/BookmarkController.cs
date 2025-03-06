@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace FocusFinderApp.Controllers
 {
     // [Authorize] // Ensure only logged-in users can bookmark
-    [Route("Bookmark")]
+    // [Route("Bookmark")]
     public class BookmarkController : Controller
     {
         private readonly FocusFinderDbContext _dbContext;
@@ -16,31 +16,49 @@ namespace FocusFinderApp.Controllers
             _dbContext = dbContext;
         }
 
-        // ✅ Add a bookmark
         [HttpPost]
         public IActionResult Add(int locationId, string redirectUrl)
         {
+            // Retrieve username from the session
             var username = HttpContext.Session.GetString("Username");
 
+            // Ensure the user is logged in
             if (string.IsNullOrEmpty(username))
             {
                 return Unauthorized("You must be logged in to bookmark locations.");
             }
 
-            var user = _dbContext.Users.Include(u => u.Bookmarks)
-                    .FirstOrDefault(u => u.Username == username);
-            if (user == null) return NotFound("User not found.");
+            // Retrieve the user along with their Bookmarks and Location
+            var user = _dbContext.Users
+                .Include(u => u.Bookmarks)  // Include Bookmarks to check for existing bookmarks
+                .ThenInclude(b => b.Location)  // Include Location for each bookmark
+                .FirstOrDefault(u => u.Username == username);
 
-            if (!_dbContext.Bookmarks.Any(b => b.userId == user.Id && b.locationId == locationId))
+            // If user is not found, return an error
+            if (user == null)
             {
-                _dbContext.Bookmarks.Add(new Bookmark { userId = user.Id, locationId = locationId });
-                _dbContext.SaveChanges();
-                // Add bookmark to the achievement counter
-                Achievement.UpdateUserAchievements(_dbContext, user.Id, "bookmark");
+                return NotFound("User not found.");
             }
 
-            // Redirect back to the page where the user came from (using the passed redirectUrl)
-            return Redirect(redirectUrl ?? "/Home/Index"); // Default to /Home/Index if redirectUrl is null
+            // Check if the bookmark already exists
+            if (!_dbContext.Bookmarks.Any(b => b.userId == user.Id && b.locationId == locationId))
+            {
+                // Add the new bookmark and save changes to the database
+                _dbContext.Bookmarks.Add(new Bookmark { userId = user.Id, locationId = locationId });
+                _dbContext.SaveChanges();
+
+                // Optionally, update achievements or other logic (if applicable)
+                Achievement.UpdateUserAchievements(_dbContext, user.Id, "bookmark");
+
+                Console.WriteLine($"Bookmark added: User {user.Id} -> Location {locationId}");
+            }
+            else
+            {
+                Console.WriteLine($"Bookmark already exists: User {user.Id} -> Location {locationId}");
+            }
+
+            // Redirect to the provided URL or fallback to home page
+            return Redirect(redirectUrl ?? "/Home/Index");
         }
 
 
@@ -48,14 +66,6 @@ namespace FocusFinderApp.Controllers
         [Route("/Bookmarks")]
         public IActionResult UserBookmarks()
         {
-            // var username = HttpContext.Session.GetString("Username");
-            // if (string.IsNullOrEmpty(username)) return RedirectToAction("Login", "Session");
-
-            // var user = _dbContext.Users.Include(u => u.Bookmarks)
-            //                             .ThenInclude(b => b.Location)
-            //                             .FirstOrDefault(u => u.Username == username);
-
-            // if (user == null) return NotFound("User not found.");
         
             ViewBag.IsLoggedIn = HttpContext.Session.GetInt32("UserId") != null;
             int? currentUserId = HttpContext.Session.GetInt32("UserId");
@@ -63,6 +73,8 @@ namespace FocusFinderApp.Controllers
 
             var bookmarks = _dbContext.Bookmarks
                 .Where( l => l.userId == currentUserId)
+                .Include(b => b.Location) 
+                .ThenInclude(l => l.Reviews)
                 .ToList();
 
             if (bookmarks == null)
