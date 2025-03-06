@@ -1,64 +1,57 @@
-using System.Threading.Tasks;
+
+using Microsoft.Playwright.NUnit;
 using Microsoft.Playwright;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
+using Bogus;
+using System.Threading.Tasks;
+
+
+
 
 namespace FocusFinderApp.Tests
 {
-    public class UsermanagementTests
+    public class UsermanagementTests : PageTest
     {
-        private IPlaywright _playwright;
-        private IBrowser _browser;
-        private IBrowserContext _context;
-        private IPage _page;
+        private Faker _faker;
+        private string testPassword = "Password@123";
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
-            _playwright = await Playwright.CreateAsync();
-            _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-            {
-                Headless = true // Set to false if you want to see the browser
-            });
-            _context = await _browser.NewContextAsync();
-            _page = await _context.NewPageAsync();
+            _faker = new Faker();
         }
 
-        [TearDown]
-        public async Task TearDown()
-        {
-            await _browser.CloseAsync();
-            _playwright.Dispose();
-        }
+        
+    
 
-        [Test]
+       [Test]
         public async Task Register_ValidUser_ShouldSucceed()
         {
-            await _page.GotoAsync("http://localhost:5240/Register");
+            string username = _faker.Internet.UserName();
+            string email = _faker.Internet.Email();
 
-            await _page.FillAsync("input[name='Username']", "testuser3");
-            await _page.FillAsync("input[name='Email']", "test3@example.com");
-            await _page.FillAsync("input[name='Password']", "Password@123");
-            await _page.FillAsync("input[name='ConfirmPassword']", "Password@123");
+            await Page.GotoAsync("http://localhost:5240/Register");
 
-            await _page.ClickAsync("input[type='submit']");
+            await Page.FillAsync($"input[name='Username']", username);
+            await Page.FillAsync($"input[name='Email']", email);
+            await Page.FillAsync($"input[name='Password']", testPassword);
+            await Page.FillAsync($"input[name='ConfirmPassword']", testPassword);
 
-            Console.WriteLine("Current URL: " + _page.Url);
-        
-            // Wait a bit to let the redirection happen
-            await _page.WaitForTimeoutAsync(5000);
-        
+            await Page.ClickAsync("input[type='submit']");
+
+            Console.WriteLine("Current URL: " + Page.Url);
+
+            // Wait for navigation after form submission
+            await Page.WaitForURLAsync("http://localhost:5240/Locations");
+
             // Debugging: Print URL again after waiting
-            Console.WriteLine("After waiting, URL: " + _page.Url);
-        
+            Console.WriteLine("After waiting, URL: " + Page.Url);
+
             // Ensure we're redirected properly
-            Assert.That(_page.Url, Does.Contain("/Locations"));
+            Assert.That(Page.Url, Does.Contain("/Locations"));
 
             // Assert redirection to homepage after successful registration
-            await _page.WaitForURLAsync("http://localhost:5240/Locations");
-            Assert.That(await _page.TitleAsync(), Does.Contain("Home Page"));
+            Assert.That(await Page.TitleAsync(), Does.Contain("Home Page"));
         }
     }
 }
