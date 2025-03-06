@@ -24,14 +24,8 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: 3px solid #007bff;
+    border: 3px solid #473144;
     object-fit: cover;
-}
-
-.username {
-    font-size: 1.8em;
-    margin: 10px 0 5px;
-    color: #333;
 }
 
 .full-name {
@@ -80,26 +74,6 @@
     padding: 10px 15px;
     font-size: 1em;
     border-radius: 5px;
-}
-
-.btn-warning {
-    background-color: #ffc107;
-    border: none;
-    color: white;
-}
-
-.btn-warning:hover {
-    background-color: #e0a800;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border: none;
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
 }
 
 .visited-locations {

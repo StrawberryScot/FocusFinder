@@ -209,7 +209,7 @@ input:-webkit-autofill:focus {
     display: none;
   }
   
-  label {
+  .menu-in label {
     position: relative;
     cursor: pointer;
     height: 4rem;
@@ -352,4 +352,9 @@ p {
 .flex-row {
   display: flex;
   flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }
