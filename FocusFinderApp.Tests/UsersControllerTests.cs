@@ -5,7 +5,12 @@ using Microsoft.Extensions.Logging;
 using FocusFinderApp.Controllers;
 using FocusFinderApp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Net.Http;
 
 namespace FocusFinderApp.Tests
 {
@@ -14,6 +19,7 @@ namespace FocusFinderApp.Tests
         private FocusFinderDbContext _dbContext;
         private Mock<ILogger<UsersController>> _loggerMock;
         private UsersController _controller;
+        private IServiceProvider _serviceProvider;
 
         [SetUp] // Runs before each test
         public void Setup()
@@ -21,13 +27,56 @@ namespace FocusFinderApp.Tests
             _dbContext = TestDbContext.Create();
             _loggerMock = new Mock<ILogger<UsersController>>();
             _controller = new UsersController(_dbContext, _loggerMock.Object);
+
+            var services = new ServiceCollection();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+            services.AddMvc();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            _serviceProvider = services.BuildServiceProvider();
+
+            var actionContext = new ActionContext
+            {
+                HttpContext = new DefaultHttpContext(),
+                RouteData = new Microsoft.AspNetCore.Routing.RouteData(),
+                ActionDescriptor = new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()
+            };
+            _controller.Url = new UrlHelper(actionContext);
         }
 
         [TearDown] // Cleanup after each test
         public void TearDown()
         {
-            _controller.Dispose(); 
-            _dbContext.Dispose();  
+            _controller.Dispose();
+            _dbContext.Dispose();
+            if (_serviceProvider is IDisposable disposableServiceProvider)
+            {
+                disposableServiceProvider.Dispose();
+            }
+        }
+        public class TestSession : ISession
+        {
+            private readonly Dictionary<string, byte[]> _sessionStorage = new Dictionary<string, byte[]>();
+
+            public IEnumerable<string> Keys => _sessionStorage.Keys;
+
+            public bool IsAvailable => true;
+
+            public string Id => Guid.NewGuid().ToString();
+
+            public void Clear() => _sessionStorage.Clear();
+
+            public Task CommitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
+
+            public Task LoadAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
+
+            public void Remove(string key) => _sessionStorage.Remove(key);
+
+            public void Set(string key, byte[] value) => _sessionStorage[key] = value;
+
+            public bool TryGetValue(string key, out byte[] value) => _sessionStorage.TryGetValue(key, out value);
         }
 
         [Test]
@@ -162,7 +211,55 @@ namespace FocusFinderApp.Tests
 
             Assert.That(savedUser, Is.Not.Null);
             Assert.That(savedUser.Email, Is.EqualTo("test@example.com"));
-        }   
+        }
+        [Test]
+        public void Profile_Get_ValidUser_ReturnsView_8()
+        {
+            var existingUser = new User { 
+                Username = "testuser",
+                Email = "test@example.com",
+                Password = "Password@123"
+            };
+            _dbContext.Users?.Add(existingUser);
+            _dbContext.SaveChanges();
+
+            var result = _controller.Profile("testuser");
+
+            Assert.That(result, Is.TypeOf<ViewResult>());
+            var viewResult = (ViewResult)result;
+            Assert.That(viewResult.Model, Is.EqualTo(existingUser));
+        }
+
+        [Test]
+        public void Profile_Get_InvalidUser_ReturnsNotFound_9()
+        {
+            var result = _controller.Profile("nonexistentuser");
+
+            Assert.That(result, Is.TypeOf<NotFoundObjectResult>());
+        }
+
+        
+
+        [Test]
+        public void Edit_Get_LoggedInUser_ReturnsView_10()
+        {
+            var existingUser = new User
+            {
+                Username = "testuser",
+                Email = "test@example.com",
+                Password = "Password@123"
+            };
+            _dbContext.Users?.Add(existingUser);
+            _dbContext.SaveChanges();
+            _controller.ControllerContext.HttpContext = new DefaultHttpContext();
+            _controller.ControllerContext.HttpContext.Session = new TestSession();
+            _controller.ControllerContext.HttpContext.Session.SetString("Username", "testuser");
+
+            var result = _controller.Edit("testuser");
+
+            Assert.That(result, Is.TypeOf<ViewResult>());
+        }
+           
     }
 }
     
