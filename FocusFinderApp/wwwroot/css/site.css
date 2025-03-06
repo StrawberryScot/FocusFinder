@@ -402,3 +402,29 @@ p {
 .filler-small {
   height: 2rem;
 }
+
+.achievement-category {
+  margin-bottom: 20px;
+}
+
+.achievement {
+  padding: 1rem;
+  margin: 5px 0;
+  border-radius: 1rem;
+  font-weight: bold;
+  height: 1.3rem;
+}
+
+.achievement p {
+  vertical-align: middle;
+}
+
+.unlocked {
+  background-color: #EFC69B;
+  color: black;
+}
+
+.locked {
+  background-color: #ccc;
+  color: #777;
+}

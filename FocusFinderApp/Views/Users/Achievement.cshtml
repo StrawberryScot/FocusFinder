@@ -4,6 +4,10 @@
     ViewData["Title"] = "Achievements";
 }
 
+<head>
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
+
     @{
         if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
         {
@@ -72,27 +76,3 @@
 
 
 
-
-
-<style>
-    .achievement-category {
-        margin-bottom: 20px;
-    }
-
-    .achievement {
-        padding: 10px;
-        margin: 5px 0;
-        border-radius: 5px;
-        font-weight: bold;
-    }
-
-    .unlocked {
-        background-color: #EFC69B;
-        color: black;
-    }
-
-    .locked {
-        background-color: #ccc;
-        color: #777;
-    }
-</style>
