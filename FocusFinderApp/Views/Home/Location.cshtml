@@ -17,22 +17,30 @@
 <!-- Main Location Container -->
 <div>
 
+    <!-- Average Overall Rating -->
+    <h4>Reviews - Overall @ViewBag.AverageRating ⭐</h4>
+
+    <!-- Bio -->
+    <div> 
+        <h5>About @Model.LocationName</h5>
+        <p>@Model.Description</p>
+    </div>
+
     <!-- Mark as Visited button -->
     <div>
         
         @{
+            <h5>Have you visited @Model.LocationName?</h5>
             if (!ViewBag.IsLoggedIn)
             {
                 <!-- Visit buttion - asks user to login -->
-                <h5>Have you visited @Model.LocationName?</h5>
-                <a href="/Login" class="btn btn-primary">Login to mark as visited</a>
+                <a href="/Login" class="btn btn-primary">Login to Mark as Visited</a>
             } else if (ViewBag.AlreadyVisited == "Already visited")
             {
                 <!-- Visit buttion - if logged in + pressed visit already -->
-                <h5>Already visited :)</h5>
                 <form asp-controller="Location" asp-action="RemoveVisit" method="post">
                     <input type="hidden" name="LocationId" value="@Model.Id" />
-                    <button type="submit" class="btn btn-danger">Remove visit</button>
+                    <button type="submit" class="btn btn-danger">Remove Visit</button>
                 </form>
             } else
             {
@@ -40,7 +48,7 @@
                 <!-- Visit buttion - if logged in + has NOT pressed visit yet -->
                 <form asp-controller="Location" asp-action="AddVisit" method="post">
                     <input type="hidden" name="LocationId" value="@Model.Id" />
-                    <button type="submit" class="btn btn-primary">Mark as visited!</button>
+                    <button type="submit" class="btn btn-primary">Mark as Visited!</button>
                 </form>
             }
         }
@@ -73,27 +81,39 @@
                 }
         </div>
 
-        <!-- New Ext Review Button -->
-        @{if (!ViewBag.IsLoggedIn)
-            {
-                <!-- New review buttion - asks user to login -->
-                <a href="/Login" class="btn btn-primary">Login to leave a review</a>
-            } else {
-                <form method="get" asp-controller="Review" asp-action="NewReviewForm">
-                    <input type="hidden" name="locationId" value="@Model.Id">
-                    <button type="submit" class="btn btn-primary">Create New Review</button>
-                </form>
-            }
-        }
+            <!-- Brief Review(1-5*) -->
+            <div>
+                 <h5>Visited already? Leave a review!</h5>
 
-
+                <!-- Add Review Form -->
+                @{
+                    if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
+                    {
+                        <a href="/Login" class="btn btn-primary">Login to leave a review</a>
+                    }
+                    else{
+                        <form asp-controller="Location" asp-action="AddReview" method="post">
+                            <input type="hidden" name="LocationId" value="@Model.Id" />
+                            <label for="rating">Your Overall Rating:</label>
+                            <select name="Rating" id="rating" required>
+                                <option value="1">1 ⭐</option>
+                                <option value="2">2 ⭐</option>
+                                <option value="3">3 ⭐</option>
+                                <option value="4">4 ⭐</option>
+                                <option value="5">5 ⭐</option>
+                            </select>
+                            <button type="submit">Submit Review</button>
+                        </form>
+                    <!-- Extended Review Button -->
+                        <form method="get" asp-controller="Review" asp-action="NewReviewForm">
+                            <input type="hidden" name="locationId" value="@Model.Id">
+                            <button type="submit" class="btn btn-primary">Full Review Form</button>
+                        </form>
+                    }
+                }
+            </div>
     </div>
 
-    <!-- Bio -->
-    <div> 
-        <h5>About @Model.LocationName</h5>
-        <p>@Model.Description</p>
-    </div>
 
     <!-- Image -->
     <div class="i-study-pic-container glow-back">
@@ -106,43 +126,6 @@
         <img src="@Url.Content(ifImage)" alt="Image of @Model.LocationName location.">
     </div>
 
-
-    <!-- Reviews(1-5*) Section -->
-    <div>
-        <h5>Reviews - Overall @ViewBag.AverageRating ⭐</h5>
-        @if (ViewBag.reviews != null)
-        {
-            <ul>
-                @foreach (var review in ViewBag.reviews)
-                {
-                    <li>Rating: @review.overallRating ⭐ | Posted on: @review.dateLastUpdated?.ToString("MMM dd, yyyy")</li>
-                }
-            </ul>
-        }
-        <!-- Add Review Form -->
-        @{
-            if (ViewBag.IsLoggedIn == null || ViewBag.IsLoggedIn == false)
-            {
-                <h5>Please login to create a review</h5>
-                <a href="/Login" class="btn btn-primary">Go to Login</a>
-            }
-            else{
-                <form asp-controller="Location" asp-action="AddReview" method="post">
-                    <input type="hidden" name="LocationId" value="@Model.Id" />
-                    <label for="rating">Your Overall Rating (1-5):</label>
-                    <select name="Rating" id="rating" required>
-                        <option value="1">1 ⭐</option>
-                        <option value="2">2 ⭐</option>
-                        <option value="3">3 ⭐</option>
-                        <option value="4">4 ⭐</option>
-                        <option value="5">5 ⭐</option>
-                    </select>
-                    <button type="submit">Submit Review</button>
-                </form>
-            }
-            }
-    </div>
-
     <!-- Address/Map << Advanced -->
     <div>
         <h5>Where even is it?</h5>
@@ -151,7 +134,7 @@
         <p>@Model.County</p>
         <p>@Model.Postcode</p>
     </div>
-    
+
 
     <div id="map" style="width: 100%; height: 400px;"></div>
 
