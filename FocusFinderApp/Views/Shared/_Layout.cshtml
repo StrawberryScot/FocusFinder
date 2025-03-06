@@ -22,11 +22,24 @@
                 @if (ViewBag.IsLoggedIn == true)
                 {
                     <p class="welcome">Welcome, @ViewBag.Username!</p>
+                    <div class="filler-small"></div>
                     <div class="side-item">
                         <a class="sidebar-icon" href="/Profile/@ViewBag.Username">
                             <img src="../images/icons/profile.jpg" alt="Profile">
                         </a>
                         <a class="sidebar-text" href="/Profile/@ViewBag.Username" class="btn">Profile</a>
+                    </div>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Achievements">
+                            <img src="../images/icons/ach2.jpg" alt="Achievements">
+                        </a>
+                        <a class="sidebar-text" href="/Achievements"" class="btn">Achievements</a>
+                    </div>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Bookmarks">
+                            <img src="../images/icons/bookm.jpg" alt="Bookmarks">
+                        </a>
+                        <a class="sidebar-text" href="/Bookmarks"" class="btn">Bookmarks</a>
                     </div>
                     <div class="side-item">
                         <a class="sidebar-icon" href="/Logout">
@@ -76,6 +89,18 @@
                             <img src="../images/icons/profile.jpg" alt="Profile">
                         </a>
                         <a class="sidebar-text" href="/Profile/@ViewBag.Username" class="btn">Profile</a>
+                    </div>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Achievements">
+                            <img src="../images/icons/ach2.jpg" alt="Achievements">
+                        </a>
+                        <a class="sidebar-text" href="/Achievements"" class="btn">Achievements</a>
+                    </div>
+                    <div class="side-item">
+                        <a class="sidebar-icon" href="/Bookmarks">
+                            <img src="../images/icons/bookm.jpg" alt="Bookmarks">
+                        </a>
+                        <a class="sidebar-text" href="/Bookmarks"" class="btn">Bookmarks</a>
                     </div>
                     <div class="side-item">
                         <a class="sidebar-icon" href="/Logout">
