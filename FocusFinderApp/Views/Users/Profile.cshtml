@@ -1,5 +1,10 @@
 @model FocusFinderApp.Models.User
 
+
+@{
+    ViewData["Title"] = $"{Model.Username}'s Profile";
+}
+
 <head>
     <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
 </head>

@@ -1,0 +1,9 @@
+.error-message-login {
+    background-color: #ffdddd;
+    color: #d8000c;
+    padding: 10px;
+    border-left: 5px solid #d8000c;
+    margin-bottom: 15px;
+    font-weight: bold;
+    border-radius: 5px;
+}
